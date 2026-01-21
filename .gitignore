@@ -1,0 +1,9 @@
+# Ignore compiled python files
+__pycache__/
+*.pyc
+
+# Ignore secrets/environment variables
+.env
+
+# Ignore local database
+*.db

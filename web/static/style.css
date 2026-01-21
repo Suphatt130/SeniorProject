@@ -1,0 +1,12 @@
+body {
+    background-color: #121212 !important; /* Deep Dark Background */
+}
+.card {
+    border: none;
+    border-radius: 10px;
+}
+/* Scrollbar styling for the table */
+.table-responsive {
+    max-height: 600px;
+    overflow-y: auto;
+}
