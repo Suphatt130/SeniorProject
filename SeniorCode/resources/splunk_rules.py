@@ -23,7 +23,9 @@ search index=main source="*Sysmon*" "<EventID>6</EventID>"
 | rex field=All_Hashes "SHA256=(?<SHA256>[^,]+)"
 | rex field=All_Hashes "IMPHASH=(?<IMPHASH>[^,]+)"
 | search MD5="0C0195C48B6B8582FA6F6373032118DA" OR SHA256="11BD2C9F9E2397C9A16E0990E4ED2CF0679498FE0FD418A3DFDAC60B5C160EE5"
-| table _time, Event.System.Computer, ImageLoaded, Signature, Signed, SHA1, MD5, SHA256, IMPHASH
+| rename "Event.System.Computer" as Computer
+| eval Technique_ID="T1068"
+| table _time, Computer, ImageLoaded, Signature, Signed, SHA1, MD5, SHA256, IMPHASH, Technique_ID
 """
 
 # 3. DDoS: High volume of network connections (EventCode 3) from one process in short time
