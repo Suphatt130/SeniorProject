@@ -3,7 +3,7 @@ import json
 import socket
 import datetime 
 import config
-from alerting.alert_func import send_line_alert
+from alerting.alert_func import send_line_alert, send_email_alert
 from resources.splunk_rules import QUERY_LICENSE
 from database.db_manager import save_log
 
@@ -48,7 +48,7 @@ def run_license_check():
                             f"Usage: {pct}%\n"
                             f"Volume: {used_mb}/500 MB"
                         )
-                        send_line_alert(msg)
+                        send_email_alert("License Alert", msg)
                         
                         # --- SAVE TO DATABASE ---
                         timestamp_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
