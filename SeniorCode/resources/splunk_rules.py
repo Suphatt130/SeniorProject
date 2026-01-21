@@ -13,11 +13,17 @@ search index=* source="xmlwineventlog:microsoft-windows-sysmon/operational" Even
 # 2. CRYPTOJACKING: Detects mining tools (xmrig, etc) or high CPU usage behaviors
 # Note: T1496 is "Resource Hijacking"
 QUERY_CRYPTO = r"""
-search index=* source="xmlwineventlog:microsoft-windows-sysmon/operational" EventCode=1
-(OriginalFileName="*xmrig*" OR OriginalFileName="*minerd*" OR CommandLine="*stratum+tcp*" OR CommandLine="*--donate-level*")
-| eval Process_Name=mvindex(split(Image, "\\"), -1)
-| eval User=if(isnull(User), "Unknown", User)
-| table _time, Computer, User, Process_Name, CommandLine
+search index=main source="*Sysmon*" "<EventID>6</EventID>"
+| spath input=_raw
+| rex field=_raw "<Data Name='ImageLoaded'>(?<ImageLoaded>[^<]+)</Data>"
+| rex field=_raw "<Data Name='Signature'>(?<Signature>[^<]+)</Data>"
+| rex field=_raw "<Data Name='Signed'>(?<Signed>[^<]+)</Data>"
+| rex field=_raw "<Data Name='Hashes'>(?<All_Hashes>[^<]+)</Data>" 
+| rex field=All_Hashes "MD5=(?<MD5>[^,]+)"
+| rex field=All_Hashes "SHA256=(?<SHA256>[^,]+)"
+| rex field=All_Hashes "IMPHASH=(?<IMPHASH>[^,]+)"
+| search MD5="0C0195C48B6B8582FA6F6373032118DA" OR SHA256="11BD2C9F9E2397C9A16E0990E4ED2CF0679498FE0FD418A3DFDAC60B5C160EE5"
+| table _time, Event.System.Computer, ImageLoaded, Signature, Signed, SHA1, MD5, SHA256, IMPHASH
 """
 
 # 3. DDoS: High volume of network connections (EventCode 3) from one process in short time
