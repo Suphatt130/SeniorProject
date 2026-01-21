@@ -68,7 +68,7 @@ def init_db():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
                 computer TEXT,
-                usage_percent REAL,
+                usage_percent DECIMAL(5, 2),
                 usage_mb INTEGER,
                 alert_sent BOOLEAN
             )
@@ -148,9 +148,6 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
             ))
 
         elif attack_type == "License Alert":
-            # details_str example: "Usage: 85% (425MB)"
-            # We parse it simply here, or assume arguments are passed correctly.
-            # For simplicity, we extract from the string or kwargs if available.
             cursor.execute('''
                 INSERT INTO logs_license (timestamp, computer, usage_percent, usage_mb, alert_sent)
                 VALUES (?, ?, ?, ?, ?)
