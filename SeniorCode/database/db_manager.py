@@ -7,7 +7,7 @@ def init_db():
         conn = sqlite3.connect(config.DB_NAME)
         cursor = conn.cursor()
         
-        # 1. PHISHING TABLE
+        # 1. PHISHING
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_phishing (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -22,7 +22,7 @@ def init_db():
             )
         ''')
 
-        # 2. DDOS TABLE
+        # 2. DDOS
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_ddos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,7 +34,7 @@ def init_db():
             )
         ''')
 
-        # 3. CRYPTOJACKING TABLE
+        # 3. CRYPTOJACKING
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_crypto (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,7 +48,7 @@ def init_db():
             )
         ''')
 
-        # 4. BRUTE FORCE TABLE
+        # 4. BRUTE FORCE
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_bruteforce (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -62,13 +62,13 @@ def init_db():
             )
         ''')
 
-        # 5. LICENSE TABLE
+        # 5. LICENSE
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_license (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
                 computer TEXT,
-                usage_percent DECIMAL(5, 2),
+                usage_percent REAL,
                 usage_mb INTEGER,
                 alert_sent BOOLEAN
             )
@@ -76,15 +76,15 @@ def init_db():
 
         conn.commit()
         conn.close()
-        print("[DB] Database initialized with 5 separate tables.")
+        # print("[DB] Database initialized.")
     except Exception as e:
         print(f"[DB] Init Error: {e}")
 
 
 def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
     """
-    Routes the log data to the specific table based on attack_type.
-    Extracts data directly from the 'event' dictionary or kwargs.
+    Routes data to specific tables. 
+    FIXED: Now correctly saves License Usage data.
     """
     try:
         conn = sqlite3.connect(config.DB_NAME)
@@ -94,8 +94,6 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
         computer = event.get('Computer', 'Unknown')
         user = event.get('User', 'Unknown')
 
-        # --- ROUTING LOGIC ---
-        
         if attack_type == "Phishing":
             cursor.execute('''
                 INSERT INTO logs_phishing (timestamp, computer, user, browser, source_app, link, technique_id, alert_sent)
@@ -110,7 +108,6 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
             ))
 
         elif attack_type == "DDoS":
-            # DDoS events pass 'DestinationIp' and 'count'
             cursor.execute('''
                 INSERT INTO logs_ddos (timestamp, computer, target_ip, connection_count, alert_sent)
                 VALUES (?, ?, ?, ?, ?)
@@ -127,7 +124,7 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             ''', (
                 timestamp, computer,
-                kwargs.get('source_app', 'Unknown'), # We used source_app to pass ImageLoaded
+                kwargs.get('source_app', 'Unknown'),
                 event.get('MD5', 'N/A'),
                 event.get('Signature', 'N/A'),
                 kwargs.get('technique_id', 'T1068'),
@@ -148,14 +145,14 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
             ))
 
         elif attack_type == "License Alert":
+            u_pct = kwargs.get('usage_percent', 0.0)
+            u_mb = kwargs.get('usage_mb', 0)
+            
             cursor.execute('''
                 INSERT INTO logs_license (timestamp, computer, usage_percent, usage_mb, alert_sent)
                 VALUES (?, ?, ?, ?, ?)
             ''', (
-                timestamp, computer,
-                0.0, # Placeholder, strictly we'd parse this from details_str if needed
-                0,   # Placeholder
-                alert_sent
+                timestamp, computer, u_pct, u_mb, alert_sent
             ))
 
         conn.commit()
