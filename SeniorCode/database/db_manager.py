@@ -2,7 +2,7 @@ import sqlite3
 import config
 
 def init_db():
-    """Initializes 5 separate tables for different attack types."""
+    """Initializes tables. NOTE: Delete old DB if schema changes!"""
     try:
         conn = sqlite3.connect(config.DB_NAME)
         cursor = conn.cursor()
@@ -42,8 +42,8 @@ def init_db():
                 computer TEXT,
                 driver_image TEXT,
                 md5_hash TEXT,
+                sha1_hash TEXT,
                 signature TEXT,
-                technique_id TEXT,
                 alert_sent BOOLEAN
             )
         ''')
@@ -76,7 +76,6 @@ def init_db():
 
         conn.commit()
         conn.close()
-        # print("[DB] Database initialized.")
     except Exception as e:
         print(f"[DB] Init Error: {e}")
 
@@ -84,7 +83,6 @@ def init_db():
 def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
     """
     Routes data to specific tables. 
-    FIXED: Now correctly saves License Usage data.
     """
     try:
         conn = sqlite3.connect(config.DB_NAME)
@@ -119,15 +117,16 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
             ))
 
         elif attack_type == "Cryptojacking":
+            # UPDATED: Saves SHA1, ignores Technique ID
             cursor.execute('''
-                INSERT INTO logs_crypto (timestamp, computer, driver_image, md5_hash, signature, technique_id, alert_sent)
+                INSERT INTO logs_crypto (timestamp, computer, driver_image, md5_hash, sha1_hash, signature, alert_sent)
                 VALUES (?, ?, ?, ?, ?, ?, ?)
             ''', (
                 timestamp, computer,
                 kwargs.get('source_app', 'Unknown'),
                 event.get('MD5', 'N/A'),
+                event.get('SHA1', 'N/A'), # Now saving SHA1
                 event.get('Signature', 'N/A'),
-                kwargs.get('technique_id', 'T1068'),
                 alert_sent
             ))
 
@@ -147,12 +146,12 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
         elif attack_type == "License Alert":
             u_pct = kwargs.get('usage_percent', 0.0)
             u_mb = kwargs.get('usage_mb', 0)
-            
             cursor.execute('''
                 INSERT INTO logs_license (timestamp, computer, usage_percent, usage_mb, alert_sent)
                 VALUES (?, ?, ?, ?, ?)
             ''', (
-                timestamp, computer, u_pct, u_mb, alert_sent
+                timestamp, computer,
+                u_pct, u_mb, alert_sent
             ))
 
         conn.commit()

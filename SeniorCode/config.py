@@ -1,5 +1,5 @@
 # config.py
-#import os
+import os
 import urllib3
 from dotenv import load_dotenv
 
@@ -15,7 +15,7 @@ SPLUNK_BASE_URL = "https://127.0.0.1:8089" # For License check
 SPLUNK_AUTH = None 
 
 # VIRUSTOTAL SETTINGS
-VIRUSTOTAL_API_KEY = "7d96c0dabd2a535c44feca13c9ad28690377db5f313cdd32ac9018dbd02270a7"
+VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
 
 # DATABASE
 DB_NAME = "security_events.db"

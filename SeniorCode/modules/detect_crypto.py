@@ -4,7 +4,7 @@ import json
 import config
 from database.db_manager import save_log
 from resources.splunk_rules import QUERY_CRYPTO
-from alerting.alert_func import send_line_alert, send_email_alert
+from alerting.alert_func import send_line_alert
 
 def run_crypto_check(last_alert_time):
     payload = {
@@ -35,9 +35,8 @@ def run_crypto_check(last_alert_time):
                 for event in events:
                     image = event.get('ImageLoaded', 'Unknown')
                     md5 = event.get('MD5', 'N/A')
+                    sha1 = event.get('SHA1', 'N/A')
                     signature = event.get('Signature', 'Unsigned')
-                    # Now we read the ID directly from the Splunk Query
-                    technique = event.get('Technique_ID', 'T1068') 
                     
                     details = f"Hash: {md5} | Sign: {signature}"
                     
@@ -48,14 +47,14 @@ def run_crypto_check(last_alert_time):
                         details_str=details,
                         source_app=image,
                         browser=None,
-                        technique_id=technique  # Passes "T1068" to the database
                     )
 
                 if ready_to_alert:
                     latest = events[0]
-                    msg = ("🚨 **Cryptojacking Driver Alert!**\n💻 Host: {latest.get('Computer')}\n📂 Driver: {latest.get('ImageLoaded')}\n🔑 MD5: {latest.get('MD5')}\n🛠 Technique: {latest.get('Technique_ID')}")
+                    msg = (
+                        f"🚨 **Cryptojacking Driver Alert!**\n💻 Host: {latest.get('Computer')}\n📂 Driver: {latest.get('ImageLoaded')}\n🔑 MD5: {latest.get('MD5')}\n🔑 SHA1: {latest.get('SHA1')}\n📝 Signature: {latest.get('Signature')}")
                     print("   >> Sending Crypto Alert")
-                    send_email_alert(msg)
+                    send_line_alert(msg)
                     return current_time
                     
         return last_alert_time

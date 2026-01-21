@@ -90,7 +90,7 @@ def api_logs():
                 "type": "Cryptojacking", 
                 "host": r['computer'],
                 "source": r['driver_image'],
-                "extra": r['technique_id'], 
+                "extra": r['sha1_hash'],
                 "details": f"MD5: {r['md5_hash'][:10]}...", 
                 "alert": r['alert_sent']
             })
