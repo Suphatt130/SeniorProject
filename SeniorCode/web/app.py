@@ -33,7 +33,7 @@ def api_stats():
         d_count = conn.execute("SELECT COUNT(*) FROM logs_ddos").fetchone()[0]
         c_count = conn.execute("SELECT COUNT(*) FROM logs_crypto").fetchone()[0]
         b_count = conn.execute("SELECT COUNT(*) FROM logs_bruteforce").fetchone()[0]
-        l_count = conn.execute("SELECT COUNT(*) FROM logs_license").fetchone()[0] # <--- Added License Count
+        l_count = conn.execute("SELECT COUNT(*) FROM logs_license").fetchone()[0]
         
         stats['phishing'] = p_count
         stats['ddos'] = d_count
@@ -47,7 +47,7 @@ def api_stats():
         conn.close()
         return jsonify(stats)
     except Exception as e:
-        return jsonify({"total":0, "phishing":0, "ddos":0, "crypto":0, "bruteforce":0, "license":0})
+        return jsonify({"error": str(e)})
 
 @app.route('/api/logs')
 def api_logs():
@@ -102,7 +102,7 @@ def api_logs():
                 "time": r['timestamp'], 
                 "type": "Brute Force", 
                 "host": r['computer'],
-                "source": "winlogon.exe",
+                "source": "MySQL",
                 "extra": r['technique_id'], 
                 "details": f"User: {r['target_user']} ({r['failure_count']} fails)", 
                 "alert": r['alert_sent']

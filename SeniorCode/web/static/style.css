@@ -1,12 +1,16 @@
 body {
-    background-color: #121212 !important; /* Deep Dark Background */
+    background-color: #121212 !important;
 }
 .card {
     border: none;
     border-radius: 10px;
 }
-/* Scrollbar styling for the table */
+.hover-effect:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+    opacity: 0.9;
+}
 .table-responsive {
-    max-height: 600px;
+    max-height: 500px;
     overflow-y: auto;
 }

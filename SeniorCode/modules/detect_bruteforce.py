@@ -4,7 +4,7 @@ import json
 import config
 from database.db_manager import save_log
 from resources.splunk_rules import QUERY_BRUTEFORCE
-from alerting.alert_func import send_line_alert
+from alerting.alert_func import send_line_alert, send_email_alert
 
 def run_bruteforce_check(last_alert_time):
     
@@ -16,7 +16,6 @@ def run_bruteforce_check(last_alert_time):
     }
     
     try:
-        # Request to Splunk
         response = requests.post(config.SPLUNK_URL, data=payload, verify=False)
         
         if response.status_code == 200:
@@ -25,46 +24,43 @@ def run_bruteforce_check(last_alert_time):
                 if line:
                     try:
                         data = json.loads(line)
-                        # Strict Check for valid results
                         if "result" in data:
                             events.append(data["result"])
                     except: continue
 
             if events:
-                print(f"[BruteForce] Detected {len(events)} targets under attack.")
+                print(f"[BruteForce] Detected {len(events)} MySQL attacks.")
                 current_time = time.time()
                 ready_to_alert = (current_time - last_alert_time) >= config.ALERT_COOLDOWN
                 
                 for event in events:
-                    user = event.get('User', 'Unknown')
-                    ip = event.get('IpAddress', '-')
+                    user = event.get('target_user', 'Unknown')
+                    ip = event.get('attacker_ip', 'Unknown')
                     count = event.get('count', 0)
                     
-                    details = f"User: {user} | Source IP: {ip} | Failures: {count}"
+                    details = f"User: {user} | IP: {ip} | Fails: {count}"
                     
-                    # Save to DB
                     save_log(
                         attack_type="Brute Force", 
                         event=event, 
                         alert_sent=ready_to_alert, 
                         details_str=details,
-                        source_app="Windows Logon", # Static value for this type
+                        source_app="MySQL Server",
                         browser=None,
-                        technique_id="T1110" # MITRE ID for Brute Force
+                        technique_id="T1110" 
                     )
                 
                 if ready_to_alert:
                     latest = events[0]
-                    msg = (
-                        f"🚨 **Brute Force Alert!**\n"
-                        f"💻 Host: {latest.get('Computer')}\n"
-                        f"👤 Target User: {latest.get('User')}\n"
-                        f"🛑 Source IP: {latest.get('IpAddress')}\n"
-                        f"🔢 Failures: {latest.get('count')} (in last 30s)\n"
-                        f"🛠 Technique: T1110"
-                    )
+                    # Format the Alert for Line/Console as well
+                    user = latest.get('target_user', 'Unknown')
+                    ip = latest.get('attacker_ip', 'Unknown')
+                    count = latest.get('count', 0)
+                    
+                    msg = (f"🚨 **MySQL Brute Force Alert!**\nWARNING: Brute Force Detected! IP {ip} tried to guess password for user {user} {count} times.")
+
                     print("   >> Sending Brute Force Alert")
-                    send_line_alert(msg)
+                    send_email_alert("Brute Force Alert!",msg)
                     return current_time
                     
         return last_alert_time
