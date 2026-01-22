@@ -36,8 +36,13 @@ def run_crypto_check(last_alert_time):
                     image = event.get('ImageLoaded', 'Unknown')
                     md5 = event.get('MD5', 'N/A')
                     sha1 = event.get('SHA1', 'N/A')
+                    sha256 = event.get('SHA256', 'N/A')
+                    imphash = event.get('IMPHASH', 'N/A')
                     signature = event.get('Signature', 'Unsigned')
-                    
+                    event['SHA1'] = sha1
+                    event['SHA256'] = sha256
+                    event['IMPHASH'] = imphash
+
                     details = f"Hash: {md5} | Sign: {signature}"
                     
                     save_log(
@@ -46,13 +51,13 @@ def run_crypto_check(last_alert_time):
                         alert_sent=ready_to_alert, 
                         details_str=details,
                         source_app=image,
-                        browser=None,
+                        browser=None
                     )
 
                 if ready_to_alert:
                     latest = events[0]
                     msg = (
-                        f"🚨 **Cryptojacking Driver Alert!**\n💻 Host: {latest.get('Computer')}\n📂 Driver: {latest.get('ImageLoaded')}\n🔑 MD5: {latest.get('MD5')}\n🔑 SHA1: {latest.get('SHA1')}\n📝 Signature: {latest.get('Signature')}")
+                        f"🚨 **Cryptojacking Driver Alert!**\n💻 Host: {latest.get('Computer')}\n📂 Driver: {latest.get('ImageLoaded')}\n🔑 SHA1: {latest.get('SHA1')}\n📝 Signature: {latest.get('Signature')}")
                     print("   >> Sending Crypto Alert")
                     send_line_alert(msg)
                     return current_time

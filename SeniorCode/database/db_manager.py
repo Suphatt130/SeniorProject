@@ -43,6 +43,8 @@ def init_db():
                 driver_image TEXT,
                 md5_hash TEXT,
                 sha1_hash TEXT,
+                sha256_hash TEXT,
+                imphash TEXT,
                 signature TEXT,
                 alert_sent BOOLEAN
             )
@@ -117,15 +119,16 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
             ))
 
         elif attack_type == "Cryptojacking":
-            # UPDATED: Saves SHA1, ignores Technique ID
             cursor.execute('''
-                INSERT INTO logs_crypto (timestamp, computer, driver_image, md5_hash, sha1_hash, signature, alert_sent)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO logs_crypto (timestamp, computer, driver_image, md5_hash, sha1_hash, sha256_hash, imphash, signature, alert_sent)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 timestamp, computer,
                 kwargs.get('source_app', 'Unknown'),
                 event.get('MD5', 'N/A'),
-                event.get('SHA1', 'N/A'), # Now saving SHA1
+                event.get('SHA1', 'N/A'),
+                event.get('SHA256', 'N/A'),
+                event.get('IMPHASH', 'N/A'),
                 event.get('Signature', 'N/A'),
                 alert_sent
             ))
