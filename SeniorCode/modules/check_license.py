@@ -7,14 +7,21 @@ from alerting.alert_func import send_line_alert, send_email_alert
 from resources.splunk_rules import QUERY_LICENSE
 from database.db_manager import save_log
 
-# Global variable to track the last alert date
-LAST_ALERT_DATE = None
+# Global variables to track state
+LAST_CHECK_DATE = None
+TRIGGERED_LEVELS = set() # Stores levels (e.g., {60, 70}) alerted today
 
 def run_license_check():
-    global LAST_ALERT_DATE
+    global LAST_CHECK_DATE, TRIGGERED_LEVELS
     
     hostname = socket.gethostname()
     
+    today = datetime.date.today()
+    if LAST_CHECK_DATE != today:
+        LAST_CHECK_DATE = today
+        TRIGGERED_LEVELS = set() # Clear the alerts for the new day
+        print(f"[License] New day detected ({today}). Resetting alert thresholds.")
+
     try:
         response = requests.post(
             f"{config.SPLUNK_BASE_URL}/services/search/jobs/export",
@@ -38,21 +45,18 @@ def run_license_check():
                 
                 # print(f"[License] Usage: {pct}% ({used_mb}/500 MB)")
                 
-                if pct >= 80.0:
-                    today = datetime.date.today()
-                    
-                    if LAST_ALERT_DATE != today:
-                        msg = (
-                            f"⚠️ [CRITICAL] Splunk License Alert\n"
-                            f"Host: {hostname}\n"
-                            f"Usage: {pct}%\n"
-                            f"Volume: {used_mb}/500 MB"
-                        )
-                        send_email_alert("License Alert", msg)
+                # 2. Check 3 Specific Levels: 60, 70, 80
+                alert_thresholds = [60, 70, 80]
+                
+                for threshold in alert_thresholds:
+                    # If usage exceeds threshold AND we haven't alerted this level today
+                    if pct >= threshold and threshold not in TRIGGERED_LEVELS:
                         
-                        # --- SAVE TO DATABASE ---
+                        msg = (f"⚠️ [LICENSE WARNING] Threshold Reached\nHost: {hostname}\nCurrent Usage: {pct}% (>{threshold}%)\nVolume: {used_mb}/500 MB")
+                        send_email_alert("LICENSE WARNING!",msg)
+                        
+                        # Save to Database
                         timestamp_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                        
                         dummy_event = {
                             '_time': timestamp_now,
                             'Computer': hostname,
@@ -63,15 +67,15 @@ def run_license_check():
                             attack_type="License Alert",
                             event=dummy_event,
                             alert_sent=True,
-                            details_str=f"Usage: {pct}%",
+                            details_str=f"Usage hit {threshold}% threshold",
                             usage_percent=pct,
                             usage_mb=used_mb
                         )
-                        # --------------------------------
 
-                        LAST_ALERT_DATE = today
-                        print(f"   >> License Alert Sent & Saved.")
-                        
+                        # Mark this level as triggered for today
+                        TRIGGERED_LEVELS.add(threshold)
+                        print(f"   >> License Alert Sent for {threshold}% threshold.")
+
             except Exception as e:
                 pass
 
