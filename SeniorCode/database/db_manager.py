@@ -120,7 +120,11 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
 
         elif attack_type == "Cryptojacking":
             cursor.execute('''
-                INSERT INTO logs_crypto (timestamp, computer, driver_image, md5_hash, sha1_hash, sha256_hash, imphash, signature, alert_sent)
+                INSERT INTO logs_crypto (
+                    timestamp, computer, driver_image, 
+                    md5_hash, sha1_hash, sha256_hash, imphash, 
+                    signature, alert_sent
+                )
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 timestamp, computer,

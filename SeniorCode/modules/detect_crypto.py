@@ -4,14 +4,16 @@ import json
 import config
 from database.db_manager import save_log
 from resources.splunk_rules import QUERY_CRYPTO
-from alerting.alert_func import send_line_alert,send_email_alert
+from alerting.alert_func import send_line_alert, send_email_alert
 
 def run_crypto_check(last_alert_time):
+    # CHANGED: Increased time window from -30s to -5m to capture slightly older logs
     payload = {
         "search": QUERY_CRYPTO,
         "exec_mode": "oneshot",
         "output_mode": "json",
-        "earliest_time": "-30s", "latest_time": "now"
+        "earliest_time": "-5m", 
+        "latest_time": "now"
     }
     
     try:
@@ -39,6 +41,8 @@ def run_crypto_check(last_alert_time):
                     sha256 = event.get('SHA256', 'N/A')
                     imphash = event.get('IMPHASH', 'N/A')
                     signature = event.get('Signature', 'Unsigned')
+                    
+                    # Ensure fields exist for the database
                     event['SHA1'] = sha1
                     event['SHA256'] = sha256
                     event['IMPHASH'] = imphash
@@ -56,10 +60,9 @@ def run_crypto_check(last_alert_time):
 
                 if ready_to_alert:
                     latest = events[0]
-                    msg = (
-                        f"🚨 **Cryptojacking Driver Alert!**\n💻 Host: {latest.get('Computer')}\n📂 Driver: {latest.get('ImageLoaded')}\n🔑 SHA1: {latest.get('SHA1')}\n📝 Signature: {latest.get('Signature')}")
+                    msg = (f"🚨 **Cryptojacking Driver Alert!**\n💻 Host: {latest.get('Computer')}\n📂 Driver: {latest.get('ImageLoaded')}\n🔑 SHA1: {latest.get('SHA1')}\n📝 Signature: {latest.get('Signature')}")
                     print("   >> Sending Crypto Alert")
-                    send_email_alert(msg)
+                    send_email_alert("Cryptojacking Alert!",msg)
                     return current_time
                     
         return last_alert_time
