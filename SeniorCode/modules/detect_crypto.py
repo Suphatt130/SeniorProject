@@ -4,7 +4,7 @@ import json
 import config
 from database.db_manager import save_log
 from resources.splunk_rules import QUERY_CRYPTO
-from alerting.alert_func import send_line_alert
+from alerting.alert_func import send_line_alert,send_email_alert
 
 def run_crypto_check(last_alert_time):
     payload = {
@@ -59,7 +59,7 @@ def run_crypto_check(last_alert_time):
                     msg = (
                         f"🚨 **Cryptojacking Driver Alert!**\n💻 Host: {latest.get('Computer')}\n📂 Driver: {latest.get('ImageLoaded')}\n🔑 SHA1: {latest.get('SHA1')}\n📝 Signature: {latest.get('Signature')}")
                     print("   >> Sending Crypto Alert")
-                    send_line_alert(msg)
+                    send_email_alert(msg)
                     return current_time
                     
         return last_alert_time
