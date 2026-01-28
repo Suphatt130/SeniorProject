@@ -22,7 +22,7 @@ def run_bruteforce_check(last_alert_time):
         "search": QUERY_BRUTEFORCE,
         "exec_mode": "oneshot",
         "output_mode": "json",
-        "earliest_time": "-5m", "latest_time": "now"
+        "earliest_time": "-30s", "latest_time": "now"
     }
     
     try:
