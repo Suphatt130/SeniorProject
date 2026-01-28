@@ -1,0 +1,22 @@
+{
+    "phishing": {
+        "query": "search index=* source=\"xmlwineventlog:microsoft-windows-sysmon/operational\" EventCode=1 (CommandLine=\"*http://*\" OR CommandLine=\"*https://*\") | eval Browser_Name=mvindex(split(Image, \"\\\\\"), -1) | eval Browser_Name=lower(Browser_Name) | where Browser_Name IN (\"chrome.exe\", \"msedge.exe\", \"firefox.exe\", \"brave.exe\", \"iexplore.exe\", \"opera.exe\") | eval Parent_App=mvindex(split(ParentImage, \"\\\\\"), -1) | rex field=CommandLine \"(?<Clicked_Link>https?://\\S+)\" | rex field=RuleName \"technique_id=(?<Technique_ID>T\\d+)\" | eval Time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") | table Time, Computer, User, Parent_App, Browser_Name, Clicked_Link, Technique_ID",
+        "severity": "High"
+    },
+    "ddos": {
+        "query": "search index=* source=\"xmlwineventlog:microsoft-windows-sysmon/operational\" EventCode=3 | bin _time span=30s | stats count by _time, Computer, Image, DestinationIp | where count > 50 | eval Process_Name=mvindex(split(Image, \"\\\\\"), -1) | table _time, Computer, Process_Name, DestinationIp, count",
+        "severity": "High"
+    },
+    "crypto": {
+        "query": "search index=* source=\"*Sysmon*\" EventCode=6 (Signature=\"Noriyuki MIYAZAKI\" OR ImageLoaded=\"*\\\\WinRing0x64.sys\") | rex field=Hashes \"MD5=(?<MD5>[^,]+)\" | rex field=Hashes \"SHA1=(?<SHA1>[^,]+)\" | rex field=Hashes \"SHA256=(?<SHA256>[^,]+)\" | rex field=Hashes \"IMPHASH=(?<IMPHASH>[^,]+)\" | stats min(_time) as firstTime, max(_time) as lastTime, count by ImageLoaded, dest, MD5, SHA1, SHA256, IMPHASH, Signature | eval Time=strftime(firstTime, \"%Y-%m-%d %H:%M:%S\") | eval EndTime=strftime(lastTime, \"%Y-%m-%d %H:%M:%S\") | rename dest as Computer | table Time, EndTime, Computer, ImageLoaded, Signature, MD5, SHA1, SHA256, IMPHASH, count",
+        "severity": "Critical"
+    },
+    "bruteforce": {
+        "query": "search index=main sourcetype=\"mysql:error\" \"Access denied\" | rex field=_raw \"Access denied for user '(?<user>[^']+)'@'(?<src_ip>[^']+)'\" | eval dest=host | stats count, min(_time) as firstTime, max(_time) as lastTime by user, src_ip, dest | where count > 10 | eval firstTime=strftime(firstTime, \"%Y-%m-%d %H:%M:%S\") | eval lastTime=strftime(lastTime, \"%Y-%m-%d %H:%M:%S\") | table firstTime, lastTime, src_ip, user, dest, count",
+        "severity": "Medium"
+    },
+    "license": {
+        "query": "search index=_internal source=*license_usage.log type=\"Usage\" earliest=@d | stats sum(b) AS volumeB max(poolsz) AS poolsz | eval limit=coalesce(poolsz, 524288000) | eval pctused=round(volumeB/limit*100, 2) | table pctused",
+        "severity": "Low"
+    }
+}

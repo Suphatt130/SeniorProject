@@ -1,11 +1,23 @@
 import requests
 import json
 import socket
-import datetime 
+import datetime
+import os
 import config
 from alerting.alert_func import send_line_alert, send_email_alert
-from resources.splunk_rules import QUERY_LICENSE
 from database.db_manager import save_log
+
+def load_rules():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    json_path = os.path.join(current_dir, '../resources/splunk_rules.json')
+    try:
+        with open(json_path, 'r') as f:
+            return json.load(f)
+    except: return {}
+
+RULES = load_rules()
+QUERY_LICENSE = RULES.get('license', {}).get('query', '')
+SEVERITY_LICENSE = RULES.get('license', {}).get('severity', 'Low')
 
 # Global variables to track state
 LAST_CHECK_DATE = None
@@ -69,7 +81,8 @@ def run_license_check():
                             alert_sent=True,
                             details_str=f"Usage hit {threshold}% threshold",
                             usage_percent=pct,
-                            usage_mb=used_mb
+                            usage_mb=used_mb,
+                            severity=SEVERITY_LICENSE
                         )
 
                         # Mark this level as triggered for today

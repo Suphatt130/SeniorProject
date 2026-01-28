@@ -1,17 +1,30 @@
 import time
 import requests
 import json
+import os
 import config
 from database.db_manager import save_log
-from resources.splunk_rules import QUERY_DDOS
 from alerting.alert_func import send_line_alert, send_email_alert
+
+def load_rules():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    json_path = os.path.join(current_dir, '../resources/splunk_rules.json')
+    try:
+        with open(json_path, 'r') as f:
+            return json.load(f)
+    except: return {}
+
+RULES = load_rules()
+QUERY_DDOS = RULES.get('ddos', {}).get('query', '')
+SEVERITY_DDOS = RULES.get('ddos', {}).get('severity', 'High')
 
 def run_ddos_check(last_alert_time):
     payload = {
         "search": QUERY_DDOS,
         "exec_mode": "oneshot",
         "output_mode": "json",
-        "earliest_time": "-30s", "latest_time": "now"
+        "earliest_time": "-30s",
+        "latest_time": "now"
     }
     
     try:
@@ -34,8 +47,13 @@ def run_ddos_check(last_alert_time):
                 for event in events:
                     target = event.get('DestinationIp', 'N/A')
                     count = event.get('count', '0')
-                    # Save to DB (details column)
-                    save_log("DDoS", event, ready_to_alert, f"Target: {target} | Count: {count}")
+                    save_log(
+                        attack_type="DDoS", 
+                        event=event, 
+                        alert_sent=ready_to_alert, 
+                        details_str=f"Target: {target} | Conns: {count}",
+                        severity=SEVERITY_DDOS
+                    )
 
                 if ready_to_alert:
                     latest = events[0]

@@ -2,7 +2,6 @@ import sqlite3
 import config
 
 def init_db():
-    """Initializes tables. NOTE: Delete old DB if schema changes!"""
     try:
         conn = sqlite3.connect(config.DB_NAME)
         cursor = conn.cursor()
@@ -14,10 +13,12 @@ def init_db():
                 timestamp TEXT,
                 computer TEXT,
                 user TEXT,
-                browser TEXT,
-                source_app TEXT,
-                link TEXT,
+                client_ip TEXT,
+                parent_app TEXT,
+                browser_name TEXT,
+                clicked_link TEXT,
                 technique_id TEXT,
+                severity TEXT,
                 alert_sent BOOLEAN
             )
         ''')
@@ -30,6 +31,7 @@ def init_db():
                 computer TEXT,
                 target_ip TEXT,
                 connection_count INTEGER,
+                severity TEXT,
                 alert_sent BOOLEAN
             )
         ''')
@@ -46,6 +48,7 @@ def init_db():
                 sha256_hash TEXT,
                 imphash TEXT,
                 signature TEXT,
+                severity TEXT,
                 alert_sent BOOLEAN
             )
         ''')
@@ -60,6 +63,7 @@ def init_db():
                 source_ip TEXT,
                 failure_count INTEGER,
                 technique_id TEXT,
+                severity TEXT,
                 alert_sent BOOLEAN
             )
         ''')
@@ -72,6 +76,7 @@ def init_db():
                 computer TEXT,
                 usage_percent REAL,
                 usage_mb INTEGER,
+                severity TEXT,
                 alert_sent BOOLEAN
             )
         ''')
@@ -81,84 +86,92 @@ def init_db():
     except Exception as e:
         print(f"[DB] Init Error: {e}")
 
-
 def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
-    """
-    Routes data to specific tables. 
-    """
     try:
         conn = sqlite3.connect(config.DB_NAME)
         cursor = conn.cursor()
-        
-        timestamp = event.get('_time', 'N/A')
+
+        timestamp = event.get('Time') or event.get('firstTime') or event.get('_time', 'N/A')
         computer = event.get('Computer', 'Unknown')
         user = event.get('User', 'Unknown')
+        severity = kwargs.get('severity', 'Unknown') 
 
         if attack_type == "Phishing":
             cursor.execute('''
-                INSERT INTO logs_phishing (timestamp, computer, user, browser, source_app, link, technique_id, alert_sent)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO logs_phishing (
+                    timestamp, computer, user, 
+                    client_ip, parent_app, browser_name, clicked_link, 
+                    technique_id, severity, alert_sent
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 timestamp, computer, user,
-                kwargs.get('browser', 'Unknown'),
-                kwargs.get('source_app', 'Unknown'),
+                event.get('Client_IP', 'N/A'),
+                event.get('Parent_App', 'Unknown'),
+                event.get('Browser_Name', 'Unknown'),
                 event.get('Clicked_Link', 'N/A'),
-                kwargs.get('technique_id', 'N/A'),
+                event.get('Technique_ID', 'N/A'),
+                kwargs.get('severity', 'High'),
                 alert_sent
             ))
 
         elif attack_type == "DDoS":
             cursor.execute('''
-                INSERT INTO logs_ddos (timestamp, computer, target_ip, connection_count, alert_sent)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO logs_ddos (timestamp, computer, target_ip, connection_count, severity, alert_sent)
+                VALUES (?, ?, ?, ?, ?, ?)
             ''', (
                 timestamp, computer,
                 event.get('DestinationIp', 'Unknown'),
                 event.get('count', 0),
+                severity,
                 alert_sent
             ))
 
         elif attack_type == "Cryptojacking":
             cursor.execute('''
                 INSERT INTO logs_crypto (
-                    timestamp, computer, driver_image, 
-                    md5_hash, sha1_hash, sha256_hash, imphash, 
-                    signature, alert_sent
-                )
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    timestamp, computer, driver_image, md5_hash, sha1_hash, 
+                    sha256_hash, imphash, signature, severity, alert_sent
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                timestamp, computer,
-                kwargs.get('source_app', 'Unknown'),
+                event.get('Time', timestamp),
+                event.get('Computer', 'Unknown'),
+                event.get('ImageLoaded', 'Unknown'),
                 event.get('MD5', 'N/A'),
                 event.get('SHA1', 'N/A'),
                 event.get('SHA256', 'N/A'),
                 event.get('IMPHASH', 'N/A'),
                 event.get('Signature', 'N/A'),
+                severity,
                 alert_sent
             ))
 
         elif attack_type == "Brute Force":
             cursor.execute('''
-                INSERT INTO logs_bruteforce (timestamp, computer, target_user, source_ip, failure_count, technique_id, alert_sent)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                INSERT INTO logs_bruteforce (
+                    timestamp, computer, target_user, source_ip, 
+                    failure_count, technique_id, severity, alert_sent
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                timestamp, computer,
-                event.get('User', 'Unknown'),
-                event.get('IpAddress', 'Unknown'),
+                timestamp,
+                event.get('dest', 'Unknown'),
+                event.get('user', 'Unknown'),
+                event.get('src_ip', 'Unknown'),
                 event.get('count', 0),
                 "T1110",
+                severity,
                 alert_sent
             ))
 
         elif attack_type == "License Alert":
-            u_pct = kwargs.get('usage_percent', 0.0)
-            u_mb = kwargs.get('usage_mb', 0)
             cursor.execute('''
-                INSERT INTO logs_license (timestamp, computer, usage_percent, usage_mb, alert_sent)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO logs_license (timestamp, computer, usage_percent, usage_mb, severity, alert_sent)
+                VALUES (?, ?, ?, ?, ?, ?)
             ''', (
                 timestamp, computer,
-                u_pct, u_mb, alert_sent
+                kwargs.get('usage_percent', 0.0),
+                kwargs.get('usage_mb', 0),
+                severity,
+                alert_sent
             ))
 
         conn.commit()

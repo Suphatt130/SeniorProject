@@ -1,32 +1,39 @@
 import time
 import requests
 import json
+import os
 import config
 from database.db_manager import save_log
-from resources.splunk_rules import QUERY_CRYPTO
-from alerting.alert_func import send_line_alert, send_email_alert
+from alerting.alert_func import send_line_alert
+
+def load_rules():
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    json_path = os.path.join(current_dir, '../resources/splunk_rules.json')
+    try:
+        with open(json_path, 'r') as f: return json.load(f)
+    except: return {}
+
+RULES = load_rules()
+QUERY_CRYPTO = RULES.get('crypto', {}).get('query', '')
+SEVERITY_CRYPTO = RULES.get('crypto', {}).get('severity', 'Critical')
 
 def run_crypto_check(last_alert_time):
-    # CHANGED: Increased time window from -30s to -5m to capture slightly older logs
     payload = {
         "search": QUERY_CRYPTO,
         "exec_mode": "oneshot",
         "output_mode": "json",
-        "earliest_time": "-5m", 
-        "latest_time": "now"
+        "earliest_time": "-5m", "latest_time": "now"
     }
     
     try:
         response = requests.post(config.SPLUNK_URL, data=payload, verify=False)
-        
         if response.status_code == 200:
             events = []
             for line in response.text.strip().split("\n"):
                 if line:
                     try:
                         data = json.loads(line)
-                        if "result" in data:
-                            events.append(data["result"])
+                        if "result" in data: events.append(data["result"])
                     except: continue
 
             if events:
@@ -35,34 +42,29 @@ def run_crypto_check(last_alert_time):
                 ready_to_alert = (current_time - last_alert_time) >= config.ALERT_COOLDOWN
                 
                 for event in events:
-                    image = event.get('ImageLoaded', 'Unknown')
+                    host = event.get('Computer', 'Unknown')
+                    driver = event.get('ImageLoaded', 'Unknown')
                     md5 = event.get('MD5', 'N/A')
                     sha1 = event.get('SHA1', 'N/A')
-                    sha256 = event.get('SHA256', 'N/A')
-                    imphash = event.get('IMPHASH', 'N/A')
-                    signature = event.get('Signature', 'Unsigned')
+                    end_time = event.get('EndTime', 'N/A')
                     
-                    # Ensure fields exist for the database
-                    event['SHA1'] = sha1
-                    event['SHA256'] = sha256
-                    event['IMPHASH'] = imphash
-
-                    details = f"Hash: {md5} | Sign: {signature}"
+                    details = f"End: {end_time} | SHA1: {sha1}"
                     
                     save_log(
                         attack_type="Cryptojacking", 
                         event=event, 
                         alert_sent=ready_to_alert, 
                         details_str=details,
-                        source_app=image,
-                        browser=None
+                        severity=SEVERITY_CRYPTO,
+                        source_app=driver
                     )
 
                 if ready_to_alert:
                     latest = events[0]
-                    msg = (f"🚨 **Cryptojacking Driver Alert!**\n💻 Host: {latest.get('Computer')}\n📂 Driver: {latest.get('ImageLoaded')}\n🔑 SHA1: {latest.get('SHA1')}\n📝 Signature: {latest.get('Signature')}")
+                    msg = (
+                        f"🚨 **Cryptojacking Alert!**\n💻 Host: {latest.get('dvc')}\n📂 Driver: {latest.get('Driver_Image')}\n🔑 MD5: {latest.get('MD5')}\n📝 Activity: {latest.get('Activity')}")
                     print("   >> Sending Crypto Alert")
-                    send_email_alert("Cryptojacking Alert!",msg)
+                    send_line_alert(msg)
                     return current_time
                     
         return last_alert_time

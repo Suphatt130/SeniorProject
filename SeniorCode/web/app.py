@@ -51,80 +51,98 @@ def api_stats():
 
 @app.route('/api/logs')
 def api_logs():
-    """Fetches logs and ensures 7 columns of data for the frontend"""
     try:
         conn = get_db_connection()
         all_logs = []
 
         # 1. Phishing
-        rows = conn.execute("SELECT * FROM logs_phishing ORDER BY id DESC LIMIT 10").fetchall()
-        for r in rows:
-            all_logs.append({
-                "time": r['timestamp'], 
-                "type": "Phishing", 
-                "host": r['computer'],
-                "source": r['source_app'],
-                "extra": r['technique_id'], 
-                "details": r['link'], 
-                "alert": r['alert_sent']
-            })
+        try:
+            rows = conn.execute("SELECT * FROM logs_phishing ORDER BY id DESC LIMIT 10").fetchall()
+            for r in rows:
+                all_logs.append({
+                    "time": r['timestamp'], 
+                    "type": "Phishing", 
+                    "host": r['computer'],
+                    "source": r['parent_app'] if 'parent_app' in r.keys() else 'Unknown',
+                    "severity": r['severity'] if 'severity' in r.keys() else 'High',
+                    "extra": r['technique_id'],
+                    "details": f"Link: {r['clicked_link']}", 
+                    "alert": r['alert_sent']
+                })
+        except Exception as e:
+            print(f"[API ERROR] Phishing: {e}")
 
         # 2. DDoS
-        rows = conn.execute("SELECT * FROM logs_ddos ORDER BY id DESC LIMIT 10").fetchall()
-        for r in rows:
-            all_logs.append({
-                "time": r['timestamp'], 
-                "type": "DDoS", 
-                "host": r['computer'],
-                "source": "Network",
-                "extra": "-", 
-                "details": f"Target: {r['target_ip']} ({r['connection_count']} reqs)", 
-                "alert": r['alert_sent']
-            })
+        try:
+            rows = conn.execute("SELECT * FROM logs_ddos ORDER BY id DESC LIMIT 10").fetchall()
+            for r in rows:
+                all_logs.append({
+                    "time": r['timestamp'], 
+                    "type": "DDoS", 
+                    "host": r['computer'],
+                    "source": "Network",
+                    "severity": r['severity'],
+                    "extra": f"Target: {r['target_ip']}", 
+                    "details": f"Connections: {r['connection_count']}", 
+                    "alert": r['alert_sent']
+                })
+        except Exception: pass
 
         # 3. Crypto
-        rows = conn.execute("SELECT * FROM logs_crypto ORDER BY id DESC LIMIT 10").fetchall()
-        for r in rows:
-            all_logs.append({
-                "time": r['timestamp'], 
-                "type": "Cryptojacking", 
-                "host": r['computer'],
-                "source": r['driver_image'],
-                "extra": r['sha1_hash'],
-                "details": f"MD5: {r['md5_hash'][:10]}...", 
-                "alert": r['alert_sent']
-            })
+        try:
+            rows = conn.execute("SELECT * FROM logs_crypto ORDER BY id DESC LIMIT 10").fetchall()
+            for r in rows:
+                all_logs.append({
+                    "time": r['timestamp'], 
+                    "type": "Cryptojacking", 
+                    "host": r['computer'],
+                    "source": r['driver_image'],
+                    "severity": r['severity'] if 'severity' in r.keys() else 'Critical',
+                    "extra": r['signature'],
+                    "details": f"MD5: {r['md5_hash']}", 
+                    "alert": r['alert_sent']
+                })
+        except Exception: pass
 
         # 4. Brute Force
-        rows = conn.execute("SELECT * FROM logs_bruteforce ORDER BY id DESC LIMIT 10").fetchall()
-        for r in rows:
-            all_logs.append({
-                "time": r['timestamp'], 
-                "type": "Brute Force", 
-                "host": r['computer'],
-                "source": "MySQL",
-                "extra": r['technique_id'], 
-                "details": f"User: {r['target_user']} ({r['failure_count']} fails)", 
-                "alert": r['alert_sent']
-            })
+        try:
+            rows = conn.execute("SELECT * FROM logs_bruteforce ORDER BY id DESC LIMIT 10").fetchall()
+            for r in rows:
+                all_logs.append({
+                    "time": r['timestamp'], 
+                    "type": "Brute Force", 
+                    "host": r['computer'],
+                    "source": r['source_ip'],      # Frontend "source" = DB "source_ip"
+                    "severity": r['severity'] if 'severity' in r.keys() else 'Medium',
+                    "extra": "T1110", 
+                    "details": f"User: {r['target_user']} ({r['failure_count']} fails)", 
+                    "alert": r['alert_sent']
+                })
+        except Exception: pass
 
-        # 5. License Logs
-        rows = conn.execute("SELECT * FROM logs_license ORDER BY id DESC LIMIT 5").fetchall()
-        for r in rows:
-            all_logs.append({
-                "time": r['timestamp'], 
-                "type": "License Warning",
-                "host": r['computer'],
-                "source": "Splunk",
-                "extra": "-",
-                "details": f"Usage: {r['usage_percent']}% ({r['usage_mb']} MB)", 
-                "alert": r['alert_sent']
-            })
-            
+        # 5. License
+        try:
+            rows = conn.execute("SELECT * FROM logs_license ORDER BY id DESC LIMIT 10").fetchall()
+            for r in rows:
+                all_logs.append({
+                    "time": r['timestamp'], 
+                    "type": "License Warning", 
+                    "host": r['computer'],
+                    "source": "Splunk",
+                    "severity": r['severity'],
+                    "extra": "Quota", 
+                    "details": f"{r['usage_percent']}% used", 
+                    "alert": r['alert_sent']
+                })
+        except Exception: pass
+
         conn.close()
+        
         all_logs.sort(key=lambda x: x['time'], reverse=True)
+        
         return jsonify(all_logs)
     except Exception as e:
+        print(f"API Error: {e}")
         return jsonify({"error": str(e)})
 
 if __name__ == '__main__':
