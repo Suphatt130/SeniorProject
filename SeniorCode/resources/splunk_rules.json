@@ -12,7 +12,7 @@
         "severity": "Critical"
     },
     "bruteforce": {
-        "query": "search index=main sourcetype=\"mysql:error\" \"Access denied\" | rex field=_raw \"Access denied for user '(?<user>[^']+)'@'(?<src_ip>[^']+)'\" | eval dest=host | stats count, min(_time) as firstTime, max(_time) as lastTime by user, src_ip, dest | where count > 10 | eval firstTime=strftime(firstTime, \"%Y-%m-%d %H:%M:%S\") | eval lastTime=strftime(lastTime, \"%Y-%m-%d %H:%M:%S\") | table firstTime, lastTime, src_ip, user, dest, count",
+        "query": "search sourcetype=\"mysql:error\" \"Access denied\" | rex field=_raw \"Access denied for user '(?<user>[^']+)'@'(?<src_ip>[^']+)'\" | eval dest=host | stats count, min(_time) as firstTime, max(_time) as lastTime by user, src_ip, dest | where count > 10 | eval firstTime=strftime(firstTime, \"%Y-%m-%d %H:%M:%S\") | eval lastTime=strftime(lastTime, \"%Y-%m-%d %H:%M:%S\") | table firstTime, lastTime, src_ip, user, dest, count",
         "severity": "Medium"
     },
     "license": {
