@@ -19,7 +19,7 @@ def load_rules():
 
 RULES_CONFIG = load_rules()
 QUERY_PHISHING = RULES_CONFIG.get('phishing', {}).get('query', '')
-SEVERITY_PHISHING = RULES_CONFIG.get('phishing', {}).get('severity', 'Unknown')
+SEVERITY_SCORE = RULES_CONFIG.get('phishing', {}).get('severity', 5)
 
 def check_url_reputation(url):
     """
@@ -114,6 +114,8 @@ def run_phishing_check(last_alert_time):
 
                         details = f"Link: {link}"
                         
+                        severity_label = config.get_severity_label(SEVERITY_SCORE)
+
                         save_log(
                             attack_type="Phishing", 
                             event=event, 
@@ -122,7 +124,7 @@ def run_phishing_check(last_alert_time):
                             browser=browser,
                             source_app=parent,
                             technique_id=tech_id,
-                            severity=SEVERITY_PHISHING
+                            severity=severity_label
                         )
                         
                         if ready_to_alert:

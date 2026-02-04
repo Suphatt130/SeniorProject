@@ -15,7 +15,7 @@ def load_rules():
 
 RULES = load_rules()
 QUERY_BRUTEFORCE = RULES.get('bruteforce', {}).get('query', '')
-SEVERITY_BRUTEFORCE = RULES.get('bruteforce', {}).get('severity', 'Medium')
+SEVERITY_SCORE = RULES.get('bruteforce', {}).get('severity', 5)
 
 def run_bruteforce_check(last_alert_time):
     payload = {
@@ -49,12 +49,14 @@ def run_bruteforce_check(last_alert_time):
                     
                     details = f"User: {target} | IP: {attacker} ({count} attempts)"
                     
+                    severity_label = config.get_severity_label(SEVERITY_SCORE)
+
                     save_log(
                         attack_type="Brute Force", 
                         event=event, 
                         alert_sent=ready_to_alert, 
                         details_str=details,
-                        severity=SEVERITY_BRUTEFORCE
+                        severity=severity_label
                     )
 
                 if ready_to_alert:

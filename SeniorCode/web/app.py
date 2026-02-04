@@ -2,12 +2,12 @@ from flask import Flask, render_template, jsonify
 import sqlite3
 import os
 import sys
+import json
+import config
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
-
-import config
 
 app = Flask(__name__)
 DB_PATH = os.path.join(parent_dir, config.DB_NAME)
@@ -23,26 +23,41 @@ def index():
 
 @app.route('/api/stats')
 def api_stats():
-    """Returns counts including License Warnings in the Total"""
     try:
         conn = get_db_connection()
         stats = {}
         
-        # 1. Count all tables
-        p_count = conn.execute("SELECT COUNT(*) FROM logs_phishing").fetchone()[0]
-        d_count = conn.execute("SELECT COUNT(*) FROM logs_ddos").fetchone()[0]
-        c_count = conn.execute("SELECT COUNT(*) FROM logs_crypto").fetchone()[0]
-        b_count = conn.execute("SELECT COUNT(*) FROM logs_bruteforce").fetchone()[0]
-        l_count = conn.execute("SELECT COUNT(*) FROM logs_license").fetchone()[0]
+        # 1. Get Counts for other cards
+        try: p = conn.execute("SELECT COUNT(*) FROM logs_phishing").fetchone()[0]
+        except: p = 0
+        try: d = conn.execute("SELECT COUNT(*) FROM logs_ddos").fetchone()[0]
+        except: d = 0
+        try: c = conn.execute("SELECT COUNT(*) FROM logs_crypto").fetchone()[0]
+        except: c = 0
+        try: b = conn.execute("SELECT COUNT(*) FROM logs_bruteforce").fetchone()[0]
+        except: b = 0
         
-        stats['phishing'] = p_count
-        stats['ddos'] = d_count
-        stats['crypto'] = c_count
-        stats['bruteforce'] = b_count
-        stats['license'] = l_count
-        
-        # 2. Add License count to Total
-        stats['total'] = p_count + d_count + c_count + b_count + l_count 
+        # 2. Get SPECIAL License Data
+        license_text = "0 / 500 MB" 
+        try:
+            file_path = config.LICENSE_STATUS_FILE
+            
+            if os.path.exists(file_path):
+                with open(file_path, "r") as f:
+                    data = json.load(f)
+                    used = data.get("mb", 0)
+                    license_text = f"{int(used)} / 500 MB"
+            else:
+                print(f"[API] File not found at: {file_path}")
+        except Exception as e: 
+            print(f"[API] License Read Error: {e}")
+
+        stats['phishing'] = p
+        stats['ddos'] = d
+        stats['crypto'] = c
+        stats['bruteforce'] = b
+        stats['license_text'] = license_text
+        stats['total'] = p + d + c + b 
         
         conn.close()
         return jsonify(stats)
@@ -78,12 +93,12 @@ def api_logs():
             for r in rows:
                 all_logs.append({
                     "time": r['timestamp'], 
-                    "type": "DDoS", 
+                    "type": "DoS / Flood", 
                     "host": r['computer'],
-                    "source": "Network",
+                    "source": r['src_ip'],
                     "severity": r['severity'],
-                    "extra": f"Target: {r['target_ip']}", 
-                    "details": f"Connections: {r['connection_count']}", 
+                    "extra": "T1498.001",
+                    "details": f"Dest: {r['dest_ip']}:{r['dest_port']} | Flag: {r['tcp_flags']} | Pkts: {r['packet_count']}", 
                     "alert": r['alert_sent']
                 })
         except Exception: pass
@@ -98,7 +113,7 @@ def api_logs():
                     "host": r['computer'],
                     "source": r['driver_image'],
                     "severity": r['severity'] if 'severity' in r.keys() else 'Critical',
-                    "extra": r['signature'],
+                    "extra": "T1543.003",
                     "details": f"MD5: {r['md5_hash']}", 
                     "alert": r['alert_sent']
                 })

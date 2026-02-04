@@ -28,9 +28,12 @@ def init_db():
             CREATE TABLE IF NOT EXISTS logs_ddos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
+                src_ip TEXT,
+                dest_ip TEXT,
                 computer TEXT,
-                target_ip TEXT,
-                connection_count INTEGER,
+                dest_port TEXT,
+                tcp_flags TEXT,
+                packet_count INTEGER,
                 severity TEXT,
                 alert_sent BOOLEAN
             )
@@ -116,13 +119,20 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
 
         elif attack_type == "DDoS":
             cursor.execute('''
-                INSERT INTO logs_ddos (timestamp, computer, target_ip, connection_count, severity, alert_sent)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO logs_ddos (
+                    timestamp, src_ip, dest_ip, computer, 
+                    dest_port, tcp_flags, packet_count, 
+                    severity, alert_sent
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                timestamp, computer,
-                event.get('DestinationIp', 'Unknown'),
+                event.get('_time', timestamp),
+                event.get('src_ip', 'Unknown'),
+                event.get('dest_ip', 'Unknown'),
+                event.get('host', 'Unknown'),
+                event.get('dest_port', 'Unknown'),
+                event.get('tcp_flags', 'S'),
                 event.get('count', 0),
-                severity,
+                kwargs.get('severity', 'High'),
                 alert_sent
             ))
 

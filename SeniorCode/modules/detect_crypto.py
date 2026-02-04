@@ -15,7 +15,7 @@ def load_rules():
 
 RULES = load_rules()
 QUERY_CRYPTO = RULES.get('crypto', {}).get('query', '')
-SEVERITY_CRYPTO = RULES.get('crypto', {}).get('severity', 'Critical')
+SEVERITY_SCORE = RULES.get('crypto', {}).get('severity', 9)
 
 def run_crypto_check(last_alert_time):
     payload = {
@@ -42,20 +42,20 @@ def run_crypto_check(last_alert_time):
                 ready_to_alert = (current_time - last_alert_time) >= config.ALERT_COOLDOWN
                 
                 for event in events:
-                    host = event.get('Computer', 'Unknown')
                     driver = event.get('ImageLoaded', 'Unknown')
-                    md5 = event.get('MD5', 'N/A')
                     sha1 = event.get('SHA1', 'N/A')
                     end_time = event.get('EndTime', 'N/A')
                     
                     details = f"End: {end_time} | SHA1: {sha1}"
                     
+                    severity_label = config.get_severity_label(SEVERITY_SCORE)
+
                     save_log(
                         attack_type="Cryptojacking", 
                         event=event, 
                         alert_sent=ready_to_alert, 
                         details_str=details,
-                        severity=SEVERITY_CRYPTO,
+                        severity=severity_label,
                         source_app=driver
                     )
 
