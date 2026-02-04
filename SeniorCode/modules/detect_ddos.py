@@ -22,7 +22,7 @@ def run_ddos_check(last_alert_time):
         "search": QUERY_DDOS,
         "exec_mode": "oneshot",
         "output_mode": "json",
-        "earliest_time": "-30s", 
+        "earliest_time": "-30s",
         "latest_time": "now"
     }
     

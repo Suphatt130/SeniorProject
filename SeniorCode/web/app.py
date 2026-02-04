@@ -3,11 +3,12 @@ import sqlite3
 import os
 import sys
 import json
-import config
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
+
+import config
 
 app = Flask(__name__)
 DB_PATH = os.path.join(parent_dir, config.DB_NAME)
