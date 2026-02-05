@@ -41,14 +41,14 @@ def run_crypto_check(last_alert_time):
                 current_time = time.time()
                 ready_to_alert = (current_time - last_alert_time) >= config.ALERT_COOLDOWN
                 
+                severity_label = config.get_severity_label(SEVERITY_SCORE)
+
                 for event in events:
                     driver = event.get('ImageLoaded', 'Unknown')
                     sha1 = event.get('SHA1', 'N/A')
                     end_time = event.get('EndTime', 'N/A')
                     
                     details = f"End: {end_time} | SHA1: {sha1}"
-                    
-                    severity_label = config.get_severity_label(SEVERITY_SCORE)
 
                     save_log(
                         attack_type="Cryptojacking", 
