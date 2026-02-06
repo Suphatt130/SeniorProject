@@ -12,6 +12,8 @@ import config
 app = Flask(__name__)
 DB_PATH = os.path.join(parent_dir, config.DB_NAME)
 
+##--------------- Dont Touch above ---------------##
+
 def get_db_connection():
     try:
         conn = sqlite3.connect(DB_PATH)

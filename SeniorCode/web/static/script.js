@@ -133,8 +133,8 @@ function renderTable(data) {
         const row = `
             <tr class="log-row">
                 <td><small>${log.time}</small></td>
-                <td><span class="badge bg-${sevColor}">${log.severity || 'Unknown'}</span></td>
-                <td><span class="badge bg-${badgeClass}" style="${badgeStyle}">${log.type}</span></td>
+                <td><span class="badge bg-${sevColor} text-dark">${log.severity || 'Unknown'}</span></td>
+                <td><span class="badge bg-${badgeClass} text-dark" style="${badgeStyle}">${log.type}</span></td>
                 <td>${log.host}</td>
                 <td><small>${log.source || '-'}</small></td>
                 <td><small>${log.extra}</small></td>
