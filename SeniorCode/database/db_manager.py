@@ -32,14 +32,14 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_ddos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,      -- _time
-                src_ip TEXT,         -- src_ip
-                dest_ip TEXT,        -- dest_ip
-                host TEXT,           -- Host
-                dest_port TEXT,      -- dest_port
-                tcp_flags TEXT,      -- tcp_flags
-                count INTEGER,       -- count
-                technique_id TEXT,   -- Technique
+                timestamp TEXT,
+                src_ip TEXT,
+                dest_ip TEXT,
+                host TEXT,
+                dest_port TEXT,
+                tcp_flags TEXT,
+                count INTEGER,
+                technique_id TEXT,
                 severity TEXT,
                 alert_sent BOOLEAN
             )
@@ -49,21 +49,21 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_crypto (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,      -- _time
-                image_loaded TEXT,   -- ImageLoaded
-                dest TEXT,           -- Dest
-                md5 TEXT,            -- MD5
-                sha1 TEXT,           -- SHA1
-                sha256 TEXT,         -- SHA256
-                imphash TEXT,        -- IMPHASH
-                process_path TEXT,   -- process_path
-                signature TEXT,      -- signature
-                signature_id TEXT,   -- signature_id
-                user_id TEXT,        -- user_id
-                vendor_product TEXT, -- vendor_product
-                first_time TEXT,     -- firstTime
-                last_time TEXT,      -- lastTime
-                technique_id TEXT,   -- Technique
+                timestamp TEXT,
+                image_loaded TEXT,
+                dest TEXT,
+                md5 TEXT,
+                sha1 TEXT,
+                sha256 TEXT,
+                imphash TEXT,
+                process_path TEXT,
+                signature TEXT,
+                signature_id TEXT,
+                user_id TEXT,
+                vendor_product TEXT,
+                first_time TEXT,
+                last_time TEXT,
+                technique_id TEXT,
                 severity TEXT,
                 alert_sent BOOLEAN
             )
@@ -73,13 +73,13 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_bruteforce (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                first_time TEXT,     -- firstTime
-                last_time TEXT,      -- lastTime
-                src_ip TEXT,         -- src_ip
-                user TEXT,           -- user
-                dest TEXT,           -- dest
-                count INTEGER,       -- count
-                technique_id TEXT,   -- (T1110)
+                first_time TEXT,
+                last_time TEXT,
+                src_ip TEXT,
+                user TEXT,
+                dest TEXT,
+                count INTEGER,
+                technique_id TEXT,
                 severity TEXT,
                 alert_sent BOOLEAN
             )
@@ -120,7 +120,7 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
                     severity, alert_sent
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                timestamp,
+                event.get('_time', timestamp),
                 event.get('Computer', 'Unknown'),
                 event.get('User', 'Unknown'),
                 event.get('Parent_App', 'Unknown'),

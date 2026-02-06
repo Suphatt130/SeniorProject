@@ -1,6 +1,6 @@
 {
     "phishing": {
-        "query": "search index=* source=\"xmlwineventlog:microsoft-windows-sysmon/operational\" EventCode=1 (CommandLine=\"*http://*\" OR CommandLine=\"*https://*\") | eval Browser_Name=mvindex(split(Image, \"\\\\\"), -1) | eval Browser_Name=lower(Browser_Name) | where Browser_Name IN (\"chrome.exe\", \"msedge.exe\", \"firefox.exe\", \"brave.exe\", \"iexplore.exe\", \"opera.exe\") | eval Parent_App=mvindex(split(ParentImage, \"\\\\\"), -1) | rex field=CommandLine \"(?<Clicked_Link>https?://\\S+)\" | rex field=RuleName \"technique_id=(?<Technique_ID>T\\d+)\" | eval Time=strftime(_time, \"%Y-%m-%d %H:%M:%S\") | table Time, Computer, User, Parent_App, Browser_Name, Clicked_Link, Technique_ID",
+        "query": "search index=main source=\"xmlwineventlog:microsoft-windows-sysmon/operational\" EventCode=1 (CommandLine=\"*http://*\" OR CommandLine=\"*https://*\") | eval Browser_Name=lower(mvindex(split(Image, \"\\\\\"), -1)), Parent_App=mvindex(split(ParentImage, \"\\\\\"), -1) | where Browser_Name IN (\"chrome.exe\", \"msedge.exe\", \"firefox.exe\", \"brave.exe\", \"iexplore.exe\", \"opera.exe\") | rex field=CommandLine \"(?<Clicked_Link>https?://[^\\s\\\"'>]+)\" | rex field=RuleName \"technique_id=(?<Technique_ID>T\\d+(?:\\.\\d+)?)\" | table _time, Computer, User, Parent_App, Browser_Name, Clicked_Link, Technique_ID",
         "severity": "8"
     },
     "ddos": {
@@ -8,7 +8,7 @@
         "severity": "8"
     },
     "crypto": {
-        "query": "search index=* source=\"*Sysmon*\" EventCode=6 (Signature=\"Noriyuki MIYAZAKI\" OR ImageLoaded=\"*\\\\WinRing0x64.sys\") | rex field=Hashes \"MD5=(?<MD5>[^,]+)\" | rex field=Hashes \"SHA1=(?<SHA1>[^,]+)\" | rex field=Hashes \"SHA256=(?<SHA256>[^,]+)\" | rex field=Hashes \"IMPHASH=(?<IMPHASH>[^,]+)\" | stats min(_time) as firstTime, max(_time) as lastTime, count by ImageLoaded, dest, MD5, SHA1, SHA256, IMPHASH, Signature | eval Time=strftime(firstTime, \"%Y-%m-%d %H:%M:%S\") | eval EndTime=strftime(lastTime, \"%Y-%m-%d %H:%M:%S\") | rename dest as Computer | table Time, EndTime, Computer, ImageLoaded, Signature, MD5, SHA1, SHA256, IMPHASH, count",
+        "query": "search index=* source=\"*Sysmon*\" EventCode=6 (Signature=\"Noriyuki MIYAZAKI\" OR ImageLoaded=\"*\\\\WinRing0x64.sys\") | rex field=Hashes \"MD5=(?<MD5>[^,]+)\" | rex field=Hashes \"SHA1=(?<SHA1>[^,]+)\" | rex field=Hashes \"SHA256=(?<SHA256>[^,]+)\" | rex field=Hashes \"IMPHASH=(?<IMPHASH>[^,]+)\" | stats min(_time) as firstTime, max(_time) as lastTime, count by ImageLoaded, dest, MD5, SHA1, SHA256, IMPHASH, Signature | eval Time=strftime(firstTime, \"%Y-%m-%d %H:%M:%S\") | eval EndTime=strftime(lastTime, \"%Y-%m-%d %H:%M:%S\") | rename dest as Computer | table _time, EndTime, Computer, ImageLoaded, Signature, MD5, SHA1, SHA256, IMPHASH, count",
         "severity": "10"
     },
     "bruteforce": {
