@@ -13,6 +13,7 @@ SPLUNK_AUTH = None
 
 # VIRUSTOTAL SETTINGS
 VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
+VIRUSTOTAL_URL = "https://www.virustotal.com/api/v3/urls"
 
 # DATABASE
 DB_NAME = "security_events.db"

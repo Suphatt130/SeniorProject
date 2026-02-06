@@ -28,14 +28,14 @@ def check_url_reputation(url):
     """
     if "127.0.0.1" in url or "localhost" in url: return False
 
-    if not config.VT_API_KEY or "YOUR_" in config.VT_API_KEY:
+    if not config.VIRUSTOTAL_API_KEY or "YOUR_" in config.VIRUSTOTAL_API_KEY:
         print("[VT] API Key not set. Skipping check.")
         return False
 
     try:
         url_id = base64.urlsafe_b64encode(url.encode()).decode().strip("=")
-        api_url = f"{config.VT_URL}/{url_id}"
-        headers = {"x-apikey": config.VT_API_KEY}
+        api_url = f"{config.VIRUSTOTAL_URL}/{url_id}"
+        headers = {"x-apikey": config.VIRUSTOTAL_API_KEY}
         response = requests.get(api_url, headers=headers)
         
         if response.status_code == 200:
@@ -74,7 +74,6 @@ def run_phishing_check(last_alert_time):
                 malicious_found = False
 
                 for event in events:
-                    if 'Time' in event: event['_time'] = event['Time']
                     link = event.get('Clicked_Link', 'N/A')
                     
                     if check_url_reputation(link):
