@@ -1,12 +1,16 @@
-import sqlite3
 from flask import Flask, render_template, jsonify
-import config
+import sqlite3
 import os
+import sys
+
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
+
+import config
 
 app = Flask(__name__)
-
-# Ensure we use the absolute path to the database
-DB_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../security_events.db')
+DB_PATH = os.path.join(parent_dir, config.DB_NAME)
 
 def get_db_connection():
     try:
@@ -39,9 +43,10 @@ def api_stats():
         try: b = conn.execute("SELECT COUNT(*) FROM logs_bruteforce").fetchone()[0]
         except: b = 0
         
-        # 2. Get License Data
+        # 2. Get License Data (Prefer File for Speed, Fallback to DB)
         license_text = "0 / 500 MB"
         try:
+            # Try reading from the JSON file first (Real-time from check_license.py)
             import json
             if os.path.exists(config.LICENSE_STATUS_FILE):
                 with open(config.LICENSE_STATUS_FILE, "r") as f:
@@ -49,6 +54,7 @@ def api_stats():
                     used = data.get("mb", 0)
                     license_text = f"{int(used)} / 500 MB"
             else:
+                # Fallback to Database if file doesn't exist
                 row = conn.execute("SELECT usage_mb FROM logs_license ORDER BY id DESC LIMIT 1").fetchone()
                 if row:
                     license_text = f"{int(row['usage_mb'])} / 500 MB"
@@ -141,7 +147,7 @@ def api_logs():
     except Exception: pass
 
     conn.close()
-
+    
     all_logs.sort(key=lambda x: x['time'], reverse=True)
     
     return jsonify(all_logs)
