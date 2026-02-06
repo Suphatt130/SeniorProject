@@ -1,5 +1,11 @@
 import sqlite3
 import config
+from datetime import datetime
+
+def get_db_connection():
+    conn = sqlite3.connect(config.DB_NAME)
+    conn.row_factory = sqlite3.Row
+    return conn
 
 def init_db():
     try:
@@ -10,14 +16,13 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_phishing (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,
-                computer TEXT,
-                user TEXT,
-                client_ip TEXT,
-                parent_app TEXT,
-                browser_name TEXT,
-                clicked_link TEXT,
-                technique_id TEXT,
+                timestamp TEXT,      -- Time
+                computer TEXT,       -- Computer
+                user TEXT,           -- User
+                parent_app TEXT,     -- Parent_App
+                browser_name TEXT,   -- Browser_Name
+                clicked_link TEXT,   -- Clicked_Link
+                technique_id TEXT,   -- Technique_ID
                 severity TEXT,
                 alert_sent BOOLEAN
             )
@@ -27,13 +32,14 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_ddos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,
-                src_ip TEXT,
-                dest_ip TEXT,
-                computer TEXT,
-                dest_port TEXT,
-                tcp_flags TEXT,
-                packet_count INTEGER,
+                timestamp TEXT,      -- _time
+                src_ip TEXT,         -- src_ip
+                dest_ip TEXT,        -- dest_ip
+                host TEXT,           -- Host
+                dest_port TEXT,      -- dest_port
+                tcp_flags TEXT,      -- tcp_flags
+                count INTEGER,       -- count
+                technique_id TEXT,   -- Technique
                 severity TEXT,
                 alert_sent BOOLEAN
             )
@@ -43,14 +49,21 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_crypto (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,
-                computer TEXT,
-                driver_image TEXT,
-                md5_hash TEXT,
-                sha1_hash TEXT,
-                sha256_hash TEXT,
-                imphash TEXT,
-                signature TEXT,
+                timestamp TEXT,      -- _time
+                image_loaded TEXT,   -- ImageLoaded
+                dest TEXT,           -- Dest
+                md5 TEXT,            -- MD5
+                sha1 TEXT,           -- SHA1
+                sha256 TEXT,         -- SHA256
+                imphash TEXT,        -- IMPHASH
+                process_path TEXT,   -- process_path
+                signature TEXT,      -- signature
+                signature_id TEXT,   -- signature_id
+                user_id TEXT,        -- user_id
+                vendor_product TEXT, -- vendor_product
+                first_time TEXT,     -- firstTime
+                last_time TEXT,      -- lastTime
+                technique_id TEXT,   -- Technique
                 severity TEXT,
                 alert_sent BOOLEAN
             )
@@ -60,12 +73,13 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_bruteforce (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,
-                computer TEXT,
-                target_user TEXT,
-                source_ip TEXT,
-                failure_count INTEGER,
-                technique_id TEXT,
+                first_time TEXT,     -- firstTime
+                last_time TEXT,      -- lastTime
+                src_ip TEXT,         -- src_ip
+                user TEXT,           -- user
+                dest TEXT,           -- dest
+                count INTEGER,       -- count
+                technique_id TEXT,   -- (T1110)
                 severity TEXT,
                 alert_sent BOOLEAN
             )
@@ -76,8 +90,7 @@ def init_db():
             CREATE TABLE IF NOT EXISTS logs_license (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
-                computer TEXT,
-                usage_percent REAL,
+                pct_used REAL,
                 usage_mb INTEGER,
                 severity TEXT,
                 alert_sent BOOLEAN
@@ -86,6 +99,7 @@ def init_db():
 
         conn.commit()
         conn.close()
+        print("[+] Database Initialized with New Schema")
     except Exception as e:
         print(f"[DB] Init Error: {e}")
 
@@ -94,36 +108,36 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
         conn = sqlite3.connect(config.DB_NAME)
         cursor = conn.cursor()
 
-        timestamp = event.get('Time') or event.get('firstTime') or event.get('_time', 'N/A')
-        computer = event.get('Computer', 'Unknown')
-        user = event.get('User', 'Unknown')
-        severity = kwargs.get('severity', 'Unknown') 
+        now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        timestamp = event.get('Time') or event.get('_time') or event.get('firstTime') or now_str
+        severity = kwargs.get('severity', 'Unknown')
 
         if attack_type == "Phishing":
             cursor.execute('''
                 INSERT INTO logs_phishing (
-                    timestamp, computer, user, 
-                    client_ip, parent_app, browser_name, clicked_link, 
-                    technique_id, severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    timestamp, computer, user, parent_app, 
+                    browser_name, clicked_link, technique_id, 
+                    severity, alert_sent
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                timestamp, computer, user,
-                event.get('Client_IP', 'N/A'),
+                timestamp,
+                event.get('Computer', 'Unknown'),
+                event.get('User', 'Unknown'),
                 event.get('Parent_App', 'Unknown'),
                 event.get('Browser_Name', 'Unknown'),
                 event.get('Clicked_Link', 'N/A'),
-                event.get('Technique_ID', 'N/A'),
-                kwargs.get('severity', 'High'),
+                event.get('Technique_ID', 'T1027'),
+                severity,
                 alert_sent
             ))
 
         elif attack_type == "DDoS":
             cursor.execute('''
                 INSERT INTO logs_ddos (
-                    timestamp, src_ip, dest_ip, computer, 
-                    dest_port, tcp_flags, packet_count, 
+                    timestamp, src_ip, dest_ip, host, 
+                    dest_port, tcp_flags, count, technique_id,
                     severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 event.get('_time', timestamp),
                 event.get('src_ip', 'Unknown'),
@@ -132,25 +146,36 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
                 event.get('dest_port', 'Unknown'),
                 event.get('tcp_flags', 'S'),
                 event.get('count', 0),
-                kwargs.get('severity', 'High'),
+                "T1498.001",
+                severity,
                 alert_sent
             ))
 
         elif attack_type == "Cryptojacking":
             cursor.execute('''
                 INSERT INTO logs_crypto (
-                    timestamp, computer, driver_image, md5_hash, sha1_hash, 
-                    sha256_hash, imphash, signature, severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    timestamp, image_loaded, dest, md5, sha1, 
+                    sha256, imphash, process_path, signature, 
+                    signature_id, user_id, vendor_product, 
+                    first_time, last_time, technique_id,
+                    severity, alert_sent
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                event.get('Time', timestamp),
-                event.get('Computer', 'Unknown'),
+                event.get('_time', timestamp),
                 event.get('ImageLoaded', 'Unknown'),
+                event.get('dest', 'Unknown'),
                 event.get('MD5', 'N/A'),
                 event.get('SHA1', 'N/A'),
                 event.get('SHA256', 'N/A'),
                 event.get('IMPHASH', 'N/A'),
-                event.get('Signature', 'N/A'),
+                event.get('process_path', 'Unknown'),
+                event.get('signature', 'Unknown'),
+                event.get('signature_id', 'Unknown'),
+                event.get('user_id', 'Unknown'),
+                event.get('vendor_product', 'Sysmon'),
+                event.get('firstTime', timestamp),
+                event.get('lastTime', timestamp),
+                "T1543.003",
                 severity,
                 alert_sent
             ))
@@ -158,26 +183,30 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
         elif attack_type == "Brute Force":
             cursor.execute('''
                 INSERT INTO logs_bruteforce (
-                    timestamp, computer, target_user, source_ip, 
-                    failure_count, technique_id, severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    first_time, last_time, src_ip, user, 
+                    dest, count, technique_id,
+                    severity, alert_sent
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                timestamp,
-                event.get('dest', 'Unknown'),
-                event.get('user', 'Unknown'),
+                event.get('firstTime', timestamp),
+                event.get('lastTime', timestamp),
                 event.get('src_ip', 'Unknown'),
+                event.get('user', 'Unknown'),
+                event.get('dest', 'Unknown'),
                 event.get('count', 0),
                 "T1110",
                 severity,
                 alert_sent
             ))
 
-        elif attack_type == "License Alert":
+        elif attack_type == "License Alert" or attack_type == "License Warning":
             cursor.execute('''
-                INSERT INTO logs_license (timestamp, computer, usage_percent, usage_mb, severity, alert_sent)
-                VALUES (?, ?, ?, ?, ?, ?)
+                INSERT INTO logs_license (
+                    timestamp, pct_used, usage_mb, 
+                    severity, alert_sent
+                ) VALUES (?, ?, ?, ?, ?)
             ''', (
-                timestamp, computer,
+                timestamp,
                 kwargs.get('usage_percent', 0.0),
                 kwargs.get('usage_mb', 0),
                 severity,

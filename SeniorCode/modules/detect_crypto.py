@@ -40,33 +40,22 @@ def run_crypto_check(last_alert_time):
                 print(f"[Crypto] Malicious Driver Detected: {len(events)} events.")
                 current_time = time.time()
                 ready_to_alert = (current_time - last_alert_time) >= config.ALERT_COOLDOWN
-                
                 severity_label = config.get_severity_label(SEVERITY_SCORE)
 
                 for event in events:
-                    driver = event.get('ImageLoaded', 'Unknown')
-                    sha1 = event.get('SHA1', 'N/A')
-                    end_time = event.get('EndTime', 'N/A')
-                    
-                    details = f"End: {end_time} | SHA1: {sha1}"
-
                     save_log(
                         attack_type="Cryptojacking", 
-                        event=event, 
-                        alert_sent=ready_to_alert, 
-                        details_str=details,
+                        event=event,
+                        alert_sent=ready_to_alert,
                         severity=severity_label,
-                        source_app=driver
                     )
 
                 if ready_to_alert:
                     latest = events[0]
-                    msg = (
-                        f"🚨 **Cryptojacking Alert!**\n💻 Host: {latest.get('dvc')}\n📂 Driver: {latest.get('Driver_Image')}\n🔑 MD5: {latest.get('MD5')}\n📝 Activity: {latest.get('Activity')}")
+                    msg = (f"🚨 **Cryptojacking Alert!**\n💻 Host: {latest.get('dvc')}\n📂 Driver: {latest.get('Driver_Image')}\n🔑 MD5: {latest.get('MD5')}\n📝 Activity: {latest.get('Activity')}")
                     print("   >> Sending Crypto Alert")
                     send_line_alert(msg)
                     return current_time
-                    
         return last_alert_time
     except Exception as e:
         print(f"[Crypto] Error: {e}")

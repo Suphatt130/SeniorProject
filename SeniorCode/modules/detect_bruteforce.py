@@ -41,21 +41,12 @@ def run_bruteforce_check(last_alert_time):
                 print(f"[Brute Force] Detected {len(events)} attacks.")
                 current_time = time.time()
                 ready_to_alert = (current_time - last_alert_time) >= config.ALERT_COOLDOWN
-                
+                severity_label = config.get_severity_label(SEVERITY_SCORE)
                 for event in events:
-                    target = event.get('user', 'Unknown')
-                    attacker = event.get('src_ip', 'Unknown')
-                    count = event.get('count', 0)
-                    
-                    details = f"User: {target} | IP: {attacker} ({count} attempts)"
-                    
-                    severity_label = config.get_severity_label(SEVERITY_SCORE)
-
                     save_log(
                         attack_type="Brute Force", 
                         event=event, 
-                        alert_sent=ready_to_alert, 
-                        details_str=details,
+                        alert_sent=ready_to_alert,
                         severity=severity_label
                     )
 
@@ -66,7 +57,6 @@ def run_bruteforce_check(last_alert_time):
                     print("   >> Sending Brute Force Alert")
                     send_email_alert("Brute Force Alert!", msg)
                     return current_time
-                    
         return last_alert_time
     except Exception as e:
         print(f"[BruteForce] Error: {e}")
