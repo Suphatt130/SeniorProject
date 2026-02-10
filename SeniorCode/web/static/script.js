@@ -1,10 +1,9 @@
-// --- GLOBAL VARIABLES FOR CHARTS & TRACKING ---
 let lineChart30s, barChartRules;
-// To calculate logs per 30s interval, we need to track the previous total
 let previousTotalLogs = null; 
-// Max data points to keep on the line chart so it doesn't squeeze too much
 const MAX_LINE_POINTS = 20; 
 
+let currentLogs = []; 
+let sortState = { column: 'time', asc: false }
 
 // --- 1. INITIALIZE FUNCTIONS ON PAGE LOAD ---
 document.addEventListener('DOMContentLoaded', () => {
@@ -113,15 +112,16 @@ async function fetchData() {
 
         const statsData = await statsRes.json();
         const logsData = await logsRes.json();
-
+        
         if (statsData.error) console.error("Stats Error:", statsData.error);
         if (logsData.error) console.error("Logs Error:", logsData.error);
-
+        
         updateTopCards(statsData);
         updateLineChart(statsData.logs_last_30s);
         updateBarChart(statsData);
         updateLicenseProgressBar(statsData.license_mb_raw);
-        renderTable(logsData);
+        currentLogs = logsData;
+        applySort();
 
         if(badge) badge.textContent = 'Live';
         if(badge) badge.classList.replace('bg-secondary', 'bg-primary');
@@ -238,4 +238,65 @@ function renderTable(logs) {
         `;
     });
     tableBody.innerHTML = tableRows;
+}
+
+function sortTable(column) {
+    if (sortState.column === column) {
+        sortState.asc = !sortState.asc;
+    } else {
+        sortState.column = column;
+        sortState.asc = true;
+    }
+    applySort();
+}
+
+function applySort() {
+    const column = sortState.column;
+    const asc = sortState.asc;
+
+    currentLogs.sort((a, b) => {
+        let valA = a[column] || '';
+        let valB = b[column] || '';
+
+        if (column === 'severity') {
+            valA = getSeverityWeight(valA);
+            valB = getSeverityWeight(valB);
+        } 
+        else if (typeof valA === 'string') {
+            valA = valA.toLowerCase();
+            valB = valB.toLowerCase();
+        }
+
+        if (valA < valB) return asc ? -1 : 1;
+        if (valA > valB) return asc ? 1 : -1;
+        return 0;
+    });
+
+    renderTable(currentLogs);
+    updateSortIcons();
+}
+
+function getSeverityWeight(sev) {
+    const map = {
+        'Critical': 5,
+        'High': 4,
+        'Medium': 3,
+        'Low': 2,
+        'Unknown': 1
+    };
+    return map[sev] || 0;
+}
+
+function updateSortIcons() {
+    document.querySelectorAll('th').forEach(th => {
+        th.classList.remove('sorted-asc', 'sorted-desc');
+    });
+
+    const activeHeader = Array.from(document.querySelectorAll('th')).find(th => 
+        th.getAttribute('onclick') && th.getAttribute('onclick').includes(`'${sortState.column}'`)
+    );
+
+    if (activeHeader) {
+        activeHeader.classList.add(sortState.asc ? 'sorted-asc' : 'sorted-desc');
+    }
 }

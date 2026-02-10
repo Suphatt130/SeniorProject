@@ -71,3 +71,30 @@ body {
     background-color: var(--bs-orange) !important;
     color: #000;
 }
+
+th[onclick] {
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s;
+}
+
+th[onclick]:hover {
+    background-color: #343a40;
+    color: #fff;
+}
+
+.sort-icon {
+    font-size: 0.8em;
+    margin-left: 5px;
+    opacity: 0.3;
+}
+
+th.sorted-asc .sort-icon::after {
+    content: "▲";
+    opacity: 1;
+}
+
+th.sorted-desc .sort-icon::after {
+    content: "▼";
+    opacity: 1;
+}

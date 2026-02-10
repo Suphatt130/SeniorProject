@@ -84,14 +84,14 @@
                                     <table class="table table-hover table-striped mb-0 align-middle">
                                         <thead class="table-dark">
                                             <tr>
-                                                <th>Time</th>
-                                                <th>Severity</th>
-                                                <th>Type</th>
-                                                <th>Host</th>
-                                                <th>Source App / Attacker</th>
-                                                <th>Technique ID</th>
+                                                <th onclick="sortTable('time')">Time <span class="sort-icon" id="icon-time"></span></th>
+                                                <th onclick="sortTable('severity')">Severity <span class="sort-icon" id="icon-severity"></span></th>
+                                                <th onclick="sortTable('type')">Type <span class="sort-icon" id="icon-type"></span></th>
+                                                <th onclick="sortTable('host')">Host <span class="sort-icon" id="icon-host"></span></th>
+                                                <th onclick="sortTable('source')">Source App <span class="sort-icon" id="icon-source"></span></th>
+                                                <th onclick="sortTable('extra')">Technique <span class="sort-icon" id="icon-extra"></span></th>
                                                 <th>Details</th>
-                                                <th>Alerted</th>
+                                                <th onclick="sortTable('alert')">Alerted? <span class="sort-icon" id="icon-alert"></span></th>
                                             </tr>
                                         </thead>
                                         <tbody id="log-table-body" class="table-group-divider">
