@@ -8,7 +8,7 @@
         "severity": "8"
     },
     "crypto": {
-        "query": "search index=* source=\"*Sysmon*\" EventCode=6 (Signature=\"Noriyuki MIYAZAKI\" OR ImageLoaded=\"*\\\\WinRing0x64.sys\") | rex field=Hashes \"MD5=(?<MD5>[^,]+)\" | rex field=Hashes \"SHA1=(?<SHA1>[^,]+)\" | rex field=Hashes \"SHA256=(?<SHA256>[^,]+)\" | rex field=Hashes \"IMPHASH=(?<IMPHASH>[^,]+)\" | stats min(_time) as firstTime, max(_time) as lastTime, count by ImageLoaded, dest, MD5, SHA1, SHA256, IMPHASH, Signature | eval Time=strftime(firstTime, \"%Y-%m-%d %H:%M:%S\") | eval EndTime=strftime(lastTime, \"%Y-%m-%d %H:%M:%S\") | rename dest as Computer | table _time, EndTime, Computer, ImageLoaded, Signature, MD5, SHA1, SHA256, IMPHASH, count",
+        "query": "search `sysmon` EventCode=6 (Signature=\"Noriyuki MIYAZAKI\" OR ImageLoaded=\"*\\\\WinRing0x64.sys\") | rex field=Hashes \"MD5=(?<MD5>[^,]+)\" | rex field=Hashes \"SHA1=(?<SHA1>[^,]+)\" | rex field=Hashes \"SHA256=(?<SHA256>[^,]+)\" | rex field=Hashes \"IMPHASH=(?<IMPHASH>[^,]+)\" | stats min(_time) as firstTime max(_time) as lastTime count by _time ImageLoaded dest MD5, SHA1, SHA256, IMPHASH process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`",
         "severity": "10"
     },
     "bruteforce": {
