@@ -1,177 +1,241 @@
-let attackChart;
-let currentFilter = 'all';
-let allLogsData = [];
-let sortDirection = { time: 'desc', severity: 'desc', type: 'asc', host: 'asc' };
+// --- GLOBAL VARIABLES FOR CHARTS & TRACKING ---
+let lineChart30s, barChartRules;
+// To calculate logs per 30s interval, we need to track the previous total
+let previousTotalLogs = null; 
+// Max data points to keep on the line chart so it doesn't squeeze too much
+const MAX_LINE_POINTS = 20; 
 
-document.addEventListener("DOMContentLoaded", () => {
-    initChart();       
-    fetchData();       
-    setInterval(fetchData, 5000);
+
+// --- 1. INITIALIZE FUNCTIONS ON PAGE LOAD ---
+document.addEventListener('DOMContentLoaded', () => {
+    initDateDisplay();
+    initCharts();
+    fetchData();
+    setInterval(fetchData, 30000); 
 });
 
-// 1. Initialize Chart.js
-function initChart() {
-    const ctx = document.getElementById('liveChart');
-    if (!ctx) return;
+// --- DATE DISPLAY FUNCTION ---
+function initDateDisplay() {
+    const dateElement = document.getElementById('current-date');
+    const now = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    dateElement.textContent = now.toLocaleDateString('en-US', options);
+}
 
-    attackChart = new Chart(ctx.getContext('2d'), {
+// --- CHART INITIALIZATION FUNCTION ---
+function initCharts() {
+    // --- A. Line Chart (Last 30s Logs) ---
+    const ctxLine = document.getElementById('lineChart30s').getContext('2d');
+    lineChart30s = new Chart(ctxLine, {
         type: 'line',
         data: {
             labels: [], 
             datasets: [{
-                label: 'Threat Intensity',
+                label: 'New Logs (Last 30s)',
                 data: [], 
-                borderColor: '#ff4d4d', 
-                backgroundColor: 'rgba(255, 77, 77, 0.2)',
-                borderWidth: 2,
+                borderColor: '#0d6efd', 
+                backgroundColor: 'rgba(13, 110, 253, 0.1)',
+                tension: 0.3,
                 fill: true,
-                tension: 0.4,
-                pointRadius: 3,
-                pointHoverRadius: 6
+                pointRadius: 3
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: {
-                x: { 
-                    ticks: { color: '#aaa', maxTicksLimit: 8 },
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' } 
-                },
-                y: { 
-                    ticks: { color: '#aaa', stepSize: 1 }, 
-                    beginAtZero: true,
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' }
-                }
-            },
-            plugins: {
+            plugins: { 
                 legend: { display: false }
             },
-            animation: { duration: 0 }
+            scales: {
+                x: { display: false },
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#2c3035' },
+                    ticks: { color: '#adb5bd', precision: 0 }
+                }
+            }
+        }
+    });
+
+    // --- B. Bar Chart (Rules Detections) ---
+    const ctxBar = document.getElementById('barChartRules').getContext('2d');
+    barChartRules = new Chart(ctxBar, {
+        type: 'bar',
+        data: {
+            labels: ['Phishing', 'DDoS', 'Cryptojacking', 'Brute Force'],
+            datasets: [{
+                label: 'Total Detections',
+                data: [0, 0, 0, 0],
+                backgroundColor: [
+                    'rgba(220, 53, 69, 0.7)',  // Danger Red (Phishing)
+                    'rgba(255, 193, 7, 0.7)',  // Warning Yellow (DDoS)
+                    'rgba(13, 202, 240, 0.7)', // Info Cyan (Crypto)
+                    'rgba(102, 16, 242, 0.7)'  // Primary Purple (Brute Force)
+                ],
+                borderColor: [
+                    '#dc3545', '#ffc107', '#0dcaf0', '#6610f2'
+                ],
+                borderWidth: 1,
+                borderRadius: 5
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { 
+                legend: { display: false } 
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: '#2c3035' },
+                    ticks: { color: '#adb5bd', precision: 0 }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#adb5bd' }
+                }
+            }
         }
     });
 }
 
-function updateChart(totalCount) {
-    if (!attackChart) return;
+async function fetchData() {
+    const badge = document.getElementById('last-update-badge');
+    if(badge) badge.textContent = 'Updating...';
+    if(badge) badge.classList.replace('bg-primary', 'bg-secondary');
 
-    const now = new Date().toLocaleTimeString();
-    
-    attackChart.data.labels.push(now);
-    attackChart.data.datasets[0].data.push(totalCount);
+    try {
+        const [statsRes, logsRes] = await Promise.all([
+            fetch('/api/stats'),
+            fetch('/api/logs')
+        ]);
 
-    if (attackChart.data.labels.length > 15) {
-        attackChart.data.labels.shift();
-        attackChart.data.datasets[0].data.shift();
+        const statsData = await statsRes.json();
+        const logsData = await logsRes.json();
+
+        if (statsData.error) console.error("Stats Error:", statsData.error);
+        if (logsData.error) console.error("Logs Error:", logsData.error);
+
+        updateTopCards(statsData);
+        updateLineChart(statsData.logs_last_30s);
+        updateBarChart(statsData);
+        updateLicenseProgressBar(statsData.license_mb_raw);
+        renderTable(logsData);
+
+        if(badge) badge.textContent = 'Live';
+        if(badge) badge.classList.replace('bg-secondary', 'bg-primary');
+
+    } catch (err) {
+        console.error("Fetch Error:", err);
+        if(badge) badge.textContent = 'Error';
+        if(badge) badge.classList.replace('bg-secondary', 'bg-danger');
     }
-    attackChart.update();
 }
 
-// 2. Data Fetcher
-function fetchData() {
-    fetch('/api/stats')
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) return;
-            
-            // Standard Counters
-            if(document.getElementById('count-total')) document.getElementById('count-total').innerText = data.total || 0;
-            if(document.getElementById('count-phishing')) document.getElementById('count-phishing').innerText = data.phishing || 0;
-            if(document.getElementById('count-ddos')) document.getElementById('count-ddos').innerText = data.ddos || 0;
-            if(document.getElementById('count-crypto')) document.getElementById('count-crypto').innerText = data.crypto || 0;
-            if(document.getElementById('count-bruteforce')) document.getElementById('count-bruteforce').innerText = data.bruteforce || 0;
-
-            if(document.getElementById('count-license')) {
-                document.getElementById('count-license').innerText = data.license_text || "0 / 500 MB";
-                document.getElementById('count-license').style.fontSize = "1.5rem";
-            }
-
-            updateChart(data.total);
-        })
-        .catch(err => console.error("Stats Error:", err));
-
-    // B. Get Logs Table
-    fetch('/api/logs')
-        .then(response => response.json())
-        .then(data => {
-            if (data.error) return;
-            
-            allLogsData = data; 
-            
-            renderTable(allLogsData);
-        })
-        .catch(err => console.error("Logs Error:", err));
+function updateTopCards(data) {
+    // Endpoints
+    document.getElementById('endpoints-online').textContent = data.endpoints_online || '-';
+    document.getElementById('endpoints-total').textContent = data.endpoints_total || '-';
+    // Total Alerts
+    document.getElementById('total-alerts').textContent = data.total || 0;
 }
 
-// 3. Render Table Function
-function renderTable(data) {
+function updateLineChart(LogCount) {
+    const count = LogCount !== undefined ? LogCount : 0;
+
+    const nowLabel = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second:'2-digit' });
+
+    lineChart30s.data.labels.push(nowLabel);
+    lineChart30s.data.datasets[0].data.push(count);
+
+    if (lineChart30s.data.labels.length > MAX_LINE_POINTS) {
+        lineChart30s.data.labels.shift();
+        lineChart30s.data.datasets[0].data.shift();
+    }
+    lineChart30s.update('none');
+}
+
+function updateBarChart(data) {
+    barChartRules.data.datasets[0].data = [
+        data.phishing || 0,
+        data.ddos || 0,
+        data.crypto || 0,
+        data.bruteforce || 0
+    ];
+    barChartRules.update();
+}
+
+function updateLicenseProgressBar(rawMB) {
+    const mb = rawMB || 0;
+    const limit = 500;
+    
+    let percent = Math.round((mb / limit) * 100);
+    if (percent > 100) percent = 100;
+
+    const progressBar = document.getElementById('license-progress-bar');
+    const usedText = document.getElementById('license-used-text');
+
+    usedText.textContent = `${mb} MB`;
+    
+    progressBar.style.height = `${percent}%`;
+    progressBar.textContent = `${percent}%`;
+
+    let newClass = 'bg-success';
+    if (mb > 500) {
+        newClass = 'bg-danger';
+    } else if (mb > 450) {
+        newClass = 'bg-orange'; 
+    } else if (mb > 400) {
+        newClass = 'bg-warning';
+    }
+
+    progressBar.classList.remove('bg-success', 'bg-warning', 'bg-orange', 'bg-danger');
+    progressBar.classList.add(newClass);
+}
+
+
+// --- TABLE RENDERING FUNCTIONS ---
+function getBadgeClass(type) {
+    if (type === 'Phishing') return 'danger';
+    if (type === 'DDoS') return 'warning';
+    if (type === 'Cryptojacking') return 'info';
+    if (type === 'Brute Force') return 'primary';
+    return 'secondary';
+}
+
+function getSeverityClass(severity) {
+    severity = severity.toLowerCase();
+    if (severity === 'critical') return 'danger';
+    if (severity === 'high') return 'warning';
+    if (severity === 'medium') return 'info';
+    if (severity === 'low') return 'success';
+    return 'secondary';
+}
+
+function renderTable(logs) {
     const tableBody = document.getElementById('log-table-body');
-    if (!tableBody) return;
+    if (logs.length === 0) {
+        tableBody.innerHTML = '<tr><td colspan="8" class="text-center text-muted py-3">No recent events found.</td></tr>';
+        return;
+    }
 
-    tableBody.innerHTML = ""; 
+    let tableRows = '';
+    logs.forEach(log => {
+        const typeColor = getBadgeClass(log.type);
+        const sevColor = getSeverityClass(log.severity);
 
-    data.forEach(log => {
-        // Filter Logic
-        if (currentFilter !== 'all' && log.type !== currentFilter) return;
-
-        // Badge Logic
-        let badgeClass = 'secondary';
-        if (log.type === 'Phishing') badgeClass = 'danger';
-        if (log.type === 'DoS / Flood') badgeClass = 'warning';
-        if (log.type === 'Cryptojacking') badgeClass = 'info';
-        if (log.type === 'Brute Force') badgeClass = 'dark'; 
-        if (log.type === 'License Warning') badgeClass = 'primary';
-
-        let sevColor = 'secondary';
-        if (log.severity === 'Critical') sevColor = 'danger'; 
-        if (log.severity === 'High') sevColor = 'warning';    
-        if (log.severity === 'Medium') sevColor = 'info';     
-        if (log.severity === 'Low') sevColor = 'success';     
-
-        const badgeStyle = (log.type === 'Brute Force') ? 'background-color: #6f42c1;' : '';
-        
-        const row = `
+        tableRows += `
             <tr class="log-row">
-                <td><small>${log.time}</small></td>
-                <td><span class="badge bg-${sevColor} text-dark">${log.severity || 'Unknown'}</span></td>
-                <td><span class="badge bg-${badgeClass} text-dark" style="${badgeStyle}">${log.type}</span></td>
-                <td>${log.host}</td>
-                <td><small>${log.source || '-'}</small></td>
-                <td><small>${log.extra}</small></td>
-                <td><small>${log.details}</small></td>
-                <td>${log.alert ? '✅' : '❌'}</td>
+                <td><small class="fw-bold">${log.time.split(' ')[1] || log.time}</small></td> <td><span class="badge bg-${sevColor} text-dark">${log.severity || 'Unknown'}</span></td>
+                <td><span class="badge bg-${typeColor} text-dark">${log.type}</span></td>
+                <td class="text-truncate" style="max-width: 120px;" title="${log.host}">${log.host}</td>
+                <td class="text-truncate" style="max-width: 150px;" title="${log.source}">${log.source || '-'}</td>
+                <td><small>${log.extra || '-'}</small></td>
+                <td class="text-truncate" style="max-width: 200px;" title="${log.details}"><small>${log.details}</small></td>
+                <td class="text-center">${log.alert ? '✅' : '❌'}</td>
             </tr>
         `;
-        tableBody.innerHTML += row;
     });
-}
-
-// 4. Sorting Function
-function sortTable(key) {
-    sortDirection[key] = sortDirection[key] === 'asc' ? 'desc' : 'asc';
-    const direction = sortDirection[key];
-
-    const severityMap = { 'Critical': 4, 'High': 3, 'Medium': 2, 'Low': 1, 'Unknown': 0 };
-
-    allLogsData.sort((a, b) => {
-        let valA = a[key];
-        let valB = b[key];
-
-        if (key === 'severity') {
-            valA = severityMap[valA] || 0;
-            valB = severityMap[valB] || 0;
-        }
-
-        if (valA < valB) return direction === 'asc' ? -1 : 1;
-        if (valA > valB) return direction === 'asc' ? 1 : -1;
-        return 0;
-    });
-
-    renderTable(allLogsData);
-}
-
-// 5. Filter Function
-function filterTable(type) {
-    currentFilter = type;
-    renderTable(allLogsData);
+    tableBody.innerHTML = tableRows;
 }
