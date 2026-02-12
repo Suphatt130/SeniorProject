@@ -4,25 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SPADE Security Monitor</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='Icon_SPADE.png') }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-darker">
+<body class="bg-darker" style="overflow-x: hidden;"> <header class="container-fluid py-3 mb-4 border-bottom border-secondary" style="background-color: #b3b2bb";>
+        <div class="row align-items-center">
+            
+            <div class="col-3">
+                <img src="{{ url_for('static', filename='Icon_SPADE.png') }}" 
+                     alt="SPADE Logo" 
+                     class="img-fluid" 
+                     style="max-height: 80px; width: auto;">
+            </div>
 
-    <header class="text-center py-4 mb-3">
-        <h4 id="current-date" class="text-muted fw-light mb-1">Loading date...</h4>
-        <h1 class="display-5 fw-bold text-primary">Monitor Overview</h1>
+            <div class="col-6 text-center">
+                <h4 id="current-date" class="fw-light mb-1" style="font-size: 0.9rem; color: black;">Loading date...</h4>
+                <h1 class="display-6 fw-bold mb-0" style="color: #D32F2F;">
+                    Monitor Overview
+                </h1>
+            </div>
+
+            <div class="col-3 text-end">
+                <img src="{{ url_for('static', filename='muict_logo.png') }}" 
+                     alt="MUICT Logo" 
+                     class="img-fluid" 
+                     style="max-height: 80px; width: auto;">
+            </div>
+        </div>
     </header>
 
     <div class="container-fluid px-4">
+        
         <div class="row g-4">
             <main class="col-lg-9">
                 
                 <div class="row g-4 mb-4">
                     <div class="col-md-4">
-                        <div class="card h-100 card-custom text-center">
+                         <div class="card h-100 card-custom text-center">
                             <div class="card-body d-flex flex-column justify-content-center">
                                 <h5 class="card-title text-muted mb-3">Endpoint Status</h5>
                                 <div class="d-flex justify-content-center align-items-baseline">
@@ -34,7 +56,6 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-4">
                         <div class="card h-100 card-custom text-center">
                             <div class="card-body d-flex flex-column justify-content-center">
@@ -44,11 +65,10 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-md-4">
                         <div class="card h-100 card-custom">
                             <div class="card-body p-3">
-                                <h5 class="card-title text-muted text-center mb-2">Incoming Logs</h5>
+                                <h5 class="card-title text-muted text-center mb-2">Incoming Logs (Last 30s)</h5>
                                 <div class="chart-container" style="position: relative; height: 140px;">
                                     <canvas id="lineChart30s"></canvas>
                                 </div>
@@ -94,8 +114,7 @@
                                                 <th onclick="sortTable('alert')">Alerted? <span class="sort-icon" id="icon-alert"></span></th>
                                             </tr>
                                         </thead>
-                                        <tbody id="log-table-body" class="table-group-divider">
-                                            </tbody>
+                                        <tbody id="log-table-body" class="table-group-divider"></tbody>
                                     </table>
                                 </div>
                             </div>
@@ -108,22 +127,17 @@
                 <div class="card card-custom mb-4 sticky-top" style="top: 20px; z-index: 1;">
                     <div class="card-body d-flex flex-column align-items-center">
                         <h5 class="card-title mb-3">Today License Usage</h5>
-                        
                         <div class="text-center mb-3">
                             <span id="license-used-text" class="fw-bold h2 mb-0">0 MB</span>
                             <div class="text-muted small">/ 500 MB</div>
                         </div>
-
                         <div style="height: 300px; width: 80px; background-color: #2c3035; border-radius: 15px; position: relative; overflow: hidden; border: 1px solid #373b3e;">
-                            
                             <div id="license-progress-bar" 
                                  class="d-flex justify-content-center align-items-center bg-success text-white fw-bold" 
                                  style="position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; transition: height 0.6s ease; font-size: 1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">
                                 0%
                             </div>
-                            
                         </div>
-                        
                         <div class="mt-4 small text-muted w-100 px-2">
                             <div class="d-flex align-items-center mb-2"><span class="badge bg-success me-2" style="width:12px;height:12px;"></span> Safe</div>
                             <div class="d-flex align-items-center mb-2"><span class="badge bg-warning me-2" style="width:12px;height:12px;"></span> Warning (>400)</div>
@@ -133,7 +147,32 @@
                     </div>
                 </div>
             </aside>
-        </div> </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+    </div>
+
+    <footer class="text-center py-5 mt-5">
+        <p class="text-muted small mb-2 text-uppercase fw-bold" style="letter-spacing: 1px;">Supported by</p>
+        <img src="{{ url_for('static', filename='Splunk-Logo.png') }}" alt="Splunk Logo" style="max-height: 50px; opacity: 0.8; filter: grayscale(20%);">
+    </footer>
+
+    <nav class="cred-navbar">
+        <ul class="cred-nav-list">
+            <li class="cred-nav-item">
+                <a href="/" class="cred-nav-link active">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Monitor</span>
+                </a>
+            </li>
+            <li class="cred-nav-item">
+                <a href="/about" class="cred-nav-link">
+                    <i class="ri-team-line"></i>
+                    <span>About Us</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

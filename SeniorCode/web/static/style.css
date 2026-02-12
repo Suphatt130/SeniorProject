@@ -4,17 +4,18 @@
 }
 
 body {
-    /* A slightly darker background than standard bootstrap dark */
     background-color: #121417 !important; 
     color: #e9ecef;
 }
 
-/* Custom class for the background */
 .bg-darker {
     background-color: #121417 !important;
 }
 
-/* Custom Card Styling to stand out against the dark bg */
+.bg-lighter {
+    background-color: #F0F8FF !important;
+}
+
 .card-custom {
     background-color: #1a1d21;
     border: 1px solid #2c3035;
@@ -97,4 +98,106 @@ th.sorted-asc .sort-icon::after {
 th.sorted-desc .sort-icon::after {
     content: "▼";
     opacity: 1;
+}
+
+.cred-navbar {
+    position: fixed;
+    bottom: 30px; /* Float above bottom */
+    left: 50%;
+    transform: translateX(-50%); /* Center horizontally */
+    
+    background: rgba(33, 37, 41, 0.95); /* Semi-transparent dark bg */
+    backdrop-filter: blur(10px); /* Blur effect behind the bar */
+    
+    border: 1px solid #373b3e;
+    border-radius: 50px; /* Full pill shape */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Deep shadow for 'floating' feel */
+    
+    padding: 10px 30px;
+    z-index: 1000; /* Ensure it sits on top of everything */
+    min-width: 250px;
+}
+
+.cred-nav-list {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 40px; /* Space between icons */
+}
+
+.cred-nav-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: #6c757d; /* Gray when inactive */
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.cred-nav-link i {
+    font-size: 1.5rem;
+    margin-bottom: 2px;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cred-nav-link span {
+    font-size: 0.75rem;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.cred-nav-link:hover {
+    color: #adb5bd;
+}
+.cred-nav-link:hover i {
+    transform: translateY(-3px);
+}
+
+.cred-nav-link.active {
+    color: #fff;
+}
+
+.cred-nav-link.active i {
+    color: #0d6efd; 
+    transform: translateY(-5px);
+    text-shadow: 0 0 15px rgba(13, 110, 253, 0.6); 
+}
+
+/* Optional: Add a small glowing dot below active item */
+.cred-nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    width: 5px;
+    height: 5px;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #0d6efd;
+}
+
+/* Ensure content doesn't get hidden behind the navbar on mobile */
+body {
+    padding-bottom: 100px;
+}
+
+.hover-effect {
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.hover-effect:hover {
+    transform: translateY(-10px); /* Moves up */
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+    border-color: #0d6efd; /* Blue border highlight */
+}
+
+.team-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover; /* Ensures photo doesn't stretch */
+    border: 3px solid #2c3035; /* Dark border ring */
+    padding: 3px; /* Space between image and border */
 }

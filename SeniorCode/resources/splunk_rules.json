@@ -3,7 +3,7 @@
         "query": "search index=main source=\"xmlwineventlog:microsoft-windows-sysmon/operational\" EventCode=1 (CommandLine=\"*http://*\" OR CommandLine=\"*https://*\") | eval Browser_Name=lower(mvindex(split(Image, \"\\\\\"), -1)), Parent_App=mvindex(split(ParentImage, \"\\\\\"), -1) | where Browser_Name IN (\"chrome.exe\", \"msedge.exe\", \"firefox.exe\", \"brave.exe\", \"iexplore.exe\", \"opera.exe\") | rex field=CommandLine \"(?<Clicked_Link>https?://[^\\s\\\"'>]+)\" | rex field=RuleName \"technique_id=(?<Technique_ID>T\\d+(?:\\.\\d+)?)\" | table _time, Computer, User, Parent_App, Browser_Name, Clicked_Link, Technique_ID",
         "severity": "8"
     },
-    "ddos": {
+    "dos": {
         "query": "search index=main sourcetype=\"windows:firewall\" | rex field=_raw \"^(?<date>\\S+)\\s+(?<time>\\S+)\\s+(?<action>\\S+)\\s+(?<protocol>\\S+)\\s+(?<src_ip>\\S+)\\s+(?<dest_ip>\\S+)\\s+\\S+\\s+(?<dest_port>\\S+)\\s+(?<size>\\d+)\\s+(?<tcp_flags>\\S+)\" | search tcp_flags=\"S\" | bucket _time span=10s | stats count by _time, src_ip, host, dest_ip, dest_port, tcp_flags | where count >= 10 | table _time, src_ip, dest_ip, host, dest_port, tcp_flags, count",
         "severity": "8"
     },

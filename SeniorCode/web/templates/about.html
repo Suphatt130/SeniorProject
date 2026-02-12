@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='Icon_SPADE.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body class="bg-darker">
+
+    <div class="container py-5 mb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold text-primary mb-4" style="color: #D32F2F";>About the Project</h1>
+                <p class="lead text-muted mb-5">
+                    This Security Monitor Dashboard provides real-time visibility into network threats, system performance, and Splunk license usage.
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-5">
+                <div class="card card-custom h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                            <i class="ri-shield-check-line fs-2 text-white"></i>
+                        </div>
+                        <h4 class="ms-3 mb-0">Cyber Security</h4>
+                    </div>
+                    <p class="text-muted">
+                        Designed to detect Phishing, DDoS, Cryptojacking, and Brute Force attacks in real-time using Splunk's powerful query engine.
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="card card-custom h-100 p-4">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-warning rounded-circle p-3 d-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                            <i class="ri-code-s-slash-line fs-2 text-dark"></i>
+                        </div>
+                        <h4 class="ms-3 mb-0">Development</h4>
+                    </div>
+                    <p class="text-muted">
+                        Built using Python Flask, SQLite, and Vanilla JS. Features a responsive dark-mode UI with live Chart visualizations.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-5 mb-4">
+            <div class="col-12 text-center">
+                <h2 class="fw-bold text-light mb-2">Meet the Team</h2>
+                <div class="mx-auto bg-primary" style="height: 3px; width: 60px;"></div> </div>
+        </div>
+
+        <div class="row g-4 justify-content-center pb-5">
+            
+            <div class="col-md-4 col-lg-3">
+                <div class="card card-custom h-100 p-4 text-center hover-effect">
+                    <div class="mb-4 position-relative">
+                        <img src="{{ url_for('static', filename='/Member/Pon.jpg') }}" 
+                             alt="Member 1" 
+                             class="rounded-circle team-img bg-secondary">
+                    </div>
+                    <h5 class="mb-1 fw-bold">Rattanapol Chongchirakitkul</h5>
+                    <p class="text-primary fw-bold small mb-2">ID: 6588040</p>
+                    <p class="text-muted small">Cheer Leader</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+                <div class="card card-custom h-100 p-4 text-center hover-effect">
+                    <div class="mb-4 position-relative">
+                        <img src="{{ url_for('static', filename='/Member/Bow.jpg') }}" 
+                             alt="Member 2" 
+                             class="rounded-circle team-img bg-secondary">
+                    </div>
+                    <h5 class="mb-1 fw-bold">Suphatchaya Aichum</h5>
+                    <p class="text-primary fw-bold small mb-2">ID: 6588130</p>
+                    <p class="text-muted small">LLM Prompt Master</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-lg-3">
+                <div class="card card-custom h-100 p-4 text-center hover-effect">
+                    <div class="mb-4 position-relative">
+                        <img src="{{ url_for('static', filename='/Member/Ice.jpg') }}" 
+                             alt="Member 3" 
+                             class="rounded-circle team-img bg-secondary">
+                    </div>
+                    <h5 class="mb-1 fw-bold">Thanakrit Jitmun</h5>
+                    <p class="text-primary fw-bold small mb-2">ID: 6588136</p>
+                    <p class="text-muted small">Weekend Developer</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="cred-navbar">
+        <ul class="cred-nav-list">
+            <li class="cred-nav-item">
+                <a href="/" class="cred-nav-link">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Monitor</span>
+                </a>
+            </li>
+            <li class="cred-nav-item">
+                <a href="/about" class="cred-nav-link active">
+                    <i class="ri-team-line"></i>
+                    <span>About Us</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</body>
+</html>

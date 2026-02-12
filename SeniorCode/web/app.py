@@ -4,6 +4,7 @@ import requests
 import os
 import sys
 import json
+from datetime import datetime
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -74,6 +75,10 @@ def get_splunk_realtime_stats():
 def index():
     return render_template('index.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
 @app.route('/api/stats')
 def api_stats():
     try:
@@ -81,18 +86,18 @@ def api_stats():
         if not conn: return jsonify({"error": "DB Connection Failed"})
         
         stats = {}
+        today_str = datetime.now().strftime('%Y-%m-%d')
+        date_filter = f"{today_str}%"
         
-        # 1. Get DB Counts
-        try: p = conn.execute("SELECT COUNT(*) FROM logs_phishing").fetchone()[0]
+        try: p = conn.execute("SELECT COUNT(*) FROM logs_phishing WHERE timestamp LIKE ?", (date_filter,)).fetchone()[0]
         except: p = 0
-        try: d = conn.execute("SELECT COUNT(*) FROM logs_ddos").fetchone()[0]
+        try: d = conn.execute("SELECT COUNT(*) FROM logs_ddos WHERE timestamp LIKE ?", (date_filter,)).fetchone()[0]
         except: d = 0
-        try: c = conn.execute("SELECT COUNT(*) FROM logs_crypto").fetchone()[0]
+        try: c = conn.execute("SELECT COUNT(*) FROM logs_crypto WHERE timestamp LIKE ?", (date_filter,)).fetchone()[0]
         except: c = 0
-        try: b = conn.execute("SELECT COUNT(*) FROM logs_bruteforce").fetchone()[0]
+        try: b = conn.execute("SELECT COUNT(*) FROM logs_bruteforce WHERE first_time LIKE ?", (date_filter,)).fetchone()[0]
         except: b = 0
         
-        # 2. Get License Data
         license_mb_raw = 0 
         try:
             if os.path.exists(config.LICENSE_STATUS_FILE):
@@ -104,11 +109,10 @@ def api_stats():
                 if row: license_mb_raw = float(row['usage_mb'])
         except: pass
 
-        # 3. Get Real-Time Stats from Splunk
         online_eps, total_eps, logs_30s = get_splunk_realtime_stats()
 
         stats['phishing'] = p
-        stats['ddos'] = d
+        stats['dos'] = d
         stats['crypto'] = c
         stats['bruteforce'] = b
         stats['total'] = p + d + c + b
@@ -133,9 +137,12 @@ def api_logs():
 
     all_logs = []
     
+    today_str = datetime.now().strftime('%Y-%m-%d')
+    date_filter = f"{today_str}%"
+
     # --- 1. PHISHING ---
     try:
-        rows = conn.execute("SELECT * FROM logs_phishing ORDER BY id DESC LIMIT 10").fetchall()
+        rows = conn.execute("SELECT * FROM logs_phishing WHERE timestamp LIKE ? ORDER BY id DESC", (date_filter,)).fetchall()
         for r in rows:
             all_logs.append({
                 "time": r['timestamp'],
@@ -151,7 +158,7 @@ def api_logs():
 
     # --- 2. DDOS ---
     try:
-        rows = conn.execute("SELECT * FROM logs_ddos ORDER BY id DESC LIMIT 10").fetchall()
+        rows = conn.execute("SELECT * FROM logs_ddos WHERE timestamp LIKE ? ORDER BY id DESC", (date_filter,)).fetchall()
         for r in rows:
             all_logs.append({
                 "time": r['timestamp'],
@@ -167,7 +174,7 @@ def api_logs():
 
     # --- 3. CRYPTOJACKING ---
     try:
-        rows = conn.execute("SELECT * FROM logs_crypto ORDER BY id DESC LIMIT 10").fetchall()
+        rows = conn.execute("SELECT * FROM logs_crypto WHERE timestamp LIKE ? ORDER BY id DESC", (date_filter,)).fetchall()
         for r in rows:
             det = f"File: {r['image_loaded']}"
             if r['md5']: det += f" | MD5: {r['md5']}"
@@ -186,7 +193,7 @@ def api_logs():
 
     # --- 4. BRUTE FORCE ---
     try:
-        rows = conn.execute("SELECT * FROM logs_bruteforce ORDER BY id DESC LIMIT 10").fetchall()
+        rows = conn.execute("SELECT * FROM logs_bruteforce WHERE first_time LIKE ? ORDER BY id DESC", (date_filter,)).fetchall()
         for r in rows:
             all_logs.append({
                 "time": r['first_time'], 
@@ -203,6 +210,7 @@ def api_logs():
     conn.close()
     
     all_logs.sort(key=lambda x: x['time'], reverse=True)
+    
     return jsonify(all_logs)
 
 if __name__ == '__main__':

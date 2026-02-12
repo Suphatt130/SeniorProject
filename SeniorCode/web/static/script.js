@@ -61,13 +61,13 @@ function initCharts() {
     barChartRules = new Chart(ctxBar, {
         type: 'bar',
         data: {
-            labels: ['Phishing', 'DDoS', 'Cryptojacking', 'Brute Force'],
+            labels: ['Phishing', 'DoS', 'Cryptojacking', 'Brute Force'],
             datasets: [{
                 label: 'Total Detections',
                 data: [0, 0, 0, 0],
                 backgroundColor: [
                     'rgba(220, 53, 69, 0.7)',  // Danger Red (Phishing)
-                    'rgba(255, 193, 7, 0.7)',  // Warning Yellow (DDoS)
+                    'rgba(255, 193, 7, 0.7)',  // Warning Yellow (DoS)
                     'rgba(13, 202, 240, 0.7)', // Info Cyan (Crypto)
                     'rgba(102, 16, 242, 0.7)'  // Primary Purple (Brute Force)
                 ],
@@ -159,7 +159,7 @@ function updateLineChart(LogCount) {
 function updateBarChart(data) {
     barChartRules.data.datasets[0].data = [
         data.phishing || 0,
-        data.ddos || 0,
+        data.dos || 0,
         data.crypto || 0,
         data.bruteforce || 0
     ];
@@ -198,7 +198,7 @@ function updateLicenseProgressBar(rawMB) {
 // --- TABLE RENDERING FUNCTIONS ---
 function getBadgeClass(type) {
     if (type === 'Phishing') return 'danger';
-    if (type === 'DDoS') return 'warning';
+    if (type === 'DoS') return 'warning';
     if (type === 'Cryptojacking') return 'info';
     if (type === 'Brute Force') return 'primary';
     return 'secondary';

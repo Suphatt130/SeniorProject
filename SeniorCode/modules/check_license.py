@@ -2,7 +2,6 @@ import requests
 import json
 import socket
 import datetime
-import os
 import config
 from alerting.alert_func import send_line_alert, send_email_alert
 from database.db_manager import save_log

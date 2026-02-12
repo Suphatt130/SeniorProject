@@ -14,12 +14,12 @@ def load_rules():
     except: return {}
 
 RULES = load_rules()
-QUERY_DDOS = RULES.get('ddos', {}).get('query', '')
-SEVERITY_SCORE = RULES.get('ddos', {}).get('severity', 7)
+QUERY_DOS = RULES.get('dos', {}).get('query', '')
+SEVERITY_SCORE = RULES.get('dos', {}).get('severity', 7)
 
-def run_ddos_check(last_alert_time):
+def run_dos_check(last_alert_time):
     payload = {
-        "search": QUERY_DDOS,
+        "search": QUERY_DOS,
         "exec_mode": "oneshot",
         "output_mode": "json",
         "earliest_time": "-30s",
@@ -40,7 +40,7 @@ def run_ddos_check(last_alert_time):
                     except: continue
 
             if events:
-                print(f"[DDoS] Detected {len(events)} high-volume SYN streams.")
+                print(f"[DoS] Detected {len(events)} high-volume SYN streams.")
                 current_time = time.time()
                 ready_to_alert = (current_time - last_alert_time) >= config.ALERT_COOLDOWN
                 
@@ -49,7 +49,7 @@ def run_ddos_check(last_alert_time):
                 for event in events:
 
                     save_log(
-                        attack_type="DDoS", 
+                        attack_type="DoS", 
                         event=event, 
                         alert_sent=ready_to_alert, 
                         severity=severity_label
@@ -58,13 +58,13 @@ def run_ddos_check(last_alert_time):
                 if ready_to_alert:
                     latest = events[0]
                     msg = (
-                        f"🚨 **DDoS / DoS Alert!**\n💻 Target: {latest.get('dest_ip')}\n🌍 Attacker: {latest.get('src_ip')}\n Port: {latest.get('dest_port')}\n🔥 Packets: {latest.get('count')}/10s")
-                    print("   >> Sending DDoS Alert")
+                        f"🚨 **DoS / DoS Alert!**\n💻 Target: {latest.get('dest_ip')}\n🌍 Attacker: {latest.get('src_ip')}\n Port: {latest.get('dest_port')}\n🔥 Packets: {latest.get('count')}/10s")
+                    print("   >> Sending DoS Alert")
                     send_line_alert(msg)
                     return current_time
                     
         return last_alert_time
 
     except Exception as e:
-        print(f"[DDoS] Error: {e}")
+        print(f"[DoS] Error: {e}")
         return last_alert_time
