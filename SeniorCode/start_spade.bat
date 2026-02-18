@@ -2,46 +2,46 @@
 title SPADE Security Monitor Launcher
 color 0A
 
+:: 1. FORCE CORRECT DIRECTORY (Fixes path issues)
+cd /d "%~dp0"
+
 echo ======================================================
 echo    SPADE SECURITY MONITOR - AUTOMATED LAUNCHER
 echo ======================================================
 
-:: 1. Check if Python is installed
+:: 2. Check if Python is available
 python --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo [X] Python is not installed or not in PATH.
-    echo     Please install Python 3.10+ and check "Add to PATH" during installation.
+    echo [X] Python is not found! 
+    echo     Please make sure Python is installed and added to PATH.
     pause
     exit
 )
 
-:: 2. Create Virtual Environment (if it doesn't exist)
+:: 3. Create/Check Virtual Environment
 if not exist "venv" (
-    echo [+] Creating Python Virtual Environment (First run only)...
+    echo [+] Creating new Python Virtual Environment...
     python -m venv venv
 )
 
-:: 3. Activate Virtual Environment
+:: 4. Activate & Install Dependencies
+echo [+] Activating environment...
 call venv\Scripts\activate
 
-:: 4. Install Dependencies
-if not exist "venv\installed.flag" (
-    echo [+] Installing required libraries...
-    pip install -r requirements.txt
-    echo done > venv\installed.flag
-)
+:: Force install requirements every time to be safe (it's fast if already installed)
+echo [+] Checking/Installing libraries...
+pip install -r requirements.txt
 
-:: 5. Launch the Programs
+:: 5. Launch Programs (With /k to keep window open on error)
 echo.
 echo [+] Starting Backend Monitor...
-start "SPADE Backend" cmd /k "venv\Scripts\python main.py"
+start "SPADE Backend" cmd /k "python main.py"
 
 echo [+] Starting Web Dashboard...
-start "SPADE Web Dashboard" cmd /k "venv\Scripts\python web/app.py"
+start "SPADE Web Dashboard" cmd /k "python web/app.py"
 
 echo.
-echo [V] All systems running!
-echo     Backend and Web Server opened in new windows.
-echo     You can close this window now.
+echo [V] All systems launched.
+echo     If a window closes, check the error message inside it.
 echo.
-timeout /t 5
+pause
