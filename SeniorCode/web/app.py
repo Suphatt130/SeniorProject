@@ -91,7 +91,7 @@ def api_stats():
         
         try: p = conn.execute("SELECT COUNT(*) FROM logs_phishing WHERE timestamp LIKE ?", (date_filter,)).fetchone()[0]
         except: p = 0
-        try: d = conn.execute("SELECT COUNT(*) FROM logs_ddos WHERE timestamp LIKE ?", (date_filter,)).fetchone()[0]
+        try: d = conn.execute("SELECT COUNT(*) FROM logs_dos WHERE timestamp LIKE ?", (date_filter,)).fetchone()[0]
         except: d = 0
         try: c = conn.execute("SELECT COUNT(*) FROM logs_crypto WHERE timestamp LIKE ?", (date_filter,)).fetchone()[0]
         except: c = 0
@@ -156,13 +156,13 @@ def api_logs():
             })
     except Exception: pass
 
-    # --- 2. DDOS ---
+    # --- 2. DOS ---
     try:
-        rows = conn.execute("SELECT * FROM logs_ddos WHERE timestamp LIKE ? ORDER BY id DESC", (date_filter,)).fetchall()
+        rows = conn.execute("SELECT * FROM logs_dos WHERE timestamp LIKE ? ORDER BY id DESC", (date_filter,)).fetchall()
         for r in rows:
             all_logs.append({
                 "time": r['timestamp'],
-                "type": "DDoS",
+                "type": "DoS",
                 "host": r['host'],
                 "source": r['src_ip'], 
                 "severity": r['severity'],

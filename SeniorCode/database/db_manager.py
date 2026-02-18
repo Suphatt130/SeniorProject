@@ -28,9 +28,9 @@ def init_db():
             )
         ''')
 
-        # 2. DDOS
+        # 2. DOS
         cursor.execute('''
-            CREATE TABLE IF NOT EXISTS logs_ddos (
+            CREATE TABLE IF NOT EXISTS logs_dos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 timestamp TEXT,
                 src_ip TEXT,
@@ -131,9 +131,9 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
                 alert_sent
             ))
 
-        elif attack_type == "DDoS":
+        elif attack_type == "DoS":
             cursor.execute('''
-                INSERT INTO logs_ddos (
+                INSERT INTO logs_dos (
                     timestamp, src_ip, dest_ip, host, 
                     dest_port, tcp_flags, count, technique_id,
                     severity, alert_sent
