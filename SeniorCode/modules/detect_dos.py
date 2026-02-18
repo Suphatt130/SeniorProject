@@ -58,7 +58,7 @@ def run_dos_check(last_alert_time):
                 if ready_to_alert:
                     latest = events[0]
                     msg = (
-                        f"🚨 **DoS / DoS Alert!**\n💻 Target: {latest.get('dest_ip')}\n🌍 Attacker: {latest.get('src_ip')}\n Port: {latest.get('dest_port')}\n🔥 Packets: {latest.get('count')}/10s")
+                        f"🚨 **DoS Alert!**\n💻 Target: {latest.get('dest_ip')}\n🌍 Attacker: {latest.get('src_ip')}\n Port: {latest.get('dest_port')}\n🔥 Packets: {latest.get('count')}/10s")
                     print("   >> Sending DoS Alert")
                     send_line_alert(msg)
                     return current_time
