@@ -2,59 +2,60 @@
 title SPADE Security Monitor Launcher
 color 0A
 
-:: 1. FORCE CORRECT DIRECTORY (Robust Method)
-pushd "%~dp0"
+:: 1. SET CURRENT DIRECTORY (Saved as variable)
+cd /d "%~dp0"
+set "PROJECT_DIR=%~dp0"
 
 echo ======================================================
 echo    SPADE SECURITY MONITOR - AUTOMATED LAUNCHER
 echo ======================================================
 
-:: 2. DETECT THE CORRECT PYTHON
-:: We prefer 'py' because your 'python' command points to a broken MinGW version.
+:: 2. DETECT PYTHON (Find the full path to the executable)
 set PYTHON_CMD=python
 
-:: Check if 'py' launcher is available (Standard with Python 3.10+)
+:: Check for 'py' launcher first
 py --version >nul 2>&1
-if %errorlevel% equ 0 (
-    echo [V] Found Python Launcher 'py'. Using it to bypass broken system Python...
-    set PYTHON_CMD=py
-) else (
-    echo [!] 'py' launcher not found. Trying standard 'python'...
-)
+if %errorlevel% equ 0 set PYTHON_CMD=py
 
-:: 3. Verify Python works
-%PYTHON_CMD% --version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [X] Python is not found! 
-    echo     Please install Python 3.10+ from python.org and check "Add to PATH".
+:: Get the ABSOLUTE PATH to the python executable
+for /f "tokens=*" %%i in ('where %PYTHON_CMD%') do set "FULL_PYTHON_PATH=%%i"
+
+:: Verify we found it
+if "%FULL_PYTHON_PATH%"=="" (
+    echo [X] Could not find Python path!
+    echo     Please reinstall Python and check "Add to PATH".
     pause
     exit
 )
+echo [V] Found Python at: "%FULL_PYTHON_PATH%"
 
-:: 4. Install Dependencies
-echo [+] Installing/Checking libraries using %PYTHON_CMD%...
-%PYTHON_CMD% -m pip install --user -r requirements.txt
+:: 3. INSTALL DEPENDENCIES (Using the full path)
+echo.
+echo [+] Installing libraries...
+"%FULL_PYTHON_PATH%" -m pip install --user -r requirements.txt
 
-:: Check if install failed
 if %errorlevel% neq 0 (
     echo.
-    echo [X] INSTALLATION FAILED!
-    echo     Your computer is pointing to a broken Python installation (likely MinGW).
-    echo     Please install the official Python from python.org.
+    echo [X] INSTALL FAILED.
+    echo     Please try running this file as Administrator.
     pause
     exit
 )
 
-:: 5. Launch Programs
+:: 4. LAUNCH PROGRAMS (The Robust Way)
+:: We use /D to force the starting directory.
+:: We use the full path to python to avoid "command not found".
+
 echo.
 echo [+] Starting Backend Monitor...
-start "SPADE Backend" cmd /k "%PYTHON_CMD% main.py"
+:: Syntax: start "Title" /D "WorkingFolder" cmd /k "Command"
+start "SPADE Backend" /D "%PROJECT_DIR%" cmd /k ""%FULL_PYTHON_PATH%" main.py"
 
 echo [+] Starting Web Dashboard...
-start "SPADE Web Dashboard" cmd /k "%PYTHON_CMD% web/app.py"
+start "SPADE Web Dashboard" /D "%PROJECT_DIR%" cmd /k ""%FULL_PYTHON_PATH%" web/app.py"
 
 echo.
 echo [V] All systems launched.
-echo     If a window closes, check the error message inside it.
+echo     Windows should now stay open.
 echo.
-timeout /t 20
+pause
