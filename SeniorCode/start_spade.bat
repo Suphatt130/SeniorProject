@@ -2,7 +2,7 @@
 title SPADE Security Monitor Launcher
 color 0A
 
-:: 1. FORCE CORRECT DIRECTORY (Fixes path issues)
+:: 1. FORCE CORRECT DIRECTORY
 cd /d "%~dp0"
 
 echo ======================================================
@@ -18,30 +18,29 @@ if %errorlevel% neq 0 (
     exit
 )
 
-:: 3. Create/Check Virtual Environment
+:: 3. Create Virtual Environment (if missing)
 if not exist "venv" (
     echo [+] Creating new Python Virtual Environment...
     python -m venv venv
 )
 
-:: 4. Activate & Install Dependencies
-echo [+] Activating environment...
+:: 4. Install Dependencies
+echo [+] Activating environment and checking libraries...
 call venv\Scripts\activate
-
-:: Force install requirements every time to be safe (it's fast if already installed)
-echo [+] Checking/Installing libraries...
 pip install -r requirements.txt
 
-:: 5. Launch Programs (With /k to keep window open on error)
+:: 5. Launch Programs (THE FIX IS HERE)
+:: We point directly to "venv\Scripts\python.exe" so it works 100% of the time.
+
 echo.
 echo [+] Starting Backend Monitor...
-start "SPADE Backend" cmd /k "python main.py"
+start "SPADE Backend" cmd /k "venv\Scripts\python.exe main.py"
 
 echo [+] Starting Web Dashboard...
-start "SPADE Web Dashboard" cmd /k "python web/app.py"
+start "SPADE Web Dashboard" cmd /k "venv\Scripts\python.exe web/app.py"
 
 echo.
 echo [V] All systems launched.
 echo     If a window closes, check the error message inside it.
 echo.
-pause
+timeout /t 5
