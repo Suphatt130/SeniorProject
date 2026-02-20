@@ -85,7 +85,7 @@ def get_splunk_realtime_stats():
                                 warnings_list.append(warn_val)
             except: pass
 
-        return online, total_hosts, volume_30s
+        return online, total_hosts, volume_30s, warnings_list
 
     except Exception as e:
         print(f"[Splunk API Error] {e}")
@@ -144,7 +144,7 @@ def api_stats():
         stats['endpoints_total'] = total_eps
         stats['logs_last_30s'] = logs_30s
         stats['license_warnings'] = license_warnings
-        
+
         conn.close()
         return jsonify(stats)
     except Exception as e:
