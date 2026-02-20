@@ -201,3 +201,25 @@ body {
     border: 3px solid #2c3035; /* Dark border ring */
     padding: 3px; /* Space between image and border */
 }
+
+/* --- CUSTOM SEVERITY HEAT MAP BADGES --- */
+.badge-critical { 
+    background-color: #e93e3a; 
+    color: white; 
+}
+.badge-high { 
+    background-color: #ed683c; 
+    color: white; 
+}
+.badge-medium { 
+    background-color: #f3903f; 
+    color: white; 
+}
+.badge-low { 
+    background-color: #fdc70c; 
+    color: #212529;
+}
+.badge-unknown { 
+    background-color: #fff33b; 
+    color: #212529;
+}

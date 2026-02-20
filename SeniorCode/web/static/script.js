@@ -120,6 +120,7 @@ async function fetchData() {
         updateLineChart(statsData.logs_last_30s);
         updateBarChart(statsData);
         updateLicenseProgressBar(statsData.license_mb_raw);
+        updateLicenseWarnings(statsData.license_warnings);
         currentLogs = logsData;
         applySort();
 
@@ -182,11 +183,11 @@ function updateLicenseProgressBar(rawMB) {
     progressBar.textContent = `${percent}%`;
 
     let newClass = 'bg-success';
-    if (mb > 500) {
+    if (mb > 400) {
         newClass = 'bg-danger';
-    } else if (mb > 450) {
+    } else if (mb > 350) {
         newClass = 'bg-orange'; 
-    } else if (mb > 400) {
+    } else if (mb > 300) {
         newClass = 'bg-warning';
     }
 
@@ -205,12 +206,12 @@ function getBadgeClass(type) {
 }
 
 function getSeverityClass(severity) {
-    severity = severity.toLowerCase();
-    if (severity === 'critical') return 'danger';
-    if (severity === 'high') return 'warning';
-    if (severity === 'medium') return 'info';
-    if (severity === 'low') return 'success';
-    return 'secondary';
+    severity = severity ? severity.toLowerCase() : 'unknown';
+    if (severity === 'critical') return 'badge-critical';
+    if (severity === 'high') return 'badge-high';
+    if (severity === 'medium') return 'badge-medium';
+    if (severity === 'low') return 'badge-low';
+    return 'badge-unknown';
 }
 
 function renderTable(logs) {
@@ -227,7 +228,7 @@ function renderTable(logs) {
 
         tableRows += `
             <tr class="log-row">
-                <td><small class="fw-bold">${log.time.split(' ')[1] || log.time}</small></td> <td><span class="badge bg-${sevColor} text-dark">${log.severity || 'Unknown'}</span></td>
+                <td><small class="fw-bold">${log.time.split(' ')[1] || log.time}</small></td> <td><span class="badge ${sevColor}">${log.severity || 'Unknown'}</span></td>
                 <td><span class="badge bg-${typeColor} text-dark">${log.type}</span></td>
                 <td class="text-truncate" style="max-width: 120px;" title="${log.host}">${log.host}</td>
                 <td class="text-truncate" style="max-width: 150px;" title="${log.source}">${log.source || '-'}</td>
@@ -298,5 +299,41 @@ function updateSortIcons() {
 
     if (activeHeader) {
         activeHeader.classList.add(sortState.asc ? 'sorted-asc' : 'sorted-desc');
+    }
+}
+
+function updateLicenseWarnings(warnings) {
+    const container = document.getElementById('license-warning-container');
+    const MAX_WARNINGS = 5; 
+    
+    if (!warnings || warnings.length === 0) {
+        container.innerHTML = `
+            <div class="alert py-2 px-3 small mb-0 border-0" style="background-color: rgba(25, 135, 84, 0.15); color: #75b798; border-radius: 8px;">
+                <div class="fw-bold mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                    <i class="ri-checkbox-circle-fill me-1"></i> QUOTA WARNING 0/${MAX_WARNINGS}
+                </div>
+                <div style="opacity: 0.9; line-height: 1.4;">
+                    System Healthy. No overage reported.
+                </div>
+            </div>
+        `;
+    } else {
+        let html = '';
+        
+        warnings.forEach((warnText, index) => {
+            const countStr = `${index + 1}/${MAX_WARNINGS}`;
+            
+            html += `
+                <div class="alert py-2 px-3 small mb-2 border-0" style="background-color: rgba(253, 199, 12, 0.15); color: #fdc70c; border-radius: 8px;">
+                    <div class="fw-bold mb-1" style="font-size: 0.75rem; letter-spacing: 0.5px;">
+                        <i class="ri-error-warning-fill me-1"></i> QUOTA WARNING ${countStr}
+                    </div>
+                    <div style="opacity: 0.9; line-height: 1.4;">
+                        ${warnText}
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
     }
 }

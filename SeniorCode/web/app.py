@@ -29,8 +29,8 @@ def get_db_connection():
 def get_splunk_realtime_stats():
     try:
         query_endpoints = "| metadata type=hosts index=* | eval age=now()-lastTime | stats count(eval(age < 300)) as online, count as total"
-        
         query_volume = "| tstats count where index=* earliest=-30s"
+        query_warnings = "| rest /services/licenser/messages | stats values(description) as warnings"
 
         headers = {'Authorization': f'Bearer {config.SPLUNK_AUTH}'} if config.SPLUNK_AUTH else {}
         
@@ -46,9 +46,16 @@ def get_splunk_realtime_stats():
             headers=headers, verify=False, timeout=5
         )
 
+        resp_warn = requests.post(
+            f"{config.SPLUNK_BASE_URL}/services/search/jobs/export",
+            data={"search": query_warnings, "output_mode": "json", "exec_mode": "oneshot"},
+            headers=headers, verify=False, timeout=5
+        )
+
         online = 0
         total_hosts = 0
         volume_30s = 0
+        warnings_list = []
 
         if resp_ep.status_code == 200 and resp_ep.text:
             try:
@@ -63,6 +70,19 @@ def get_splunk_realtime_stats():
                 data = json.loads(resp_vol.text)
                 result = data.get("result", {})
                 volume_30s = int(result.get("count", 0))
+            except: pass
+
+        if resp_warn.status_code == 200 and resp_warn.text:
+            try:
+                for line in resp_warn.text.strip().split('\n'):
+                    if line:
+                        data = json.loads(line)
+                        warn_val = data.get("result", {}).get("warnings")
+                        if warn_val:
+                            if isinstance(warn_val, list):
+                                warnings_list.extend(warn_val)
+                            else:
+                                warnings_list.append(warn_val)
             except: pass
 
         return online, total_hosts, volume_30s
@@ -109,7 +129,7 @@ def api_stats():
                 if row: license_mb_raw = float(row['usage_mb'])
         except: pass
 
-        online_eps, total_eps, logs_30s = get_splunk_realtime_stats()
+        online_eps, total_eps, logs_30s, license_warnings = get_splunk_realtime_stats()
 
         stats['phishing'] = p
         stats['dos'] = d
@@ -120,10 +140,10 @@ def api_stats():
         stats['license_mb_raw'] = int(license_mb_raw)
         stats['license_text'] = f"{int(license_mb_raw)} / 500 MB"
 
-        # REAL DATA MAPPED HERE
         stats['endpoints_online'] = online_eps
         stats['endpoints_total'] = total_eps
         stats['logs_last_30s'] = logs_30s
+        stats['license_warnings'] = license_warnings
         
         conn.close()
         return jsonify(stats)
