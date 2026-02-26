@@ -165,8 +165,23 @@ async function fetchData() {
 
         const statsData = await statsRes.json();
         const logsData = await logsRes.json();
-        updateLicenseProgressBar(statsData.license_mb_raw);
+        
+        // 1. Update the Bar Chart
         updateBarChart(statsData);
+        
+        // 2. Update Top Cards (Endpoints/Total Alerts)
+        updateTopCards(statsData);
+
+        // 3. Update the Line Chart (REQUIRED for the graph to show)
+        updateLineChart(statsData.logs_last_30s); 
+
+        // 4. Update the Bandwidth Bar
+        updateLicenseProgressBar(statsData.license_mb_raw);
+
+        // 5. Update System/Quota Alerts
+        updateLicenseWarnings(statsData.license_warnings);
+
+        // 6. Refresh the Table
         currentLogs = logsData;
         applySort();
 
@@ -174,10 +189,9 @@ async function fetchData() {
             badge.textContent = (start && end) ? 'Filtered View' : 'Live';
             badge.classList.replace('bg-secondary', 'bg-primary');
         }
-        updateTopCards(statsData);
-
     } catch (err) {
         console.error("Fetch Error:", err);
+        if(badge) badge.textContent = 'Error';
     }
 }
 
