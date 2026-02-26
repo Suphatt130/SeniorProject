@@ -85,13 +85,16 @@ function initCharts() {
                 label: 'Total Detections',
                 data: [0, 0, 0, 0],
                 backgroundColor: [
-                    'rgba(220, 53, 69, 0.7)',  // Danger Red (Phishing)
-                    'rgba(255, 193, 7, 0.7)',  // Warning Yellow (DoS)
-                    'rgba(13, 202, 240, 0.7)', // Info Cyan (Crypto)
-                    'rgba(102, 16, 242, 0.7)'  // Primary Purple (Brute Force)
+                    'rgba(144, 238, 144, 0.7)',  // Phishing: Green
+                    'rgba(0, 123, 255, 0.7)', // DoS: Blue
+                    'rgba(13, 202, 240, 0.7)', // Cryptojacking: Info Cyan
+                    'rgba(102, 16, 242, 0.7)'  // Brute Force: Purple
                 ],
                 borderColor: [
-                    '#dc3545', '#ffc107', '#0dcaf0', '#6610f2'
+                    '#90EE90', // Green
+                    '#007bff', // Blue
+                    '#0dcaf0', 
+                    '#6610f2'
                 ],
                 borderWidth: 1,
                 borderRadius: 5
@@ -162,7 +165,7 @@ async function fetchData() {
 
         const statsData = await statsRes.json();
         const logsData = await logsRes.json();
-        
+        updateLicenseProgressBar(statsData.license_mb_raw);
         updateBarChart(statsData);
         currentLogs = logsData;
         applySort();
@@ -175,7 +178,6 @@ async function fetchData() {
 
     } catch (err) {
         console.error("Fetch Error:", err);
-        if(badge) badge.textContent = 'Error';
     }
 }
 
@@ -243,10 +245,10 @@ function updateLicenseProgressBar(rawMB) {
 
 // --- TABLE RENDERING FUNCTIONS ---
 function getBadgeClass(type) {
-    if (type === 'Phishing') return 'danger';
-    if (type === 'DoS') return 'warning';
+    if (type === 'Phishing') return 'light-green';
+    if (type === 'DoS') return 'primary';
     if (type === 'Cryptojacking') return 'info';
-    if (type === 'Brute Force') return 'primary';
+    if (type === 'Brute Force') return 'purple-custom';
     return 'secondary';
 }
 

@@ -123,7 +123,7 @@ def api_stats():
     c = conn.execute(f"SELECT COUNT(*) FROM logs_crypto WHERE{cond}", params).fetchone()[0]
     b = conn.execute(f"SELECT COUNT(*) FROM logs_bruteforce WHERE{cond_bf}", params_bf).fetchone()[0]
 
-    license_mb_raw = 0 
+    license_mb_raw = 0
     try:
         if os.path.exists(config.LICENSE_STATUS_FILE):
             with open(config.LICENSE_STATUS_FILE, "r") as f:

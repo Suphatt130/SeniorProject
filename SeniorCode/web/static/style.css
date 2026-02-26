@@ -80,6 +80,12 @@ body {
     color: #000;
 }
 
+.bg-light-green {
+    background-color: #90EE90 !important;
+    color: #000 !important; 
+    font-weight: 600;
+}
+
 th[onclick] {
     cursor: pointer;
     user-select: none;
