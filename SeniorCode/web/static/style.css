@@ -86,6 +86,12 @@ body {
     font-weight: 600;
 }
 
+/* ADD THIS NEW CLASS */
+.bg-purple-custom {
+    background-color: #6610f2 !important;
+    color: #fff !important;
+}
+
 th[onclick] {
     cursor: pointer;
     user-select: none;

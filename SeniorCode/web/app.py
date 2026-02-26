@@ -113,99 +113,126 @@ def get_time_query(column_name="timestamp"):
 
 @app.route('/api/stats')
 def api_stats():
-    stats = {}
-    conn = get_db_connection()
-    cond, params = get_time_query("timestamp")
-    cond_bf, params_bf = get_time_query("first_time")
-
-    p = conn.execute(f"SELECT COUNT(*) FROM logs_phishing WHERE{cond}", params).fetchone()[0]
-    d = conn.execute(f"SELECT COUNT(*) FROM logs_dos WHERE{cond}", params).fetchone()[0]
-    c = conn.execute(f"SELECT COUNT(*) FROM logs_crypto WHERE{cond}", params).fetchone()[0]
-    b = conn.execute(f"SELECT COUNT(*) FROM logs_bruteforce WHERE{cond_bf}", params_bf).fetchone()[0]
-
-    license_mb_raw = 0
     try:
-        if os.path.exists(config.LICENSE_STATUS_FILE):
-            with open(config.LICENSE_STATUS_FILE, "r") as f:
-                data = json.load(f)
-                license_mb_raw = float(data.get("mb", 0))
+        conn = get_db_connection()
+        if not conn: return jsonify({"error": "DB Connection Failed"})
+        
+        start_dt = request.args.get('start')
+        end_dt = request.args.get('end')
+        
+        if start_dt and end_dt:
+            start_str = start_dt.replace('T', ' ') + ':00'
+            end_str = end_dt.replace('T', ' ') + ':59'
         else:
-            row = conn.execute("SELECT usage_mb FROM logs_license ORDER BY id DESC LIMIT 1").fetchone()
-            if row: license_mb_raw = float(row['usage_mb'])
-    except: pass
+            today_str = datetime.now().strftime('%Y-%m-%d')
+            start_str = f"{today_str} 00:00:00"
+            end_str = f"{today_str} 23:59:59"
+            
+        stats = {}
+        
+        try: p = conn.execute("SELECT COUNT(*) FROM logs_phishing WHERE timestamp >= ? AND timestamp <= ?", (start_str, end_str)).fetchone()[0]
+        except: p = 0
+        try: d = conn.execute("SELECT COUNT(*) FROM logs_dos WHERE timestamp >= ? AND timestamp <= ?", (start_str, end_str)).fetchone()[0]
+        except: d = 0
+        try: c = conn.execute("SELECT COUNT(*) FROM logs_crypto WHERE timestamp >= ? AND timestamp <= ?", (start_str, end_str)).fetchone()[0]
+        except: c = 0
+        try: b = conn.execute("SELECT COUNT(*) FROM logs_bruteforce WHERE first_time >= ? AND first_time <= ?", (start_str, end_str)).fetchone()[0]
+        except: b = 0
+        
+        license_mb_raw = 0 
+        try:
+            if os.path.exists(config.LICENSE_STATUS_FILE):
+                with open(config.LICENSE_STATUS_FILE, "r") as f:
+                    data = json.load(f)
+                    license_mb_raw = float(data.get("mb", 0))
+            else:
+                row = conn.execute("SELECT usage_mb FROM logs_license ORDER BY id DESC LIMIT 1").fetchone()
+                if row: license_mb_raw = float(row['usage_mb'])
+        except: pass
 
-    online_eps, total_eps, logs_30s, license_warnings = get_splunk_realtime_stats()
+        online_eps, total_eps, logs_30s, license_warnings = get_splunk_realtime_stats()
 
-    stats['phishing'] = p
-    stats['dos'] = d
-    stats['crypto'] = c
-    stats['bruteforce'] = b
-    stats['total'] = p + d + c + b
-    
-    stats['license_mb_raw'] = int(license_mb_raw)
-    stats['license_text'] = f"{int(license_mb_raw)} / 500 MB"
+        stats['phishing'] = p
+        stats['dos'] = d
+        stats['crypto'] = c
+        stats['bruteforce'] = b
+        stats['total'] = p + d + c + b
+        
+        stats['license_mb_raw'] = int(license_mb_raw)
+        stats['license_text'] = f"{int(license_mb_raw)} / 500 MB"
 
-    stats['endpoints_online'] = online_eps
-    stats['endpoints_total'] = total_eps
-    stats['logs_last_30s'] = logs_30s
-    stats['license_warnings'] = license_warnings
+        stats['endpoints_online'] = online_eps
+        stats['endpoints_total'] = total_eps
+        stats['logs_last_30s'] = logs_30s
+        stats['license_warnings'] = license_warnings
 
-    conn.close()
-    return jsonify(stats)
+        conn.close()
+        return jsonify(stats)
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 @app.route('/api/logs')
 def api_logs():
     conn = get_db_connection()
     if not conn: return jsonify([])
 
-    cond, params = get_time_query("timestamp")
-    cond_bf, params_bf = get_time_query("first_time")
-
     all_logs = []
     
+    start_dt = request.args.get('start')
+    end_dt = request.args.get('end')
+    
+    if start_dt and end_dt:
+        start_str = start_dt.replace('T', ' ') + ':00'
+        end_str = end_dt.replace('T', ' ') + ':59'
+    else:
+        today_str = datetime.now().strftime('%Y-%m-%d')
+        start_str = f"{today_str} 00:00:00"
+        end_str = f"{today_str} 23:59:59"
+
+    # --- 1. PHISHING ---
     try:
-        # PHISHING
-        rows = conn.execute(f"SELECT * FROM logs_phishing WHERE{cond} ORDER BY id DESC", params).fetchall()
+        rows = conn.execute("SELECT * FROM logs_phishing WHERE timestamp >= ? AND timestamp <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
         for r in rows:
             all_logs.append({
-                "time": r['timestamp'], "type": "Phishing", "host": r['computer'],
-                "source": r['parent_app'], "severity": r['severity'],
-                "extra": r['technique_id'], "details": f"Link: {r['clicked_link']}",
-                "alert": r['alert_sent']
+                "time": r['timestamp'], "type": "Phishing", "host": r['computer'], "source": r['parent_app'], 
+                "severity": r['severity'], "extra": r['technique_id'], 
+                "details": f"Link: {r['clicked_link']} | Browser: {r['browser_name']}", "alert": r['alert_sent']
             })
+    except Exception: pass
 
-        # DOS
-        rows = conn.execute(f"SELECT * FROM logs_dos WHERE{cond} ORDER BY id DESC", params).fetchall()
+    # --- 2. DOS ---
+    try:
+        rows = conn.execute("SELECT * FROM logs_dos WHERE timestamp >= ? AND timestamp <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
         for r in rows:
             all_logs.append({
-                "time": r['timestamp'], "type": "DoS", "host": r['host'],
-                "source": r['src_ip'], "severity": r['severity'],
-                "extra": r['technique_id'], "details": f"Target: {r['dest_ip']}",
-                "alert": r['alert_sent']
+                "time": r['timestamp'], "type": "DoS", "host": r['host'], "source": r['src_ip'], 
+                "severity": r['severity'], "extra": r['technique_id'], 
+                "details": f"Target: {r['dest_ip']}:{r['dest_port']} | Flags: {r['tcp_flags']} | Pkts: {r['count']}", "alert": r['alert_sent']
             })
+    except Exception: pass
 
-        # BRUTE FORCE
-        rows = conn.execute(f"SELECT * FROM logs_bruteforce WHERE{cond_bf} ORDER BY id DESC", params_bf).fetchall()
+    # --- 3. CRYPTOJACKING ---
+    try:
+        rows = conn.execute("SELECT * FROM logs_crypto WHERE timestamp >= ? AND timestamp <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
         for r in rows:
+            det = f"File: {r['image_loaded']}"
+            if r['md5']: det += f" | MD5: {r['md5']}"
             all_logs.append({
-                "time": r['first_time'], "type": "Brute Force", "host": r['dest'],
-                "source": r['src_ip'], "severity": r['severity'],
-                "extra": r['technique_id'], "details": f"User: {r['user']}",
-                "alert": r['alert_sent']
+                "time": r['timestamp'], "type": "Cryptojacking", "host": r['dest'], "source": r['process_path'] or "Unknown",
+                "severity": r['severity'], "extra": r['technique_id'], "details": det, "alert": r['alert_sent']
             })
-            
-        # CRYPTOJACKING
-        rows = conn.execute(f"SELECT * FROM logs_crypto WHERE{cond} ORDER BY id DESC", params).fetchall()
-        for r in rows:
-            all_logs.append({
-                "time": r['timestamp'], "type": "Cryptojacking", "host": r['dest'],
-                "source": r['process_path'], "severity": r['severity'],
-                "extra": r['technique_id'], "details": f"File: {r['image_loaded']}",
-                "alert": r['alert_sent']
-            })
+    except Exception: pass
 
-    except Exception as e:
-        print(f"API Logs Error: {e}")
+    # --- 4. BRUTE FORCE ---
+    try:
+        rows = conn.execute("SELECT * FROM logs_bruteforce WHERE first_time >= ? AND first_time <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
+        for r in rows:
+            all_logs.append({
+                "time": r['first_time'], "type": "Brute Force", "host": r['dest'], "source": r['src_ip'],
+                "severity": r['severity'], "extra": r['technique_id'],
+                "details": f"Target User: {r['user']} | Failures: {r['count']}", "alert": r['alert_sent']
+            })
+    except Exception: pass
 
     conn.close()
     all_logs.sort(key=lambda x: x['time'], reverse=True)

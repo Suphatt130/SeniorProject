@@ -3,25 +3,15 @@ let previousTotalLogs = null;
 const MAX_LINE_POINTS = 20; 
 
 let currentLogs = []; 
-let sortState = { column: 'time', asc: false }
+let sortState = { column: 'time', asc: false };
 
-function setMaxDate() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    
-    const currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
-    
-    document.getElementById('start-time').setAttribute('max', currentDateTime);
-    document.getElementById('end-time').setAttribute('max', currentDateTime);
-}
+// Move these to the top so they are available globally
+let isLiveView = true;
+let autoRefreshInterval;
 
 // --- 1. INITIALIZE FUNCTIONS ON PAGE LOAD ---
 document.addEventListener('DOMContentLoaded', () => {
-    setMaxDate();
+    // We removed the broken setMaxDate() here because initDateFilters() at the bottom handles it safely now!
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-bs-theme', savedTheme);
     updateThemeIcon(savedTheme);
@@ -29,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initDateDisplay();
     initCharts();
     fetchData();
-    setInterval(fetchData, 30000); 
+    autoRefreshInterval = setInterval(fetchData, 30000); 
 });
 
 // --- DATE DISPLAY FUNCTION ---
@@ -85,14 +75,14 @@ function initCharts() {
                 label: 'Total Detections',
                 data: [0, 0, 0, 0],
                 backgroundColor: [
-                    'rgba(144, 238, 144, 0.7)',  // Phishing: Green
-                    'rgba(0, 123, 255, 0.7)', // DoS: Blue
-                    'rgba(13, 202, 240, 0.7)', // Cryptojacking: Info Cyan
-                    'rgba(102, 16, 242, 0.7)'  // Brute Force: Purple
+                    'rgba(25, 135, 84, 0.7)',  // Light Green (Phishing)
+                    'rgba(13, 110, 253, 0.7)', // Blue (DoS)
+                    'rgba(13, 202, 240, 0.7)', // Info Cyan (Crypto)
+                    'rgba(102, 16, 242, 0.7)'  // Primary Purple (Brute Force)
                 ],
                 borderColor: [
-                    '#90EE90', // Green
-                    '#007bff', // Blue
+                    '#198754',
+                    '#0d6efd',
                     '#0dcaf0', 
                     '#6610f2'
                 ],
@@ -121,41 +111,22 @@ function initCharts() {
     });
 }
 
-function resetFilter() {
-    document.getElementById('start-time').value = '';
-    document.getElementById('end-time').value = '';
-    fetchData();
-}
-
 async function fetchData() {
     const badge = document.getElementById('last-update-badge');
-    const startInput = document.getElementById('start-time');
-    const endInput = document.getElementById('end-time');
+    const startInput = document.getElementById('filter-start')?.value;
+    const endInput = document.getElementById('filter-end')?.value;
     
-    const start = startInput.value;
-    const end = endInput.value;
-
-    if (start && end) {
-        const startDate = new Date(start);
-        const endDate = new Date(end);
-        const now = new Date();
-
-        if (startDate > endDate) {
-            alert("Error: Start time cannot be after end time (e.g., 20/02 to 18/02).");
-            return;
+    let queryParams = '';
+    if (!isLiveView && startInput && endInput) {
+        queryParams = `?start=${startInput}&end=${endInput}`;
+        if(badge) {
+            badge.textContent = 'History';
+            badge.className = 'badge bg-warning text-dark ms-2';
         }
-        if (endDate > now) {
-            alert("Error: You cannot select a time in the future.");
-            return;
-        }
+    } else if (badge && isLiveView) {
+        badge.textContent = 'Updating...';
+        badge.className = 'badge bg-secondary ms-2';
     }
-
-    let queryParams = "";
-    if (start && end) {
-        queryParams = `?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
-    }
-
-    if(badge) badge.textContent = 'Updating...';
 
     try {
         const [statsRes, logsRes] = await Promise.all([
@@ -166,40 +137,49 @@ async function fetchData() {
         const statsData = await statsRes.json();
         const logsData = await logsRes.json();
         
-        // 1. Update the Bar Chart
-        updateBarChart(statsData);
-        
-        // 2. Update Top Cards (Endpoints/Total Alerts)
         updateTopCards(statsData);
-
-        // 3. Update the Line Chart (REQUIRED for the graph to show)
-        updateLineChart(statsData.logs_last_30s); 
-
-        // 4. Update the Bandwidth Bar
+        updateLineChart(statsData.logs_last_30s);
+        updateBarChart(statsData);
         updateLicenseProgressBar(statsData.license_mb_raw);
-
-        // 5. Update System/Quota Alerts
         updateLicenseWarnings(statsData.license_warnings);
-
-        // 6. Refresh the Table
         currentLogs = logsData;
         applySort();
 
-        if(badge) {
-            badge.textContent = (start && end) ? 'Filtered View' : 'Live';
-            badge.classList.replace('bg-secondary', 'bg-primary');
+        if (isLiveView && badge) {
+            badge.textContent = 'Live';
+            badge.className = 'badge bg-primary ms-2';
         }
+
     } catch (err) {
         console.error("Fetch Error:", err);
-        if(badge) badge.textContent = 'Error';
+        if(badge) {
+            badge.textContent = 'Error';
+            badge.className = 'badge bg-danger ms-2';
+        }
     }
 }
 
+function applyFilter() {
+    const start = document.getElementById('filter-start').value;
+    const end = document.getElementById('filter-end').value;
+    if (!start || !end) {
+        alert("Please select both a Start and End date/time.");
+        return;
+    }
+    isLiveView = false;
+    fetchData();
+}
+
+function resetFilter() {
+    document.getElementById('filter-start').value = '';
+    document.getElementById('filter-end').value = '';
+    isLiveView = true;
+    fetchData();
+}
+
 function updateTopCards(data) {
-    // Endpoints
     document.getElementById('endpoints-online').textContent = data.endpoints_online || '-';
     document.getElementById('endpoints-total').textContent = data.endpoints_total || '-';
-    // Total Alerts
     document.getElementById('total-alerts').textContent = data.total || 0;
 }
 
@@ -416,3 +396,33 @@ function updateThemeIcon(theme) {
         themeIcon.className = theme === 'dark' ? 'ri-sun-line' : 'ri-moon-line';
     }
 }
+
+// --- DATE PICKER VALIDATION ---
+function initDateFilters() {
+    const startInput = document.getElementById('filter-start');
+    const endInput = document.getElementById('filter-end');
+
+    function updateConstraints() {
+        const now = new Date();
+        now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+        const maxDatetime = now.toISOString().slice(0, 16);
+
+        startInput.max = maxDatetime;
+        endInput.max = maxDatetime;
+
+        if (startInput.value) { endInput.min = startInput.value; }
+        if (endInput.value) { startInput.max = endInput.value < maxDatetime ? endInput.value : maxDatetime; }
+        
+        if (startInput.value && endInput.value && startInput.value > endInput.value) {
+            endInput.value = startInput.value;
+        }
+    }
+
+    if(startInput && endInput) {
+        startInput.addEventListener('change', updateConstraints);
+        endInput.addEventListener('change', updateConstraints);
+        setInterval(updateConstraints, 60000);
+        updateConstraints();
+    }
+}
+document.addEventListener('DOMContentLoaded', initDateFilters);
