@@ -4,12 +4,19 @@
 }
 
 body {
+    padding-bottom: 100px;
+}
+
+/* Dark Mode Backgrounds */
+[data-bs-theme="dark"] body, [data-bs-theme="dark"] .bg-darker {
     background-color: #121417 !important; 
     color: #e9ecef;
 }
 
-.bg-darker {
-    background-color: #121417 !important;
+/* Light Mode Backgrounds */
+[data-bs-theme="light"] body, [data-bs-theme="light"] .bg-darker {
+    background-color: #f4f7f6 !important; 
+    color: #212529;
 }
 
 .bg-lighter {
@@ -179,11 +186,6 @@ th.sorted-desc .sort-icon::after {
     box-shadow: 0 0 10px #0d6efd;
 }
 
-/* Ensure content doesn't get hidden behind the navbar on mobile */
-body {
-    padding-bottom: 100px;
-}
-
 .hover-effect {
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
@@ -222,4 +224,57 @@ body {
 .badge-unknown { 
     background-color: #fff33b; 
     color: #212529;
+}
+
+/* --- LIGHT MODE OVERRIDES --- */
+[data-bs-theme="light"] .card-custom {
+    background-color: #ffffff;
+    border-color: #e0e0e0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+[data-bs-theme="light"] .table-dark th {
+    background-color: #e9ecef;
+    color: #212529;
+    border-color: #dee2e6;
+}
+
+[data-bs-theme="light"] .table-striped>tbody>tr:nth-of-type(odd)>* {
+    --bs-table-accent-bg: #f8f9fa;
+    color: #212529;
+}
+
+[data-bs-theme="light"] .log-row:hover {
+    background-color: #f1f3f5 !important;
+}
+
+[data-bs-theme="light"] .cred-navbar {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: #e0e0e0;
+}
+
+.custom-header {
+    background-color: #171a1d;
+    border-color: #2c3035 !important;
+}
+
+[data-bs-theme="light"] .custom-header {
+    background-color: #ffffff;
+    border-color: #e0e0e0 !important;
+}
+
+[data-bs-theme="light"] .cred-nav-link {
+    color: #6c757d;
+}
+
+[data-bs-theme="light"] .cred-nav-link:hover {
+    color: #212529;
+}
+
+[data-bs-theme="light"] .cred-nav-link.active {
+    color: #212529;
+}
+
+[data-bs-theme="light"] .cred-nav-link.active i {
+    text-shadow: 0 0 10px rgba(13, 110, 253, 0.2); 
 }

@@ -5,8 +5,27 @@ const MAX_LINE_POINTS = 20;
 let currentLogs = []; 
 let sortState = { column: 'time', asc: false }
 
+function setMaxDate() {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const day = String(now.getDate()).padStart(2, '0');
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    
+    const currentDateTime = `${year}-${month}-${day}T${hours}:${minutes}`;
+    
+    document.getElementById('start-time').setAttribute('max', currentDateTime);
+    document.getElementById('end-time').setAttribute('max', currentDateTime);
+}
+
 // --- 1. INITIALIZE FUNCTIONS ON PAGE LOAD ---
 document.addEventListener('DOMContentLoaded', () => {
+    setMaxDate();
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    updateThemeIcon(savedTheme);
+
     initDateDisplay();
     initCharts();
     fetchData();
@@ -99,38 +118,64 @@ function initCharts() {
     });
 }
 
+function resetFilter() {
+    document.getElementById('start-time').value = '';
+    document.getElementById('end-time').value = '';
+    fetchData();
+}
+
 async function fetchData() {
     const badge = document.getElementById('last-update-badge');
+    const startInput = document.getElementById('start-time');
+    const endInput = document.getElementById('end-time');
+    
+    const start = startInput.value;
+    const end = endInput.value;
+
+    if (start && end) {
+        const startDate = new Date(start);
+        const endDate = new Date(end);
+        const now = new Date();
+
+        if (startDate > endDate) {
+            alert("Error: Start time cannot be after end time (e.g., 20/02 to 18/02).");
+            return;
+        }
+        if (endDate > now) {
+            alert("Error: You cannot select a time in the future.");
+            return;
+        }
+    }
+
+    let queryParams = "";
+    if (start && end) {
+        queryParams = `?start=${encodeURIComponent(start)}&end=${encodeURIComponent(end)}`;
+    }
+
     if(badge) badge.textContent = 'Updating...';
-    if(badge) badge.classList.replace('bg-primary', 'bg-secondary');
 
     try {
         const [statsRes, logsRes] = await Promise.all([
-            fetch('/api/stats'),
-            fetch('/api/logs')
+            fetch(`/api/stats${queryParams}`),
+            fetch(`/api/logs${queryParams}`)
         ]);
 
         const statsData = await statsRes.json();
         const logsData = await logsRes.json();
         
-        if (statsData.error) console.error("Stats Error:", statsData.error);
-        if (logsData.error) console.error("Logs Error:", logsData.error);
-        
-        updateTopCards(statsData);
-        updateLineChart(statsData.logs_last_30s);
         updateBarChart(statsData);
-        updateLicenseProgressBar(statsData.license_mb_raw);
-        updateLicenseWarnings(statsData.license_warnings);
         currentLogs = logsData;
         applySort();
 
-        if(badge) badge.textContent = 'Live';
-        if(badge) badge.classList.replace('bg-secondary', 'bg-primary');
+        if(badge) {
+            badge.textContent = (start && end) ? 'Filtered View' : 'Live';
+            badge.classList.replace('bg-secondary', 'bg-primary');
+        }
+        updateTopCards(statsData);
 
     } catch (err) {
         console.error("Fetch Error:", err);
         if(badge) badge.textContent = 'Error';
-        if(badge) badge.classList.replace('bg-secondary', 'bg-danger');
     }
 }
 
@@ -335,5 +380,23 @@ function updateLicenseWarnings(warnings) {
             `;
         });
         container.innerHTML = html;
+    }
+}
+
+// --- THEME TOGGLE LOGIC ---
+function toggleTheme() {
+    const htmlTag = document.documentElement;
+    const currentTheme = htmlTag.getAttribute('data-bs-theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    htmlTag.setAttribute('data-bs-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    updateThemeIcon(newTheme);
+}
+
+function updateThemeIcon(theme) {
+    const themeIcon = document.getElementById('theme-icon');
+    if (themeIcon) {
+        themeIcon.className = theme === 'dark' ? 'ri-sun-line' : 'ri-moon-line';
     }
 }
