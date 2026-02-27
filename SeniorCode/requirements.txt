@@ -1,5 +1,5 @@
-flask
-requests
-python-dotenv
-urllib3
-flask-socketio
+flask == 3.1.2
+requests == 2.32.5
+python-dotenv == 1.2.1
+urllib3 == 2.6.3
+flask-socketio==5.6.1
