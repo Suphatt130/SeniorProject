@@ -1,61 +1,51 @@
 @echo off
-title SPADE Security Monitor Launcher
-color 0A
+title SPADE Security Monitor (VENV Launcher)
+color 0B
 
-:: 1. SET CURRENT DIRECTORY (Saved as variable)
+:: 1. SET CURRENT DIRECTORY
 cd /d "%~dp0"
 set "PROJECT_DIR=%~dp0"
 
 echo ======================================================
-echo    SPADE SECURITY MONITOR - AUTOMATED LAUNCHER
+echo    SPADE SECURITY MONITOR - VIRTUAL ENV MODE
 echo ======================================================
 
-:: 2. DETECT PYTHON (Find the full path to the executable)
+:: 2. DETECT GLOBAL PYTHON
 set PYTHON_CMD=python
-
-:: Check for 'py' launcher first
 py --version >nul 2>&1
 if %errorlevel% equ 0 set PYTHON_CMD=py
-
-:: Get the ABSOLUTE PATH to the python executable
 for /f "tokens=*" %%i in ('where %PYTHON_CMD%') do set "FULL_PYTHON_PATH=%%i"
 
-:: Verify we found it
 if "%FULL_PYTHON_PATH%"=="" (
     echo [X] Could not find Python path!
-    echo     Please reinstall Python and check "Add to PATH".
     pause
     exit
 )
-echo [V] Found Python at: "%FULL_PYTHON_PATH%"
+echo [V] Found Base Python at: "%FULL_PYTHON_PATH%"
 
-:: 3. INSTALL DEPENDENCIES (Using the full path)
-echo.
-echo [+] Installing libraries...
-"%FULL_PYTHON_PATH%" -m pip install --user -r requirements.txt
-
-if %errorlevel% neq 0 (
+:: 3. CREATE VIRTUAL ENVIRONMENT (If missing)
+if not exist "venv\Scripts\python.exe" (
     echo.
-    echo [X] INSTALL FAILED.
-    echo     Please try running this file as Administrator.
-    pause
-    exit
+    echo [+] No 'venv' found. Creating an isolated Virtual Environment now...
+    echo     (This might take 10-20 seconds)
+    "%FULL_PYTHON_PATH%" -m venv venv
 )
 
-:: 4. LAUNCH PROGRAMS (The Robust Way)
-:: We use /D to force the starting directory.
-:: We use the full path to python to avoid "command not found".
+:: 4. INSTALL DEPENDENCIES (Directly inside the VENV)
+echo.
+echo [+] Installing/Verifying libraries inside VENV...
+"%PROJECT_DIR%venv\Scripts\python.exe" -m pip install --upgrade pip >nul 2>&1
+"%PROJECT_DIR%venv\Scripts\python.exe" -m pip install -r requirements.txt
 
+:: 5. LAUNCH PROGRAMS (Using the VENV Python directly!)
 echo.
 echo [+] Starting Backend Monitor...
-:: Syntax: start "Title" /D "WorkingFolder" cmd /k "Command"
-start "SPADE Backend" /D "%PROJECT_DIR%" cmd /k ""%FULL_PYTHON_PATH%" main.py"
+start "SPADE Backend" /D "%PROJECT_DIR%" cmd /k ""%PROJECT_DIR%venv\Scripts\python.exe" main.py"
 
 echo [+] Starting Web Dashboard...
-start "SPADE Web Dashboard" /D "%PROJECT_DIR%" cmd /k ""%FULL_PYTHON_PATH%" web/app.py"
+start "SPADE Web Dashboard" /D "%PROJECT_DIR%" cmd /k ""%PROJECT_DIR%venv\Scripts\python.exe" web/app.py"
 
 echo.
-echo [V] All systems launched.
-echo     Windows should now stay open.
+echo [V] All systems launched in Virtual Environment.
 echo.
 pause
