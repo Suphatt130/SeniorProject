@@ -5,6 +5,14 @@ import datetime
 import config
 from alerting.alert_func import send_line_alert, send_email_alert
 from database.db_manager import save_log
+import logging
+
+# Configure logging to save errors to a file and show them in the console
+logging.basicConfig(
+    level=logging.ERROR,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[logging.FileHandler("spade_errors.log"), logging.StreamHandler()]
+)
 
 # API Endpoint
 LICENSE_API_ENDPOINT = f"{config.SPLUNK_BASE_URL}/services/licenser/pools"

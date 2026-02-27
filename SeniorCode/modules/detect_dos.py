@@ -5,6 +5,14 @@ import os
 import config
 from database.db_manager import save_log
 from alerting.alert_func import send_line_alert
+import logging
+
+# Configure logging to save errors to a file and show them in the console
+logging.basicConfig(
+    level=logging.ERROR,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[logging.FileHandler("spade_errors.log"), logging.StreamHandler()]
+)
 
 def load_rules():
     current_dir = os.path.dirname(os.path.abspath(__file__))

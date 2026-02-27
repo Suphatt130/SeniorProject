@@ -5,13 +5,12 @@ const MAX_LINE_POINTS = 20;
 let currentLogs = []; 
 let sortState = { column: 'time', asc: false };
 
-// Move these to the top so they are available globally
 let isLiveView = true;
 let autoRefreshInterval;
 
+const socket = io();
 // --- 1. INITIALIZE FUNCTIONS ON PAGE LOAD ---
 document.addEventListener('DOMContentLoaded', () => {
-    // We removed the broken setMaxDate() here because initDateFilters() at the bottom handles it safely now!
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-bs-theme', savedTheme);
     updateThemeIcon(savedTheme);
@@ -19,7 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initDateDisplay();
     initCharts();
     fetchData();
-    autoRefreshInterval = setInterval(fetchData, 30000); 
+    
+    autoRefreshInterval = setInterval(fetchData, 60000); 
+});
+
+socket.on('refresh_data', function() {
+    console.log("⚡ Real-time update triggered by backend!");
+    if (isLiveView) {
+        fetchData();
+    }
 });
 
 // --- DATE DISPLAY FUNCTION ---

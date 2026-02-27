@@ -1,0 +1,80 @@
+2026-02-27 14:30:34,063 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.162.65:5000
+2026-02-27 14:30:34,065 - INFO - [33mPress CTRL+C to quit[0m
+2026-02-27 14:30:34,066 - INFO -  * Restarting with stat
+2026-02-27 14:30:34,778 - WARNING -  * Debugger is active!
+2026-02-27 14:30:34,784 - INFO -  * Debugger PIN: 540-420-322
+2026-02-27 14:30:51,983 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:51] "GET / HTTP/1.1" 200 -
+2026-02-27 14:30:52,368 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:52] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-02-27 14:30:52,390 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:52] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-02-27 14:30:52,396 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:52] "GET /static/style.css HTTP/1.1" 200 -
+2026-02-27 14:30:52,622 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:52] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-02-27 14:30:52,666 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:52] "GET /static/script.js HTTP/1.1" 200 -
+2026-02-27 14:30:52,777 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:52] "GET /socket.io/?EIO=4&transport=polling&t=PoU0Uxa HTTP/1.1" 200 -
+2026-02-27 14:30:52,825 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:52] "POST /socket.io/?EIO=4&transport=polling&t=PoU0UyJ&sid=sUWuTzaJch4ikvveAAAA HTTP/1.1" 200 -
+2026-02-27 14:30:52,834 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:52] "GET /socket.io/?EIO=4&transport=polling&t=PoU0UyN&sid=sUWuTzaJch4ikvveAAAA HTTP/1.1" 200 -
+2026-02-27 14:30:52,844 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:52] "GET /socket.io/?EIO=4&transport=polling&t=PoU0Uye&sid=sUWuTzaJch4ikvveAAAA HTTP/1.1" 200 -
+2026-02-27 14:30:52,852 - INFO - 127.0.0.1 - - [27/Feb/2026 14:30:52] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-02-27 14:31:02,697 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:02] "GET /about HTTP/1.1" 200 -
+2026-02-27 14:31:02,741 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:02] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-27 14:31:02,743 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:02] "GET /socket.io/?EIO=4&transport=websocket&sid=sUWuTzaJch4ikvveAAAA HTTP/1.1" 200 -
+2026-02-27 14:31:02,752 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:02] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-27 14:31:02,760 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:02] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-02-27 14:31:02,761 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:02] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-02-27 14:31:02,763 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:02] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-02-27 14:31:02,826 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:02] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-02-27 14:31:03,785 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:03] "GET / HTTP/1.1" 200 -
+2026-02-27 14:31:03,819 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:03] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-27 14:31:03,824 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:03] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-02-27 14:31:03,827 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:03] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-02-27 14:31:03,838 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:03] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-02-27 14:31:03,841 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:03] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-27 14:31:03,895 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:03] "GET /socket.io/?EIO=4&transport=polling&t=PoU0Xei HTTP/1.1" 200 -
+2026-02-27 14:31:04,093 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:04] "POST /socket.io/?EIO=4&transport=polling&t=PoU0XiO&sid=853hmnvR3vlNzPsbAAAC HTTP/1.1" 200 -
+2026-02-27 14:31:04,098 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:04] "GET /socket.io/?EIO=4&transport=polling&t=PoU0XiP&sid=853hmnvR3vlNzPsbAAAC HTTP/1.1" 200 -
+2026-02-27 14:31:13,920 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:13] "GET / HTTP/1.1" 200 -
+2026-02-27 14:31:13,929 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:13] "GET /socket.io/?EIO=4&transport=websocket&sid=853hmnvR3vlNzPsbAAAC HTTP/1.1" 200 -
+2026-02-27 14:31:13,948 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:13] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-27 14:31:13,955 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:13] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-02-27 14:31:13,957 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:13] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-02-27 14:31:13,963 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:13] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-02-27 14:31:13,964 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:13] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-02-27 14:31:14,009 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:14] "GET /socket.io/?EIO=4&transport=polling&t=PoU0a6u HTTP/1.1" 200 -
+2026-02-27 14:31:14,184 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:14] "POST /socket.io/?EIO=4&transport=polling&t=PoU0aA4&sid=JL-SGisXI1kU5j9QAAAE HTTP/1.1" 200 -
+2026-02-27 14:31:14,189 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:14] "GET /socket.io/?EIO=4&transport=polling&t=PoU0aA5&sid=JL-SGisXI1kU5j9QAAAE HTTP/1.1" 200 -
+2026-02-27 14:31:14,193 - INFO - 127.0.0.1 - - [27/Feb/2026 14:31:14] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-02-27 14:35:07,425 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.162.65:5000
+2026-02-27 14:35:07,427 - INFO - [33mPress CTRL+C to quit[0m
+2026-02-27 14:35:07,427 - INFO -  * Restarting with stat
+2026-02-27 14:35:10,578 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.162.65:5000
+2026-02-27 14:35:10,579 - INFO - [33mPress CTRL+C to quit[0m
+2026-02-27 14:35:10,579 - INFO -  * Restarting with stat
+2026-02-27 14:35:11,154 - WARNING -  * Debugger is active!
+2026-02-27 14:35:11,160 - INFO -  * Debugger PIN: 540-420-322
+2026-02-27 14:35:11,221 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:11] "GET /socket.io/?EIO=4&transport=polling&t=PoU1TzK HTTP/1.1" 200 -
+2026-02-27 14:35:11,231 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:11] "POST /socket.io/?EIO=4&transport=polling&t=PoU1U1w&sid=qNJkFc1bT80GlZFSAAAA HTTP/1.1" 200 -
+2026-02-27 14:35:11,235 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:11] "GET /socket.io/?EIO=4&transport=polling&t=PoU1U1y&sid=qNJkFc1bT80GlZFSAAAA HTTP/1.1" 200 -
+2026-02-27 14:35:16,590 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:16] "GET / HTTP/1.1" 200 -
+2026-02-27 14:35:16,599 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:16] "GET /socket.io/?EIO=4&transport=websocket&sid=qNJkFc1bT80GlZFSAAAA HTTP/1.1" 200 -
+2026-02-27 14:35:16,876 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:16] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-02-27 14:35:16,887 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:16] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-02-27 14:35:16,893 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:16] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-02-27 14:35:17,109 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:17] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-02-27 14:35:17,157 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:17] "GET /static/script.js HTTP/1.1" 200 -
+2026-02-27 14:35:17,180 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:17] "GET /socket.io/?EIO=4&transport=polling&t=PoU1VUp HTTP/1.1" 200 -
+2026-02-27 14:35:17,332 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:17] "GET /api/logs HTTP/1.1" 200 -
+2026-02-27 14:35:17,350 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:17] "POST /socket.io/?EIO=4&transport=polling&t=PoU1VXW&sid=Kv85mc8uxc8KOm25AAAC HTTP/1.1" 200 -
+2026-02-27 14:35:17,357 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:17] "GET /socket.io/?EIO=4&transport=polling&t=PoU1VXY&sid=Kv85mc8uxc8KOm25AAAC HTTP/1.1" 200 -
+2026-02-27 14:35:17,418 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:17] "GET /socket.io/?EIO=4&transport=polling&t=PoU1VXq&sid=Kv85mc8uxc8KOm25AAAC HTTP/1.1" 200 -
+2026-02-27 14:35:17,422 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:17] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-02-27 14:35:19,520 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:19] "GET /api/stats HTTP/1.1" 200 -
+2026-02-27 14:35:38,984 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:38] "GET /api/logs?start=2026-02-26T14:35&end=2026-02-27T14:35 HTTP/1.1" 200 -
+2026-02-27 14:35:40,805 - INFO - 127.0.0.1 - - [27/Feb/2026 14:35:40] "GET /api/stats?start=2026-02-26T14:35&end=2026-02-27T14:35 HTTP/1.1" 200 -

@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify, request
+from flask_socketio import SocketIO
 import sqlite3
 import requests
 import os
@@ -14,8 +15,17 @@ import config
 
 app = Flask(__name__)
 DB_PATH = os.path.join(parent_dir, config.DB_NAME)
-
+socketio = SocketIO(app, cors_allowed_origins="*")
 ##--------------- Dont Touch above ---------------##
+
+import logging
+
+# Configure logging to save errors to a file and show them in the console
+logging.basicConfig(
+    level=logging.ERROR,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[logging.FileHandler("spade_errors.log"), logging.StreamHandler()]
+)
 
 def get_db_connection():
     try:
@@ -198,7 +208,8 @@ def api_logs():
                 "severity": r['severity'], "extra": r['technique_id'], 
                 "details": f"Link: {r['clicked_link']} | Browser: {r['browser_name']}", "alert": r['alert_sent']
             })
-    except Exception: pass
+    except Exception as e: 
+        logging.error(f"Failed to fetch Cryptojacking logs: {e}")
 
     # --- 2. DOS ---
     try:
@@ -209,7 +220,8 @@ def api_logs():
                 "severity": r['severity'], "extra": r['technique_id'], 
                 "details": f"Target: {r['dest_ip']}:{r['dest_port']} | Flags: {r['tcp_flags']} | Pkts: {r['count']}", "alert": r['alert_sent']
             })
-    except Exception: pass
+    except Exception as e: 
+        logging.error(f"Failed to fetch Cryptojacking logs: {e}")
 
     # --- 3. CRYPTOJACKING ---
     try:
@@ -221,7 +233,8 @@ def api_logs():
                 "time": r['timestamp'], "type": "Cryptojacking", "host": r['dest'], "source": r['process_path'] or "Unknown",
                 "severity": r['severity'], "extra": r['technique_id'], "details": det, "alert": r['alert_sent']
             })
-    except Exception: pass
+    except Exception as e: 
+        logging.error(f"Failed to fetch Cryptojacking logs: {e}")
 
     # --- 4. BRUTE FORCE ---
     try:
@@ -232,11 +245,18 @@ def api_logs():
                 "severity": r['severity'], "extra": r['technique_id'],
                 "details": f"Target User: {r['user']} | Failures: {r['count']}", "alert": r['alert_sent']
             })
-    except Exception: pass
+    except Exception as e: 
+        logging.error(f"Failed to fetch Cryptojacking logs: {e}")
 
     conn.close()
     all_logs.sort(key=lambda x: x['time'], reverse=True)
     return jsonify(all_logs)
 
+@app.route('/internal/trigger_update', methods=['POST'])
+def trigger_update():
+    # Broadcast a message named 'refresh_data' to all connected browsers
+    socketio.emit('refresh_data') 
+    return jsonify({"status": "success"}), 200
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, host='0.0.0.0', port=5000, debug=True, allow_unsafe_werkzeug=True)

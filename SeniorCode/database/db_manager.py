@@ -1,10 +1,12 @@
 import sqlite3
 import config
 from datetime import datetime
+import requests
 
 def get_db_connection():
     conn = sqlite3.connect(config.DB_NAME)
     conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA journal_mode=WAL;") # WAL (Write-Ahead Log) is a feature to make sure that all logs are write and read simutaniously with out dropping anything
     return conn
 
 def init_db():
@@ -215,5 +217,11 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
 
         conn.commit()
         conn.close()
+        
+        try:
+            requests.post("http://127.0.0.1:5000/internal/trigger_update", timeout=1)
+        except Exception:
+            pass # Ignore if the web dashboard is currently closed
+
     except Exception as e:
         print(f"[DB] Save Error ({attack_type}): {e}")
