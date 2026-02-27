@@ -52,7 +52,7 @@ def run_crypto_check(last_alert_time):
 
                 if ready_to_alert:
                     latest = events[0]
-                    msg = (f"🚨 **Cryptojacking Alert!**\n💻 Host: {latest.get('dvc')}\n📂 Driver: {latest.get('Driver_Image')}\n🔑 MD5: {latest.get('MD5')}\n📝 Activity: {latest.get('Activity')}")
+                    msg = (f"🚨 **Cryptojacking Alert!**\n💻 Host: {latest.get('dest', 'Unknown')}\n📂 Driver: {latest.get('ImageLoaded', 'Unknown')}\n🔑 MD5: {latest.get('MD5', 'Unknown')}\n📝 Signature: {latest.get('signature', 'Unknown')}")
                     print("   >> Sending Crypto Alert")
                     send_line_alert(msg)
                     return current_time

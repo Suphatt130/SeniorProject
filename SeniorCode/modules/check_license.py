@@ -59,7 +59,7 @@ def run_license_check():
 
             for threshold in alert_thresholds:
                 if pct >= threshold and threshold not in TRIGGERED_LEVELS:
-                    msg = (f"⚠️ [LICENSE WARNING] Threshold Reached\nHost: {hostname}\nCurrent Usage: {pct}% (>{threshold}%)\nVolume: {used_mb}/500 MB")
+                    msg = (f"⚠️ [LICENSE WARNING]\nServer: {hostname}\nCurrent Usage: {pct}% (>{threshold}%)\nVolume: {used_mb}/500 MB")
                     send_email_alert("LICENSE WARNING!", msg)
                     TRIGGERED_LEVELS.add(threshold)
                     alert_triggered = True
