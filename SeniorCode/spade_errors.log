@@ -1,0 +1,13 @@
+2026-02-27 15:59:15,663 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.162.65:5000
+2026-02-27 15:59:15,664 - INFO - [33mPress CTRL+C to quit[0m
+2026-02-27 15:59:15,665 - INFO -  * Restarting with stat
+2026-02-27 15:59:16,276 - WARNING -  * Debugger is active!
+2026-02-27 15:59:16,282 - INFO -  * Debugger PIN: 289-399-748
+2026-02-27 15:59:16,303 - INFO - 127.0.0.1 - - [27/Feb/2026 15:59:16] "GET /socket.io/?EIO=4&transport=polling&t=PoUKjPx HTTP/1.1" 200 -
+2026-02-27 15:59:16,333 - INFO - 127.0.0.1 - - [27/Feb/2026 15:59:16] "POST /socket.io/?EIO=4&transport=polling&t=PoUKjlb&sid=sD-urj8giDro6baMAAAA HTTP/1.1" 200 -
+2026-02-27 15:59:16,354 - INFO - 127.0.0.1 - - [27/Feb/2026 15:59:16] "GET /socket.io/?EIO=4&transport=polling&t=PoUKjlp&sid=sD-urj8giDro6baMAAAA HTTP/1.1" 200 -
+2026-02-27 15:59:16,368 - INFO - 127.0.0.1 - - [27/Feb/2026 15:59:16] "GET /socket.io/?EIO=4&transport=polling&t=PoUKjmB&sid=sD-urj8giDro6baMAAAA HTTP/1.1" 200 -
+2026-02-27 15:59:38,949 - INFO - 127.0.0.1 - - [27/Feb/2026 15:59:38] "GET /api/logs?start=2026-02-26T14:35&end=2026-02-27T14:35 HTTP/1.1" 200 -

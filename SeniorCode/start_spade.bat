@@ -29,6 +29,16 @@ if not exist "venv\Scripts\python.exe" (
     echo [+] No 'venv' found. Creating an isolated Virtual Environment now...
     echo     (This might take 10-20 seconds)
     "%FULL_PYTHON_PATH%" -m venv venv
+    
+    if %errorlevel% neq 0 (
+        echo.
+        echo [X] CRITICAL ERROR: Failed to create the Virtual Environment!
+        echo     1. Make sure you extracted the ZIP file.
+        echo     2. Make sure Python is installed and added to PATH.
+        echo.
+        pause
+        exit
+    )
 )
 
 :: 4. INSTALL DEPENDENCIES (Directly inside the VENV)
