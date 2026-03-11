@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initCharts();
     fetchData();
     
-    autoRefreshInterval = setInterval(fetchData, 60000); 
+    autoRefreshInterval = setInterval(fetchData, 10000); 
 });
 
 socket.on('refresh_data', function() {
@@ -39,14 +39,14 @@ function initDateDisplay() {
 
 // --- CHART INITIALIZATION FUNCTION ---
 function initCharts() {
-    // --- A. Line Chart (Last 30s Logs) ---
+    // --- A. Line Chart (Last 10s Logs) ---
     const ctxLine = document.getElementById('lineChart30s').getContext('2d');
     lineChart30s = new Chart(ctxLine, {
         type: 'line',
         data: {
             labels: [], 
             datasets: [{
-                label: 'New Logs (Last 30s)',
+                label: 'New Logs (Last 10s)',
                 data: [], 
                 borderColor: '#0d6efd', 
                 backgroundColor: 'rgba(13, 110, 253, 0.1)',
@@ -270,18 +270,23 @@ function renderTable(logs) {
     }
 
     let tableRows = '';
-    logs.forEach(log => {
+    logs.forEach((log, index) => {
         const typeColor = getBadgeClass(log.type);
         const sevColor = getSeverityClass(log.severity);
 
         tableRows += `
             <tr class="log-row">
-                <td><small class="fw-bold">${log.time.split(' ')[1] || log.time}</small></td> <td><span class="badge ${sevColor}">${log.severity || 'Unknown'}</span></td>
+                <td><small class="fw-bold">${log.time.split(' ')[1] || log.time}</small></td> 
+                <td><span class="badge ${sevColor}">${log.severity || 'Unknown'}</span></td>
                 <td><span class="badge bg-${typeColor} text-dark">${log.type}</span></td>
                 <td class="text-truncate" style="max-width: 120px;" title="${log.host}">${log.host}</td>
                 <td class="text-truncate" style="max-width: 150px;" title="${log.source}">${log.source || '-'}</td>
                 <td><small>${log.extra || '-'}</small></td>
-                <td class="text-truncate" style="max-width: 200px;" title="${log.details}"><small>${log.details}</small></td>
+                
+                <td class="text-truncate" style="max-width: 200px; cursor: pointer;" onclick="showIncidentDetails(${index})" title="Click to view full details">
+                    <small class="text-primary" style="text-decoration: underline dotted;">${log.details}</small>
+                </td>
+                
                 <td class="text-center">${log.alert ? '✅' : '❌'}</td>
             </tr>
         `;
@@ -433,3 +438,31 @@ function initDateFilters() {
     }
 }
 document.addEventListener('DOMContentLoaded', initDateFilters);
+
+// --- MODAL POPUP FUNCTION ---
+function showIncidentDetails(index) {
+    const log = currentLogs[index];
+    if (!log) return;
+
+    const modalBody = document.getElementById('incidentModalBody');
+    const typeColor = getBadgeClass(log.type);
+    const sevColor = getSeverityClass(log.severity);
+
+    modalBody.innerHTML = `
+        <div class="mb-2"><strong>Time:</strong> ${log.time}</div>
+        <div class="mb-2"><strong>Attack Type:</strong> <span class="badge bg-${typeColor} text-dark">${log.type}</span></div>
+        <div class="mb-2"><strong>Severity:</strong> <span class="badge ${sevColor}">${log.severity || 'Unknown'}</span></div>
+        <div class="mb-2"><strong>Host/Target:</strong> ${log.host}</div>
+        <div class="mb-2"><strong>Source App / Attacker IP:</strong> ${log.source || '-'}</div>
+        <div class="mb-2"><strong>Technique:</strong> ${log.extra || '-'}</div>
+        <div class="mb-3"><strong>Alert Sent:</strong> ${log.alert ? '✅ Yes' : '❌ No'}</div>
+        
+        <h6 class="text-muted mb-2 mt-4" style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Raw Details Data</h6>
+        <div class="p-3 rounded" style="background-color: rgba(0,0,0,0.1); border: 1px solid #373b3e; word-wrap: break-word;">
+            <code class="text-info">${log.details}</code>
+        </div>
+    `;
+
+    const modal = new bootstrap.Modal(document.getElementById('incidentModal'));
+    modal.show();
+}

@@ -39,7 +39,7 @@ def get_db_connection():
 def get_splunk_realtime_stats():
     try:
         query_endpoints = "| metadata type=hosts index=* | eval age=now()-lastTime | stats count(eval(age < 300)) as online, count as total"
-        query_volume = "| tstats count where index=* earliest=-30s"
+        query_volume = "| tstats count where index=* earliest=-10s"
         query_warnings = "| rest /services/licenser/messages | stats values(description) as warnings"
 
         headers = {'Authorization': f'Bearer {config.SPLUNK_AUTH}'} if config.SPLUNK_AUTH else {}
