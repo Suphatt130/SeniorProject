@@ -29,13 +29,13 @@ def worker_crypto():
 def worker_license():
     while True:
         run_license_check()
-        time.sleep(config.LICENSE_CHECK_INTERVAL)
+        time.sleep(config.CHECK_INTERVAL)
 
 def worker_bruteforce():
     last_alert = 0
     while True:
         last_alert = run_bruteforce_check(last_alert)
-        time.sleep(config.BRUTEFORCE_CHECK_INTERVAL)
+        time.sleep(config.CHECK_INTERVAL)
 
 if __name__ == "__main__":
     print("=== SECURITY MONITOR STARTED ===")

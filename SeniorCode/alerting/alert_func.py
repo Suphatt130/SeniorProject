@@ -1,6 +1,7 @@
 import os
 import requests
 import smtplib
+from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
@@ -22,6 +23,8 @@ SMTP_PORT = os.getenv("SMTP_PORT")
 #################################
 
 def send_line_alert(message_text):
+    now_ms = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+
     if LINE_TOKEN:
         print(f"DEBUG: Loaded LINE Token starts with: {LINE_TOKEN[:5]}...")
     else:
@@ -48,13 +51,15 @@ def send_line_alert(message_text):
     try:
         response = requests.post(url, headers=headers, json=payload)
         if response.status_code == 200:
-            print(">> LINE Messaging API Alert Sent Successfully.")
+            print(f"[{now_ms}] >> LINE Messaging API Alert Sent Successfully.")
         else:
-            print(f">> Failed to send LINE Alert: {response.status_code} - {response.text}")
+            print(f"[{now_ms}] >> Failed to send LINE Alert: {response.status_code} - {response.text}")
     except Exception as e:
-        print(f">> Error sending LINE: {e}")
+        print(f"[{now_ms}] >> Error sending LINE: {e}")
 
 def send_email_alert(subject, body):
+    now_ms = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+
     """Sends an email alert"""
     try:
         msg = MIMEMultipart()
@@ -70,6 +75,6 @@ def send_email_alert(subject, body):
         server.login(SENDER_EMAIL, SENDER_PASSWORD)
         server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
         server.quit()
-        print(">> Email Alert Sent Successfully.")
+        print(f"[{now_ms}] >> Email Alert Sent Successfully.")
     except Exception as e:
-        print(f">> Error sending Email: {e}")
+        print(f"[{now_ms}] >> Error sending Email: {e}")

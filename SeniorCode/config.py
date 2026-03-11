@@ -19,11 +19,8 @@ VIRUSTOTAL_URL = "https://www.virustotal.com/api/v3/urls"
 DB_NAME = "security_events.db"
 
 # THRESHOLDS & TIMERS
-CHECK_INTERVAL = 30
-BRUTEFORCE_CHECK_INTERVAL = 300
-LICENSE_CHECK_INTERVAL = 60
+CHECK_INTERVAL = 5
 ALERT_COOLDOWN = 0
-LICENSE_LIMIT_MB = 500
 
 def get_severity_label(score):
     try:

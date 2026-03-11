@@ -4,7 +4,7 @@
         "severity": "8"
     },
     "dos": {
-        "query": "search index=main sourcetype=\"windows:firewall\" | rex field=_raw \"^(?<date>\\S+)\\s+(?<time>\\S+)\\s+(?<action>\\S+)\\s+(?<protocol>\\S+)\\s+(?<src_ip>\\S+)\\s+(?<dest_ip>\\S+)\\s+\\S+\\s+(?<dest_port>\\S+)\\s+(?<size>\\d+)\\s+(?<tcp_flags>\\S+)\" | search tcp_flags=\"S\" | bucket _time span=10s | stats count by _time, src_ip, host, dest_ip, dest_port, tcp_flags | where count >= 10 | table _time, src_ip, dest_ip, host, dest_port, tcp_flags, count",
+        "query": "search index=main sourcetype=\"windows:firewall\" | rex field=_raw \"^(?<date>\\S+)\\s+(?<time>\\S+)\\s+(?<action>\\S+)\\s+(?<protocol>\\S+)\\s+(?<src_ip>\\S+)\\s+(?<dest_ip>\\S+)\\s+\\S+\\s+(?<dest_port>\\S+)\\s+(?<size>\\d+)\\s+(?<tcp_flags>\\S+)\" | search tcp_flags=\"S\" | bucket _time span=5s | stats count by _time, src_ip, host, dest_ip, dest_port, tcp_flags | where count > 5 | table _time, src_ip, dest_ip, host, dest_port, tcp_flags, count",
         "severity": "8"
     },
     "crypto": {
