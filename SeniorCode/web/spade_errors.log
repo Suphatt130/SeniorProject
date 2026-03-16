@@ -182,3 +182,222 @@
 2026-03-11 14:48:31,193 - INFO - 127.0.0.1 - - [11/Mar/2026 14:48:31] "GET /api/logs HTTP/1.1" 200 -
 2026-03-11 14:48:33,226 - INFO - 127.0.0.1 - - [11/Mar/2026 14:48:33] "GET /api/stats HTTP/1.1" 200 -
 2026-03-11 14:48:41,498 - INFO - 127.0.0.1 - - [11/Mar/2026 14:48:41] "GET /api/logs HTTP/1.1" 200 -
+2026-03-16 14:13:15,435 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.167.85:5000
+2026-03-16 14:13:15,436 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-16 14:13:15,437 - INFO -  * Restarting with stat
+2026-03-16 14:13:16,014 - WARNING -  * Debugger is active!
+2026-03-16 14:13:16,022 - INFO -  * Debugger PIN: 102-474-242
+2026-03-16 14:13:16,275 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:16] "GET /api/logs HTTP/1.1" 200 -
+2026-03-16 14:13:17,530 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:17] "GET / HTTP/1.1" 200 -
+2026-03-16 14:13:17,963 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:17] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:13:17,971 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:17] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-16 14:13:17,996 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:17] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:13:18,321 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:18] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-16 14:13:18,403 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:18] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:13:18,411 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:18] "GET /socket.io/?EIO=4&transport=polling&t=PprVVH7 HTTP/1.1" 200 -
+2026-03-16 14:13:18,526 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:18] "GET /api/logs HTTP/1.1" 200 -
+2026-03-16 14:13:18,527 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:18] "POST /socket.io/?EIO=4&transport=polling&t=PprVVIx&sid=2yqek_3QQGfVHh29AAAA HTTP/1.1" 200 -
+2026-03-16 14:13:18,571 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:18] "GET /socket.io/?EIO=4&transport=polling&t=PprVVJ1&sid=2yqek_3QQGfVHh29AAAA HTTP/1.1" 200 -
+2026-03-16 14:13:18,578 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:18] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:13:18,585 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:18] "GET /socket.io/?EIO=4&transport=polling&t=PprVVJo&sid=2yqek_3QQGfVHh29AAAA HTTP/1.1" 200 -
+2026-03-16 14:13:19,470 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:19] "GET /api/stats HTTP/1.1" 200 -
+2026-03-16 14:13:20,617 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:20] "GET /api/stats HTTP/1.1" 200 -
+2026-03-16 14:13:21,930 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:21] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:13:21,968 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:21] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:13:21,977 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:21] "[32mGET /static//Member/Pon.jpg HTTP/1.1[0m" 308 -
+2026-03-16 14:13:21,980 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:21] "[32mGET /static//Member/Bow.jpg HTTP/1.1[0m" 308 -
+2026-03-16 14:13:21,983 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:21] "[32mGET /static//Member/Ice.jpg HTTP/1.1[0m" 308 -
+2026-03-16 14:13:21,988 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:21] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:13:21,999 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:21] "GET /socket.io/?EIO=4&transport=websocket&sid=2yqek_3QQGfVHh29AAAA HTTP/1.1" 200 -
+2026-03-16 14:13:22,000 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:22] "GET /static/Member/Pon.jpg HTTP/1.1" 200 -
+2026-03-16 14:13:22,001 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:22] "GET /static/Member/Bow.jpg HTTP/1.1" 200 -
+2026-03-16 14:13:22,003 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:22] "GET /static/Member/Ice.jpg HTTP/1.1" 200 -
+2026-03-16 14:13:22,055 - INFO - 127.0.0.1 - - [16/Mar/2026 14:13:22] "GET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1" 200 -
+2026-03-16 14:14:07,705 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.167.85:5000
+2026-03-16 14:14:07,706 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-16 14:14:07,706 - INFO -  * Restarting with stat
+2026-03-16 14:14:08,283 - WARNING -  * Debugger is active!
+2026-03-16 14:14:08,290 - INFO -  * Debugger PIN: 102-474-242
+2026-03-16 14:14:08,899 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:08] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:14:09,244 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:09] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:14:09,287 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:09] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:14:09,326 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:09] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:14:09,348 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:09] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:14:09,369 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:09] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:14:09,376 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:09] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:14:09,577 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:09] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:14:34,683 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.167.85:5000
+2026-03-16 14:14:34,684 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-16 14:14:34,684 - INFO -  * Restarting with stat
+2026-03-16 14:14:35,258 - WARNING -  * Debugger is active!
+2026-03-16 14:14:35,264 - INFO -  * Debugger PIN: 102-474-242
+2026-03-16 14:14:35,355 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:35] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:14:35,667 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:35] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:14:35,711 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:35] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:14:35,728 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:35] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:14:35,745 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:35] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:14:35,771 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:35] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:14:35,774 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:35] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:14:35,800 - INFO - 127.0.0.1 - - [16/Mar/2026 14:14:35] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:15:09,651 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.167.85:5000
+2026-03-16 14:15:09,652 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-16 14:15:09,652 - INFO -  * Restarting with stat
+2026-03-16 14:15:10,222 - WARNING -  * Debugger is active!
+2026-03-16 14:15:10,232 - INFO -  * Debugger PIN: 102-474-242
+2026-03-16 14:15:10,329 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:10] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:15:10,659 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:10] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:15:10,690 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:10] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:15:10,706 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:10] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:15:10,750 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:10] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:10,766 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:10] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:10,769 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:10] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:10,983 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:10] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:15:26,330 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.167.85:5000
+2026-03-16 14:15:26,331 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-16 14:15:26,331 - INFO -  * Restarting with stat
+2026-03-16 14:15:26,910 - WARNING -  * Debugger is active!
+2026-03-16 14:15:26,917 - INFO -  * Debugger PIN: 102-474-242
+2026-03-16 14:15:27,250 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:27] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:15:27,608 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:27] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:15:27,620 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:27] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:15:27,644 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:27] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:15:27,656 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:27] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:27,666 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:27] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:27,672 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:27] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:27,722 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:27] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:15:39,010 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.167.85:5000
+2026-03-16 14:15:39,011 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-16 14:15:39,011 - INFO -  * Restarting with stat
+2026-03-16 14:15:39,576 - WARNING -  * Debugger is active!
+2026-03-16 14:15:39,582 - INFO -  * Debugger PIN: 102-474-242
+2026-03-16 14:15:39,649 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:39] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:15:39,968 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:39] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:15:39,994 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:39] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:40,021 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:40] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:15:40,047 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:40] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:15:40,053 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:40] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:40,058 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:40] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:40,085 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:40] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:15:51,865 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.167.85:5000
+2026-03-16 14:15:51,865 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-16 14:15:51,866 - INFO -  * Restarting with stat
+2026-03-16 14:15:52,427 - WARNING -  * Debugger is active!
+2026-03-16 14:15:52,434 - INFO -  * Debugger PIN: 102-474-242
+2026-03-16 14:15:53,316 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:53] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:15:53,629 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:53] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:15:53,629 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:53] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:15:53,679 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:53] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:15:53,690 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:53] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:53,698 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:53] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:53,702 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:53] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:15:53,833 - INFO - 127.0.0.1 - - [16/Mar/2026 14:15:53] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:17,018 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.167.85:5000
+2026-03-16 14:16:17,019 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-16 14:16:17,020 - INFO -  * Restarting with stat
+2026-03-16 14:16:17,620 - WARNING -  * Debugger is active!
+2026-03-16 14:16:17,627 - INFO -  * Debugger PIN: 102-474-242
+2026-03-16 14:16:17,686 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:17] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:16:17,969 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:17] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:16:18,043 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:18] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:16:18,052 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:18] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:16:18,062 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:18] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:18,080 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:18] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:16:18,085 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:18] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:16:18,098 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:18] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:21,762 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:21] "GET / HTTP/1.1" 200 -
+2026-03-16 14:16:21,789 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:21] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:16:21,793 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:21] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:21,797 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:21] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:21,811 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:21] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:21,812 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:21] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:16:21,862 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:21] "GET /socket.io/?EIO=4&transport=polling&t=PprWC37 HTTP/1.1" 200 -
+2026-03-16 14:16:21,878 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:21] "GET /api/logs HTTP/1.1" 200 -
+2026-03-16 14:16:22,164 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:22] "POST /socket.io/?EIO=4&transport=polling&t=PprWC8F&sid=YY4jJLuwGKzP4vrvAAAA HTTP/1.1" 200 -
+2026-03-16 14:16:22,168 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:22] "GET /socket.io/?EIO=4&transport=polling&t=PprWC8H&sid=YY4jJLuwGKzP4vrvAAAA HTTP/1.1" 200 -
+2026-03-16 14:16:22,626 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:22] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:16:22,658 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:22] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:16:22,665 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:22] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:22,666 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:22] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:16:22,686 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:22] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:16:22,686 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:22] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:16:22,689 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:22] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:16:22,697 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:22] "GET /socket.io/?EIO=4&transport=websocket&sid=YY4jJLuwGKzP4vrvAAAA HTTP/1.1" 200 -
+2026-03-16 14:16:24,292 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "GET / HTTP/1.1" 200 -
+2026-03-16 14:16:24,314 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:16:24,319 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:24,322 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:24,335 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:24,336 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:16:24,398 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "GET /socket.io/?EIO=4&transport=polling&t=PprWCgS HTTP/1.1" 200 -
+2026-03-16 14:16:24,412 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "GET /api/logs HTTP/1.1" 200 -
+2026-03-16 14:16:24,594 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "GET /api/stats HTTP/1.1" 200 -
+2026-03-16 14:16:24,643 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "POST /socket.io/?EIO=4&transport=polling&t=PprWCl0&sid=G7QfYq_8UTDs17nMAAAC HTTP/1.1" 200 -
+2026-03-16 14:16:24,646 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:24] "GET /socket.io/?EIO=4&transport=polling&t=PprWCl1&sid=G7QfYq_8UTDs17nMAAAC HTTP/1.1" 200 -
+2026-03-16 14:16:25,672 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:25] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:16:25,718 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:25] "GET /socket.io/?EIO=4&transport=websocket&sid=G7QfYq_8UTDs17nMAAAC HTTP/1.1" 200 -
+2026-03-16 14:16:25,722 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:25] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:16:25,724 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:25] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:25,727 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:25] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:16:25,734 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:25] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:16:25,739 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:25] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:16:25,745 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:25] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:16:26,300 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:26] "GET /api/stats HTTP/1.1" 200 -
+2026-03-16 14:16:26,691 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:26] "GET / HTTP/1.1" 200 -
+2026-03-16 14:16:26,716 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:26] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:16:26,720 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:26] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:26,723 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:26] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:26,731 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:26] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-16 14:16:26,733 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:26] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:16:26,746 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:26] "GET /socket.io/?EIO=4&transport=polling&t=PprWDFq HTTP/1.1" 200 -
+2026-03-16 14:16:26,790 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:26] "GET /api/logs HTTP/1.1" 200 -
+2026-03-16 14:16:27,010 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:27] "POST /socket.io/?EIO=4&transport=polling&t=PprWDJz&sid=AMiN2mgV69t8dLroAAAE HTTP/1.1" 200 -
+2026-03-16 14:16:27,014 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:27] "GET /socket.io/?EIO=4&transport=polling&t=PprWDJ-&sid=AMiN2mgV69t8dLroAAAE HTTP/1.1" 200 -
+2026-03-16 14:16:27,027 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:27] "GET /socket.io/?EIO=4&transport=polling&t=PprWDKF&sid=AMiN2mgV69t8dLroAAAE HTTP/1.1" 200 -
+2026-03-16 14:16:28,445 - INFO - 127.0.0.1 - - [16/Mar/2026 14:16:28] "GET /api/stats HTTP/1.1" 200 -
+2026-03-16 14:17:39,413 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.167.85:5000
+2026-03-16 14:17:39,414 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-16 14:17:39,414 - INFO -  * Restarting with stat
+2026-03-16 14:17:39,985 - WARNING -  * Debugger is active!
+2026-03-16 14:17:39,992 - INFO -  * Debugger PIN: 102-474-242
+2026-03-16 14:17:40,065 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:40] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:17:40,441 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:40] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:17:40,499 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:40] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:17:40,510 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:40] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:17:40,514 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:40] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:17:40,527 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:40] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:17:40,537 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:40] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:17:40,744 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:40] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-16 14:17:41,750 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:41] "GET /about HTTP/1.1" 200 -
+2026-03-16 14:17:41,777 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:41] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-16 14:17:41,782 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:41] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-03-16 14:17:41,784 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:41] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-16 14:17:41,790 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:41] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:17:41,794 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:41] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-03-16 14:17:41,796 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:41] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
