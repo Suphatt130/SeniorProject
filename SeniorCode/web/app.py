@@ -258,5 +258,42 @@ def trigger_update():
     socketio.emit('refresh_data') 
     return jsonify({"status": "success"}), 200
 
+@app.route('/api/update_incident', methods=['POST'])
+def update_incident():
+    data = requests.get_json()
+    incident_time = data.get('time')
+    attack_type = data.get('type')
+    new_status = data.get('status')
+    new_verdict = data.get('verdict')
+    new_assignee = data.get('assignee')
+    
+    table_map = {
+        'Phishing': 'logs_phishing',
+        'DoS': 'logs_dos',
+        'Cryptojacking': 'logs_crypto',
+        'Brute Force': 'logs_bruteforce'
+    }
+    target_table = table_map.get(attack_type)
+    
+    if not target_table:
+        return jsonify({"status": "error", "message": "Invalid attack type"}), 400
+
+    try:
+        conn = sqlite3.connect(DB_PATH)
+        cursor = conn.cursor()
+        
+        query = f"""
+            UPDATE {target_table} 
+            SET status = ?, verdict = ?, assignee = ? 
+            WHERE time = ? AND host = ?
+        """
+        cursor.execute(query, (new_status, new_verdict, new_assignee, incident_time, data.get('host')))
+        
+        conn.commit()
+        conn.close()
+        return jsonify({"status": "success"}), 200
+    except Exception as e:
+        return jsonify({"status": "error", "message": str(e)}), 500
+    
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5000, debug=True, allow_unsafe_werkzeug=True)

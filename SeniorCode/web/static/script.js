@@ -262,10 +262,22 @@ function getSeverityClass(severity) {
     return 'badge-unknown';
 }
 
+function getStatusClass(status) {
+    if (status === 'In-Progress') return 'status-in-progress';
+    if (status === 'Closed') return 'status-closed';
+    return 'status-open'; // Default
+}
+
+function getVerdictClass(verdict) {
+    if (verdict === 'True Positive') return 'verdict-true-positive';
+    if (verdict === 'False Positive') return 'verdict-false-positive';
+    return 'verdict-unknown'; // Default
+}
+
 function renderTable(logs) {
     const tableBody = document.getElementById('log-table-body');
     if (logs.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="8" class="text-center text-muted py-3">No recent events found.</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="9" class="text-center text-muted py-3">No recent events found.</td></tr>';
         return;
     }
 
@@ -273,21 +285,29 @@ function renderTable(logs) {
     logs.forEach((log, index) => {
         const typeColor = getBadgeClass(log.type);
         const sevColor = getSeverityClass(log.severity);
+        const statusClass = getStatusClass(log.status);
+        const verdictClass = getVerdictClass(log.verdict);
 
         tableRows += `
-            <tr class="log-row">
+            <tr class="log-row align-middle">
                 <td><small class="fw-bold">${log.time.split(' ')[1] || log.time}</small></td> 
                 <td><span class="badge ${sevColor}">${log.severity || 'Unknown'}</span></td>
                 <td><span class="badge bg-${typeColor} text-dark">${log.type}</span></td>
                 <td class="text-truncate" style="max-width: 120px;" title="${log.host}">${log.host}</td>
-                <td class="text-truncate" style="max-width: 150px;" title="${log.source}">${log.source || '-'}</td>
-                <td><small>${log.extra || '-'}</small></td>
                 
                 <td class="text-truncate" style="max-width: 200px; cursor: pointer;" onclick="showIncidentDetails(${index})" title="Click to view full details">
                     <small class="text-primary" style="text-decoration: underline dotted;">${log.details}</small>
                 </td>
                 
-                <td class="text-center">${log.alert ? '✅' : '❌'}</td>
+                <td><span class="badge ${statusClass}">${log.status || 'Open'}</span></td>
+                <td><span class="badge ${verdictClass}">${log.verdict || 'Unknown'}</span></td>
+                <td><small class="text-muted fw-bold">${log.assignee === 'None' ? 'Unassigned' : log.assignee}</small></td>
+                
+                <td class="text-center">
+                    <button class="btn btn-outline-secondary btn-sm border-0" title="Edit Incident" onclick="openEditModal(${index})">
+                        <i class="ri-pencil-line"></i>
+                    </button>
+                </td>
             </tr>
         `;
     });
@@ -465,4 +485,73 @@ function showIncidentDetails(index) {
 
     const modal = new bootstrap.Modal(document.getElementById('incidentModal'));
     modal.show();
+}
+
+let activeEditIndex = null; // Remembers which row we clicked
+
+// 1. Opens the popup and fills it with the row's data
+function openEditModal(index) {
+    activeEditIndex = index;
+    const log = currentLogs[index];
+    if (!log) return;
+
+    document.getElementById('edit-host').value = log.host;
+    document.getElementById('edit-ip').value = log.source || '-';
+    document.getElementById('edit-time').value = log.time;
+    document.getElementById('edit-rule').value = log.type;
+    document.getElementById('edit-details').textContent = log.details;
+
+    document.getElementById('edit-status').value = log.status || 'Open';
+    document.getElementById('edit-verdict').value = log.verdict || 'Unknown';
+    document.getElementById('edit-assignee').value = log.assignee || 'None';
+
+    const modal = new bootstrap.Modal(document.getElementById('editIncidentModal'));
+    modal.show();
+}
+
+// 2. Setup the "Save Changes" button listener
+document.addEventListener('DOMContentLoaded', () => {
+    const submitBtn = document.getElementById('submitIncidentUpdateBtn');
+    if(submitBtn) {
+        submitBtn.addEventListener('click', submitIncidentUpdate);
+    }
+});
+
+// 3. Package the edits and send them to Python via POST request
+async function submitIncidentUpdate() {
+    if (activeEditIndex === null) return;
+    const log = currentLogs[activeEditIndex];
+
+    const updateData = {
+        time: log.time, 
+        host: log.host, 
+        type: log.type, 
+        status: document.getElementById('edit-status').value,
+        verdict: document.getElementById('edit-verdict').value,
+        assignee: document.getElementById('edit-assignee').value
+    };
+
+    try {
+        const response = await fetch('/api/update_incident', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updateData)
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') {
+            const modalElement = document.getElementById('editIncidentModal');
+            const modalInstance = bootstrap.Modal.getInstance(modalElement);
+            if(modalInstance) modalInstance.hide();
+            
+            fetchData(); 
+        } else {
+            alert('Backend Error updating incident: ' + result.message);
+        }
+    } catch (err) {
+        console.error("Update Error:", err);
+        alert('Network Error submitting update.');
+    } finally {
+        activeEditIndex = null; 
+    }
 }

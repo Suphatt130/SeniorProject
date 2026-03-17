@@ -290,3 +290,50 @@ th.sorted-desc .sort-icon::after {
 [data-bs-theme="light"] .cred-nav-link.active i {
     text-shadow: 0 0 10px rgba(13, 110, 253, 0.2); 
 }
+
+.status-open {
+    background-color: rgba(220, 53, 69, 0.15); /* Soft Red */
+    color: #ea868f;
+    border: 1px solid rgba(220, 53, 69, 0.5);
+}
+
+.status-in-progress {
+    background-color: rgba(253, 126, 20, 0.15); /* Soft Orange */
+    color: #fd9843;
+    border: 1px solid rgba(253, 126, 20, 0.5);
+}
+
+.status-closed {
+    background-color: rgba(25, 135, 84, 0.15); /* Soft Green */
+    color: #75b798;
+    border: 1px solid rgba(25, 135, 84, 0.5);
+}
+
+.verdict-unknown {
+    background-color: rgba(108, 117, 125, 0.15); /* Soft Gray */
+    color: #adb5bd;
+    border: 1px solid rgba(108, 117, 125, 0.5);
+}
+
+.verdict-true-positive {
+    background-color: rgba(13, 110, 253, 0.15); /* Soft Blue */
+    color: #6ea8fe;
+    border: 1px solid rgba(13, 110, 253, 0.5);
+}
+
+.verdict-false-positive {
+    background-color: rgba(253, 199, 12, 0.15); /* Soft Yellow */
+    color: #fdc70c;
+    border: 1px solid rgba(253, 199, 12, 0.5);
+}
+
+#editIncidentModalBody label {
+    font-size: 0.85rem;
+    font-weight: bold;
+    color: #adb5bd;
+}
+
+#editIncidentModalBody .form-control-plaintext {
+    color: #fff;
+    font-weight: bold;
+}

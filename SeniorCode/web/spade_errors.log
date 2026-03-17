@@ -401,3 +401,225 @@
 2026-03-16 14:17:41,790 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:41] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
 2026-03-16 14:17:41,794 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:41] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
 2026-03-16 14:17:41,796 - INFO - 127.0.0.1 - - [16/Mar/2026 14:17:41] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-03-17 20:55:55,599 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.134:5000
+2026-03-17 20:55:55,601 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-17 20:55:55,601 - INFO -  * Restarting with stat
+2026-03-17 20:55:56,183 - WARNING -  * Debugger is active!
+2026-03-17 20:55:56,191 - INFO -  * Debugger PIN: 102-474-242
+2026-03-17 20:55:56,658 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:56] "GET / HTTP/1.1" 200 -
+2026-03-17 20:55:56,938 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:56] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-17 20:55:56,940 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:56] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-17 20:55:56,942 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:56] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-17 20:55:57,159 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:57] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-17 20:55:57,191 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:57] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-17 20:55:57,220 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:57] "GET /socket.io/?EIO=4&transport=polling&t=Ppy5FAT HTTP/1.1" 200 -
+2026-03-17 20:55:57,325 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:57] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 20:55:57,355 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:57] "POST /socket.io/?EIO=4&transport=polling&t=Ppy5FCa&sid=T0j0Xev3dhhnNZ9_AAAA HTTP/1.1" 200 -
+2026-03-17 20:55:57,360 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:57] "GET /socket.io/?EIO=4&transport=polling&t=Ppy5FCc&sid=T0j0Xev3dhhnNZ9_AAAA HTTP/1.1" 200 -
+2026-03-17 20:55:57,426 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:57] "GET /socket.io/?EIO=4&transport=polling&t=Ppy5FCw&sid=T0j0Xev3dhhnNZ9_AAAA HTTP/1.1" 200 -
+2026-03-17 20:55:57,429 - INFO - 127.0.0.1 - - [17/Mar/2026 20:55:57] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-17 20:56:00,713 - INFO - 127.0.0.1 - - [17/Mar/2026 20:56:00] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 22:11:23,662 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.134:5000
+2026-03-17 22:11:23,663 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-17 22:11:23,663 - INFO -  * Restarting with stat
+2026-03-17 22:11:24,372 - WARNING -  * Debugger is active!
+2026-03-17 22:11:24,382 - INFO -  * Debugger PIN: 102-474-242
+2026-03-17 22:11:24,633 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:24] "GET / HTTP/1.1" 200 -
+2026-03-17 22:11:24,987 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:24] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-17 22:11:24,997 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:24] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-17 22:11:25,016 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:25] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-17 22:11:25,242 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:25] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-17 22:11:25,269 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:25] "GET /static/script.js HTTP/1.1" 200 -
+2026-03-17 22:11:25,330 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:25] "GET /socket.io/?EIO=4&transport=polling&t=PpyMWgA HTTP/1.1" 200 -
+2026-03-17 22:11:25,457 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:25] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 22:11:25,555 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:25] "POST /socket.io/?EIO=4&transport=polling&t=PpyMWj8&sid=YRkoKhy1aeVnRJjpAAAA HTTP/1.1" 200 -
+2026-03-17 22:11:25,560 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:25] "GET /socket.io/?EIO=4&transport=polling&t=PpyMWjE&sid=YRkoKhy1aeVnRJjpAAAA HTTP/1.1" 200 -
+2026-03-17 22:11:25,563 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:25] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-17 22:11:25,576 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:25] "GET /socket.io/?EIO=4&transport=polling&t=PpyMWj-&sid=YRkoKhy1aeVnRJjpAAAA HTTP/1.1" 200 -
+2026-03-17 22:11:28,146 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:28] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 22:11:35,929 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:35] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 22:11:37,706 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:37] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 22:11:45,938 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:45] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 22:11:47,665 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:47] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 22:11:55,927 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:55] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 22:11:57,697 - INFO - 127.0.0.1 - - [17/Mar/2026 22:11:57] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 22:12:05,939 - INFO - 127.0.0.1 - - [17/Mar/2026 22:12:05] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 22:12:07,715 - INFO - 127.0.0.1 - - [17/Mar/2026 22:12:07] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:08:54,532 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.134:5000
+2026-03-17 23:08:54,533 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-17 23:08:54,534 - INFO -  * Restarting with stat
+2026-03-17 23:08:55,110 - WARNING -  * Debugger is active!
+2026-03-17 23:08:55,117 - INFO -  * Debugger PIN: 102-474-242
+2026-03-17 23:08:55,309 - INFO - 127.0.0.1 - - [17/Mar/2026 23:08:55] "GET /socket.io/?EIO=4&transport=polling&t=PpyZgM_ HTTP/1.1" 200 -
+2026-03-17 23:08:55,325 - INFO - 127.0.0.1 - - [17/Mar/2026 23:08:55] "POST /socket.io/?EIO=4&transport=polling&t=PpyZgyP&sid=3zyUXUWHFM9xvUS7AAAA HTTP/1.1" 200 -
+2026-03-17 23:08:55,340 - INFO - 127.0.0.1 - - [17/Mar/2026 23:08:55] "GET /socket.io/?EIO=4&transport=polling&t=PpyZgyY&sid=3zyUXUWHFM9xvUS7AAAA HTTP/1.1" 200 -
+2026-03-17 23:08:55,347 - INFO - 127.0.0.1 - - [17/Mar/2026 23:08:55] "GET /socket.io/?EIO=4&transport=polling&t=PpyZgym&sid=3zyUXUWHFM9xvUS7AAAA HTTP/1.1" 200 -
+2026-03-17 23:09:00,473 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_phishing
+2026-03-17 23:09:00,473 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_dos
+2026-03-17 23:09:00,474 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_crypto
+2026-03-17 23:09:00,476 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_bruteforce
+2026-03-17 23:09:00,477 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:00] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:09:02,720 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:02] "GET / HTTP/1.1" 200 -
+2026-03-17 23:09:02,741 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:02] "GET /socket.io/?EIO=4&transport=websocket&sid=3zyUXUWHFM9xvUS7AAAA HTTP/1.1" 200 -
+2026-03-17 23:09:03,055 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-17 23:09:03,059 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-17 23:09:03,079 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "GET /static/style.css HTTP/1.1" 200 -
+2026-03-17 23:09:03,108 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:09:03,293 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-17 23:09:03,319 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "GET /static/script.js HTTP/1.1" 200 -
+2026-03-17 23:09:03,345 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "GET /socket.io/?EIO=4&transport=polling&t=PpyZivi HTTP/1.1" 200 -
+2026-03-17 23:09:03,372 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "POST /socket.io/?EIO=4&transport=polling&t=PpyZiw7&sid=9PYqtO6ulnAv6_ScAAAC HTTP/1.1" 200 -
+2026-03-17 23:09:03,376 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "GET /socket.io/?EIO=4&transport=polling&t=PpyZiw9&sid=9PYqtO6ulnAv6_ScAAAC HTTP/1.1" 200 -
+2026-03-17 23:09:03,460 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_phishing
+2026-03-17 23:09:03,461 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_dos
+2026-03-17 23:09:03,462 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_crypto
+2026-03-17 23:09:03,463 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_bruteforce
+2026-03-17 23:09:03,464 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:09:03,508 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "GET /socket.io/?EIO=4&transport=polling&t=PpyZixi&sid=9PYqtO6ulnAv6_ScAAAC HTTP/1.1" 200 -
+2026-03-17 23:09:03,511 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:03] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-17 23:09:05,208 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:05] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:09:13,472 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_phishing
+2026-03-17 23:09:13,473 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_dos
+2026-03-17 23:09:13,474 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_crypto
+2026-03-17 23:09:13,475 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_bruteforce
+2026-03-17 23:09:13,514 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:13] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:09:15,073 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:15] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:09:25,416 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.134:5000
+2026-03-17 23:09:25,417 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-17 23:09:25,417 - INFO -  * Restarting with stat
+2026-03-17 23:09:25,955 - WARNING -  * Debugger is active!
+2026-03-17 23:09:25,961 - INFO -  * Debugger PIN: 102-474-242
+2026-03-17 23:09:26,017 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_phishing
+2026-03-17 23:09:26,018 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_dos
+2026-03-17 23:09:26,019 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_crypto
+2026-03-17 23:09:26,019 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:26] "GET /socket.io/?EIO=4&transport=polling&t=PpyZoQb HTTP/1.1" 200 -
+2026-03-17 23:09:26,020 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_bruteforce
+2026-03-17 23:09:26,021 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:26] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:09:26,028 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:26] "POST /socket.io/?EIO=4&transport=polling&t=PpyZoS6&sid=y2J7-su5CDc_oO86AAAA HTTP/1.1" 200 -
+2026-03-17 23:09:26,066 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:26] "GET /socket.io/?EIO=4&transport=polling&t=PpyZoS7&sid=y2J7-su5CDc_oO86AAAA HTTP/1.1" 200 -
+2026-03-17 23:09:27,803 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:27] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:09:33,933 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_phishing
+2026-03-17 23:09:33,935 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_dos
+2026-03-17 23:09:33,936 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_crypto
+2026-03-17 23:09:33,936 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_bruteforce
+2026-03-17 23:09:33,971 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:33] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:09:35,695 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:35] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:09:43,927 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_phishing
+2026-03-17 23:09:43,927 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_dos
+2026-03-17 23:09:43,928 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_crypto
+2026-03-17 23:09:43,929 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_bruteforce
+2026-03-17 23:09:43,930 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:43] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:09:45,511 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:45] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:09:53,929 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:53] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:09:55,670 - INFO - 127.0.0.1 - - [17/Mar/2026 23:09:55] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:10:03,937 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:03] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:10:06,327 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:06] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:10:13,939 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:13] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:10:16,804 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:16] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:10:30,040 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:30] "POST /internal/trigger_update HTTP/1.1" 200 -
+2026-03-17 23:10:30,055 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:30] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:10:31,966 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:31] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:10:39,698 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:39] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:10:42,352 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:42] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:10:42,559 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:42] "POST /internal/trigger_update HTTP/1.1" 200 -
+2026-03-17 23:10:42,566 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:42] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:10:43,471 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:43] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:10:44,339 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:44] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:10:46,337 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:46] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:10:53,471 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:53] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:10:55,368 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:55] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:10:55,443 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:55] "POST /internal/trigger_update HTTP/1.1" 200 -
+2026-03-17 23:10:55,453 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:55] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:10:57,502 - INFO - 127.0.0.1 - - [17/Mar/2026 23:10:57] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:11:03,464 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:03] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:11:05,315 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:05] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:11:13,928 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:13] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:11:15,734 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:15] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:11:23,468 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:23] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:11:25,258 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:25] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:11:33,466 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:33] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:11:35,255 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:35] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:11:43,464 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:43] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:11:45,342 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:45] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:11:53,467 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:53] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:11:55,021 - INFO - 127.0.0.1 - - [17/Mar/2026 23:11:55] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:12:03,924 - INFO - 127.0.0.1 - - [17/Mar/2026 23:12:03] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:14:48,132 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.134:5000
+2026-03-17 23:14:48,133 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-17 23:14:48,134 - INFO -  * Restarting with stat
+2026-03-17 23:14:48,745 - WARNING -  * Debugger is active!
+2026-03-17 23:14:48,754 - INFO -  * Debugger PIN: 102-474-242
+2026-03-17 23:14:49,850 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:49] "GET /socket.io/?EIO=4&transport=polling&t=Ppyb1Vg HTTP/1.1" 200 -
+2026-03-17 23:14:49,859 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:49] "POST /socket.io/?EIO=4&transport=polling&t=Ppyb1V-&sid=QjImLfF4ih5LO6WcAAAA HTTP/1.1" 200 -
+2026-03-17 23:14:49,862 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:49] "GET /socket.io/?EIO=4&transport=polling&t=Ppyb1W0&sid=QjImLfF4ih5LO6WcAAAA HTTP/1.1" 200 -
+2026-03-17 23:14:53,474 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:53] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:14:55,470 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:55] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:14:58,388 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:58] "GET / HTTP/1.1" 200 -
+2026-03-17 23:14:58,405 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:58] "GET /socket.io/?EIO=4&transport=websocket&sid=QjImLfF4ih5LO6WcAAAA HTTP/1.1" 200 -
+2026-03-17 23:14:58,715 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:58] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-17 23:14:58,722 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:58] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-17 23:14:58,728 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:58] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-17 23:14:58,877 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:58] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-17 23:14:58,889 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:58] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-17 23:14:58,960 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:58] "GET /socket.io/?EIO=4&transport=polling&t=Ppyb3kB HTTP/1.1" 200 -
+2026-03-17 23:14:59,039 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:59] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:14:59,043 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:59] "POST /socket.io/?EIO=4&transport=polling&t=Ppyb3lU&sid=UB-6jW6C9nE5VeRJAAAC HTTP/1.1" 200 -
+2026-03-17 23:14:59,047 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:59] "GET /socket.io/?EIO=4&transport=polling&t=Ppyb3lV&sid=UB-6jW6C9nE5VeRJAAAC HTTP/1.1" 200 -
+2026-03-17 23:14:59,061 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:59] "GET /socket.io/?EIO=4&transport=polling&t=Ppyb3lo&sid=UB-6jW6C9nE5VeRJAAAC HTTP/1.1" 200 -
+2026-03-17 23:14:59,105 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:59] "GET /socket.io/?EIO=4&transport=polling&t=Ppyb3m0&sid=UB-6jW6C9nE5VeRJAAAC HTTP/1.1" 200 -
+2026-03-17 23:14:59,107 - INFO - 127.0.0.1 - - [17/Mar/2026 23:14:59] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-17 23:15:00,782 - INFO - 127.0.0.1 - - [17/Mar/2026 23:15:00] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:15:09,055 - INFO - 127.0.0.1 - - [17/Mar/2026 23:15:09] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:15:10,939 - INFO - 127.0.0.1 - - [17/Mar/2026 23:15:10] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:15:19,054 - INFO - 127.0.0.1 - - [17/Mar/2026 23:15:19] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:15:20,798 - INFO - 127.0.0.1 - - [17/Mar/2026 23:15:20] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:15:29,935 - INFO - 127.0.0.1 - - [17/Mar/2026 23:15:29] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:32:10,143 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.134:5000
+2026-03-17 23:32:10,144 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-17 23:32:10,145 - INFO -  * Restarting with stat
+2026-03-17 23:32:10,880 - WARNING -  * Debugger is active!
+2026-03-17 23:32:10,889 - INFO -  * Debugger PIN: 102-474-242
+2026-03-17 23:32:11,835 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:11] "POST /internal/trigger_update HTTP/1.1" 200 -
+2026-03-17 23:32:12,931 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:12] "GET /socket.io/?EIO=4&transport=polling&t=Ppyf09z HTTP/1.1" 200 -
+2026-03-17 23:32:12,959 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:12] "POST /socket.io/?EIO=4&transport=polling&t=Ppyf0AP&sid=tZLduZ3kZaEakWUGAAAA HTTP/1.1" 200 -
+2026-03-17 23:32:12,975 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:12] "GET /socket.io/?EIO=4&transport=polling&t=Ppyf0AY&sid=tZLduZ3kZaEakWUGAAAA HTTP/1.1" 200 -
+2026-03-17 23:32:13,018 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:13] "GET /socket.io/?EIO=4&transport=polling&t=Ppyf0BE&sid=tZLduZ3kZaEakWUGAAAA HTTP/1.1" 200 -
+2026-03-17 23:32:44,972 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:44] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:32:45,994 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:45] "POST /internal/trigger_update HTTP/1.1" 200 -
+2026-03-17 23:32:46,010 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:46] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:32:47,209 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:47] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:32:49,044 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:49] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:32:49,141 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:49] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:32:51,028 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:51] "GET /api/stats HTTP/1.1" 200 -
+2026-03-17 23:32:57,498 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:57] "GET / HTTP/1.1" 200 -
+2026-03-17 23:32:57,525 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:57] "GET /socket.io/?EIO=4&transport=websocket&sid=tZLduZ3kZaEakWUGAAAA HTTP/1.1" 200 -
+2026-03-17 23:32:57,875 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:57] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-17 23:32:57,882 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:57] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-17 23:32:57,889 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:57] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-17 23:32:58,076 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:58] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-17 23:32:58,087 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:58] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-17 23:32:58,135 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:58] "GET /socket.io/?EIO=4&transport=polling&t=PpyfBCF HTTP/1.1" 200 -
+2026-03-17 23:32:58,169 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:58] "POST /socket.io/?EIO=4&transport=polling&t=PpyfBCn&sid=F5Y1Nrf0vFtOv4huAAAC HTTP/1.1" 200 -
+2026-03-17 23:32:58,184 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:58] "GET /socket.io/?EIO=4&transport=polling&t=PpyfBCu&sid=F5Y1Nrf0vFtOv4huAAAC HTTP/1.1" 200 -
+2026-03-17 23:32:58,286 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:58] "GET /api/logs HTTP/1.1" 200 -
+2026-03-17 23:32:58,353 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:58] "GET /socket.io/?EIO=4&transport=polling&t=PpyfBF5&sid=F5Y1Nrf0vFtOv4huAAAC HTTP/1.1" 200 -
+2026-03-17 23:32:58,356 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:58] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-17 23:33:00,895 - INFO - 127.0.0.1 - - [17/Mar/2026 23:33:00] "GET /api/stats HTTP/1.1" 200 -

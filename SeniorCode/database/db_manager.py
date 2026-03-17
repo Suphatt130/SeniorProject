@@ -18,15 +18,18 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_phishing (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,      -- Time
-                computer TEXT,       -- Computer
-                user TEXT,           -- User
-                parent_app TEXT,     -- Parent_App
-                browser_name TEXT,   -- Browser_Name
-                clicked_link TEXT,   -- Clicked_Link
-                technique_id TEXT,   -- Technique_ID
+                timestamp TEXT,
+                computer TEXT,
+                user TEXT,
+                parent_app TEXT,
+                browser_name TEXT,
+                clicked_link TEXT,
+                technique_id TEXT,
                 severity TEXT,
-                alert_sent BOOLEAN
+                alert_sent BOOLEAN,
+                status TEXT DEFAULT 'Open',
+                verdict TEXT DEFAULT 'Unknown',
+                assignee TEXT DEFAULT 'None'
             )
         ''')
 
@@ -43,7 +46,10 @@ def init_db():
                 count INTEGER,
                 technique_id TEXT,
                 severity TEXT,
-                alert_sent BOOLEAN
+                alert_sent BOOLEAN,
+                status TEXT DEFAULT 'Open',
+                verdict TEXT DEFAULT 'Unknown',
+                assignee TEXT DEFAULT 'None'
             )
         ''')
 
@@ -67,7 +73,10 @@ def init_db():
                 last_time TEXT,
                 technique_id TEXT,
                 severity TEXT,
-                alert_sent BOOLEAN
+                alert_sent BOOLEAN,
+                status TEXT DEFAULT 'Open',
+                verdict TEXT DEFAULT 'Unknown',
+                assignee TEXT DEFAULT 'None'
             )
         ''')
 
@@ -83,7 +92,10 @@ def init_db():
                 count INTEGER,
                 technique_id TEXT,
                 severity TEXT,
-                alert_sent BOOLEAN
+                alert_sent BOOLEAN,
+                status TEXT DEFAULT 'Open',
+                verdict TEXT DEFAULT 'Unknown',
+                assignee TEXT DEFAULT 'None'
             )
         ''')
 

@@ -60,7 +60,7 @@ def run_phishing_check(last_alert_time):
         "search": QUERY_PHISHING,
         "exec_mode": "oneshot",
         "output_mode": "json",
-        "earliest_time": "-30s",
+        "earliest_time": "-5s",
         "latest_time": "now"
     }
     
