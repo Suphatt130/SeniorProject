@@ -27,9 +27,10 @@ def init_db():
                 technique_id TEXT,
                 severity TEXT,
                 alert_sent BOOLEAN,
-                status TEXT DEFAULT 'Open',
-                verdict TEXT DEFAULT 'Unknown',
-                assignee TEXT DEFAULT 'None'
+                status TEXT DEFAULT 'Awaiting Action',
+                verdict TEXT DEFAULT 'None',
+                assignee TEXT DEFAULT 'None',
+                comment TEXT DEFAULT ''
             )
         ''')
 
@@ -47,9 +48,10 @@ def init_db():
                 technique_id TEXT,
                 severity TEXT,
                 alert_sent BOOLEAN,
-                status TEXT DEFAULT 'Open',
-                verdict TEXT DEFAULT 'Unknown',
-                assignee TEXT DEFAULT 'None'
+                status TEXT DEFAULT 'Awaiting Action',
+                verdict TEXT DEFAULT 'Nome',
+                assignee TEXT DEFAULT 'None',
+                comment TEXT DEFAULT ''
             )
         ''')
 
@@ -74,9 +76,10 @@ def init_db():
                 technique_id TEXT,
                 severity TEXT,
                 alert_sent BOOLEAN,
-                status TEXT DEFAULT 'Open',
-                verdict TEXT DEFAULT 'Unknown',
-                assignee TEXT DEFAULT 'None'
+                status TEXT DEFAULT 'Awaiting Action',
+                verdict TEXT DEFAULT 'None',
+                assignee TEXT DEFAULT 'None',
+                comment TEXT DEFAULT ''
             )
         ''')
 
@@ -93,9 +96,10 @@ def init_db():
                 technique_id TEXT,
                 severity TEXT,
                 alert_sent BOOLEAN,
-                status TEXT DEFAULT 'Open',
-                verdict TEXT DEFAULT 'Unknown',
-                assignee TEXT DEFAULT 'None'
+                status TEXT DEFAULT 'Awaiting Action',
+                verdict TEXT DEFAULT 'None',
+                assignee TEXT DEFAULT 'None',
+                comment TEXT DEFAULT ''
             )
         ''')
 

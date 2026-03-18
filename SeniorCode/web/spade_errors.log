@@ -623,3 +623,143 @@
 2026-03-17 23:32:58,353 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:58] "GET /socket.io/?EIO=4&transport=polling&t=PpyfBF5&sid=F5Y1Nrf0vFtOv4huAAAC HTTP/1.1" 200 -
 2026-03-17 23:32:58,356 - INFO - 127.0.0.1 - - [17/Mar/2026 23:32:58] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
 2026-03-17 23:33:00,895 - INFO - 127.0.0.1 - - [17/Mar/2026 23:33:00] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:35:31,679 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.166.6:5000
+2026-03-18 12:35:31,680 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-18 12:35:31,680 - INFO -  * Restarting with stat
+2026-03-18 12:35:32,504 - WARNING -  * Debugger is active!
+2026-03-18 12:35:32,513 - INFO -  * Debugger PIN: 102-474-242
+2026-03-18 12:35:40,916 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:40] "GET / HTTP/1.1" 200 -
+2026-03-18 12:35:41,242 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-18 12:35:41,251 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-18 12:35:41,258 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-18 12:35:41,613 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-18 12:35:41,654 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-18 12:35:41,665 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "GET /socket.io/?EIO=4&transport=polling&t=Pp_SKvR HTTP/1.1" 200 -
+2026-03-18 12:35:41,893 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "POST /socket.io/?EIO=4&transport=polling&t=Pp_SKz1&sid=z-RZ_gc7aeckedAQAAAA HTTP/1.1" 200 -
+2026-03-18 12:35:41,895 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:35:41,905 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "GET /socket.io/?EIO=4&transport=polling&t=Pp_SKz6&sid=z-RZ_gc7aeckedAQAAAA HTTP/1.1" 200 -
+2026-03-18 12:35:41,917 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "GET /socket.io/?EIO=4&transport=polling&t=Pp_SKzP&sid=z-RZ_gc7aeckedAQAAAA HTTP/1.1" 200 -
+2026-03-18 12:35:41,983 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:41] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-18 12:35:44,595 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:44] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:35:51,895 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:51] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:35:53,541 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:53] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:35:59,204 - INFO - 127.0.0.1 - - [18/Mar/2026 12:35:59] "GET /api/logs?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:00,938 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:00] "GET /api/stats?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:01,888 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:01] "GET /api/logs?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:03,480 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:03] "GET /api/stats?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:11,896 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:11] "GET /api/logs?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:13,668 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:13] "GET /api/stats?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:21,886 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:21] "GET /api/logs?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:23,661 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:23] "GET /api/stats?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:31,883 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:31] "GET /api/logs?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:33,875 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:33] "GET /api/stats?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:41,883 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:41] "GET /api/logs?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:43,622 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:43] "GET /api/stats?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:51,897 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:51] "GET /api/logs?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:36:53,620 - INFO - 127.0.0.1 - - [18/Mar/2026 12:36:53] "GET /api/stats?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:55:03,683 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.166.6:5000
+2026-03-18 12:55:03,685 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-18 12:55:03,685 - INFO -  * Restarting with stat
+2026-03-18 12:55:04,316 - WARNING -  * Debugger is active!
+2026-03-18 12:55:04,343 - INFO -  * Debugger PIN: 102-474-242
+2026-03-18 12:55:04,584 - ERROR - Failed to fetch Phishing logs: No item with that key
+2026-03-18 12:55:04,585 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:04] "GET /api/logs?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:55:05,930 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:05] "GET / HTTP/1.1" 200 -
+2026-03-18 12:55:06,241 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:06] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-18 12:55:06,244 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:06] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-18 12:55:06,249 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:06] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-18 12:55:06,498 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:06] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-18 12:55:06,530 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:06] "GET /static/script.js HTTP/1.1" 200 -
+2026-03-18 12:55:06,577 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:06] "GET /socket.io/?EIO=4&transport=polling&t=Pp_WnJA HTTP/1.1" 200 -
+2026-03-18 12:55:06,651 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:06] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:55:06,728 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:06] "POST /socket.io/?EIO=4&transport=polling&t=Pp_WnKZ&sid=b6Qr4Z2dWLNENBe1AAAA HTTP/1.1" 200 -
+2026-03-18 12:55:06,731 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:06] "GET /socket.io/?EIO=4&transport=polling&t=Pp_WnKb&sid=b6Qr4Z2dWLNENBe1AAAA HTTP/1.1" 200 -
+2026-03-18 12:55:06,738 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:06] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-18 12:55:07,299 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:07] "GET /api/stats?start=2026-03-17T12:35&end=2026-03-18T12:35 HTTP/1.1" 200 -
+2026-03-18 12:55:08,263 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:08] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:55:16,662 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:16] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:55:18,178 - ERROR - Failed to fetch Phishing logs: No item with that key
+2026-03-18 12:55:18,180 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:18] "GET /api/logs?start=2026-03-16T12:55&end=2026-03-18T12:55 HTTP/1.1" 200 -
+2026-03-18 12:55:18,387 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:18] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:55:19,807 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:19] "GET /api/stats?start=2026-03-16T12:55&end=2026-03-18T12:55 HTTP/1.1" 200 -
+2026-03-18 12:55:26,933 - ERROR - Failed to fetch Phishing logs: No item with that key
+2026-03-18 12:55:26,935 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:26] "GET /api/logs?start=2026-03-16T12:55&end=2026-03-18T12:55 HTTP/1.1" 200 -
+2026-03-18 12:55:48,014 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.166.6:5000
+2026-03-18 12:55:48,014 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-18 12:55:48,015 - INFO -  * Restarting with stat
+2026-03-18 12:55:48,603 - WARNING -  * Debugger is active!
+2026-03-18 12:55:48,611 - INFO -  * Debugger PIN: 102-474-242
+2026-03-18 12:55:48,859 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:48] "GET / HTTP/1.1" 200 -
+2026-03-18 12:55:49,159 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:49] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-03-18 12:55:49,165 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:49] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-18 12:55:49,174 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:49] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-03-18 12:55:49,468 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:49] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-03-18 12:55:49,473 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:49] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-03-18 12:55:49,483 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:49] "GET /socket.io/?EIO=4&transport=polling&t=Pp_Wxnc HTTP/1.1" 200 -
+2026-03-18 12:55:49,643 - ERROR - Failed to fetch Phishing logs: no such table: logs_phishing
+2026-03-18 12:55:49,643 - ERROR - Failed to fetch DoS logs: no such table: logs_dos
+2026-03-18 12:55:49,644 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_crypto
+2026-03-18 12:55:49,645 - ERROR - Failed to fetch Brute Force logs: no such table: logs_bruteforce
+2026-03-18 12:55:49,646 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:49] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:55:49,648 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:49] "POST /socket.io/?EIO=4&transport=polling&t=Pp_WxqD&sid=taUo89fAul_Gp8RxAAAA HTTP/1.1" 200 -
+2026-03-18 12:55:49,691 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:49] "GET /socket.io/?EIO=4&transport=polling&t=Pp_WxqE&sid=taUo89fAul_Gp8RxAAAA HTTP/1.1" 200 -
+2026-03-18 12:55:49,722 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:49] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-03-18 12:55:51,520 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:51] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:55:59,656 - ERROR - Failed to fetch Phishing logs: no such table: logs_phishing
+2026-03-18 12:55:59,657 - ERROR - Failed to fetch DoS logs: no such table: logs_dos
+2026-03-18 12:55:59,658 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_crypto
+2026-03-18 12:55:59,659 - ERROR - Failed to fetch Brute Force logs: no such table: logs_bruteforce
+2026-03-18 12:55:59,696 - INFO - 127.0.0.1 - - [18/Mar/2026 12:55:59] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:56:01,224 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:01] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:56:09,650 - ERROR - Failed to fetch Phishing logs: no such table: logs_phishing
+2026-03-18 12:56:09,652 - ERROR - Failed to fetch DoS logs: no such table: logs_dos
+2026-03-18 12:56:09,652 - ERROR - Failed to fetch Cryptojacking logs: no such table: logs_crypto
+2026-03-18 12:56:09,654 - ERROR - Failed to fetch Brute Force logs: no such table: logs_bruteforce
+2026-03-18 12:56:09,654 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:09] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:56:11,237 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:11] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:56:28,255 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.166.6:5000
+2026-03-18 12:56:28,256 - INFO - [33mPress CTRL+C to quit[0m
+2026-03-18 12:56:28,256 - INFO -  * Restarting with stat
+2026-03-18 12:56:28,847 - WARNING -  * Debugger is active!
+2026-03-18 12:56:28,853 - INFO -  * Debugger PIN: 102-474-242
+2026-03-18 12:56:28,916 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:28] "GET /socket.io/?EIO=4&transport=polling&t=Pp_X5AJ HTTP/1.1" 200 -
+2026-03-18 12:56:28,921 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:28] "POST /socket.io/?EIO=4&transport=polling&t=Pp_X5Ps&sid=Hqvgi5gEmDzSfqGDAAAA HTTP/1.1" 200 -
+2026-03-18 12:56:28,925 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:28] "GET /socket.io/?EIO=4&transport=polling&t=Pp_X5Pt&sid=Hqvgi5gEmDzSfqGDAAAA HTTP/1.1" 200 -
+2026-03-18 12:56:28,930 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:28] "GET /socket.io/?EIO=4&transport=polling&t=Pp_X5P_&sid=Hqvgi5gEmDzSfqGDAAAA HTTP/1.1" 200 -
+2026-03-18 12:56:29,939 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:29] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:56:32,885 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:32] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:56:39,658 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:39] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:56:41,569 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:41] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:56:49,926 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:49] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:56:51,782 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:51] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:56:59,931 - INFO - 127.0.0.1 - - [18/Mar/2026 12:56:59] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:57:01,843 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:01] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:57:09,935 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:09] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:57:18,156 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:18] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:57:19,946 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:19] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:57:24,771 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:24] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:57:29,933 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:29] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:57:31,853 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:31] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:57:39,927 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:39] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:57:41,892 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:41] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:57:42,350 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:42] "POST /internal/trigger_update HTTP/1.1" 200 -
+2026-03-18 12:57:42,361 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:42] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:57:44,267 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:44] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:57:49,924 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:49] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:57:52,247 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:52] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:57:59,933 - INFO - 127.0.0.1 - - [18/Mar/2026 12:57:59] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:58:01,888 - INFO - 127.0.0.1 - - [18/Mar/2026 12:58:01] "GET /api/stats HTTP/1.1" 200 -
+2026-03-18 12:58:09,648 - INFO - 127.0.0.1 - - [18/Mar/2026 12:58:09] "GET /api/logs HTTP/1.1" 200 -
+2026-03-18 12:58:11,495 - INFO - 127.0.0.1 - - [18/Mar/2026 12:58:11] "GET /api/stats HTTP/1.1" 200 -

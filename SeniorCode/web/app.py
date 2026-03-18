@@ -206,10 +206,11 @@ def api_logs():
             all_logs.append({
                 "time": r['timestamp'], "type": "Phishing", "host": r['computer'], "source": r['parent_app'], 
                 "severity": r['severity'], "extra": r['technique_id'], 
-                "details": f"Link: {r['clicked_link']} | Browser: {r['browser_name']}", "alert": r['alert_sent']
+                "details": f"Link: {r['clicked_link']} | Browser: {r['browser_name']}",
+                "status": r['status'], "verdict": r['verdict'], "assignee": r['assignee'], "comment": r['comment'] # <-- NEW
             })
     except Exception as e: 
-        logging.error(f"Failed to fetch Cryptojacking logs: {e}")
+        logging.error(f"Failed to fetch Phishing logs: {e}")
 
     # --- 2. DOS ---
     try:
@@ -218,10 +219,11 @@ def api_logs():
             all_logs.append({
                 "time": r['timestamp'], "type": "DoS", "host": r['host'], "source": r['src_ip'], 
                 "severity": r['severity'], "extra": r['technique_id'], 
-                "details": f"Target: {r['dest_ip']}:{r['dest_port']} | Flags: {r['tcp_flags']} | Pkts: {r['count']}", "alert": r['alert_sent']
+                "details": f"Target: {r['dest_ip']}:{r['dest_port']} | Flags: {r['tcp_flags']} | Pkts: {r['count']}",
+                "status": r['status'], "verdict": r['verdict'], "assignee": r['assignee'], "comment": r['comment'] # <-- NEW
             })
     except Exception as e: 
-        logging.error(f"Failed to fetch Cryptojacking logs: {e}")
+        logging.error(f"Failed to fetch DoS logs: {e}")
 
     # --- 3. CRYPTOJACKING ---
     try:
@@ -231,7 +233,8 @@ def api_logs():
             if r['md5']: det += f" | MD5: {r['md5']}"
             all_logs.append({
                 "time": r['timestamp'], "type": "Cryptojacking", "host": r['dest'], "source": r['process_path'] or "Unknown",
-                "severity": r['severity'], "extra": r['technique_id'], "details": det, "alert": r['alert_sent']
+                "severity": r['severity'], "extra": r['technique_id'], "details": det,
+                "status": r['status'], "verdict": r['verdict'], "assignee": r['assignee'], "comment": r['comment'] # <-- NEW
             })
     except Exception as e: 
         logging.error(f"Failed to fetch Cryptojacking logs: {e}")
@@ -243,10 +246,11 @@ def api_logs():
             all_logs.append({
                 "time": r['first_time'], "type": "Brute Force", "host": r['dest'], "source": r['src_ip'],
                 "severity": r['severity'], "extra": r['technique_id'],
-                "details": f"Target User: {r['user']} | Failures: {r['count']}", "alert": r['alert_sent']
+                "details": f"Target User: {r['user']} | Failures: {r['count']}",
+                "status": r['status'], "verdict": r['verdict'], "assignee": r['assignee'], "comment": r['comment'] # <-- NEW
             })
     except Exception as e: 
-        logging.error(f"Failed to fetch Cryptojacking logs: {e}")
+        logging.error(f"Failed to fetch Brute Force logs: {e}")
 
     conn.close()
     all_logs.sort(key=lambda x: x['time'], reverse=True)
@@ -266,6 +270,7 @@ def update_incident():
     new_status = data.get('status')
     new_verdict = data.get('verdict')
     new_assignee = data.get('assignee')
+    new_comment = data.get('comment')
     
     table_map = {
         'Phishing': 'logs_phishing',
@@ -284,10 +289,10 @@ def update_incident():
         
         query = f"""
             UPDATE {target_table} 
-            SET status = ?, verdict = ?, assignee = ? 
+            SET status = ?, verdict = ?, assignee = ?, comment = ?
             WHERE time = ? AND host = ?
         """
-        cursor.execute(query, (new_status, new_verdict, new_assignee, incident_time, data.get('host')))
+        cursor.execute(query, (new_status, new_verdict, new_assignee, new_comment, incident_time, data.get('host')))
         
         conn.commit()
         conn.close()

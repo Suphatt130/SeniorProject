@@ -475,7 +475,6 @@ function showIncidentDetails(index) {
         <div class="mb-2"><strong>Host/Target:</strong> ${log.host}</div>
         <div class="mb-2"><strong>Source App / Attacker IP:</strong> ${log.source || '-'}</div>
         <div class="mb-2"><strong>Technique:</strong> ${log.extra || '-'}</div>
-        <div class="mb-3"><strong>Alert Sent:</strong> ${log.alert ? '✅ Yes' : '❌ No'}</div>
         
         <h6 class="text-muted mb-2 mt-4" style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Raw Details Data</h6>
         <div class="p-3 rounded" style="background-color: rgba(0,0,0,0.1); border: 1px solid #373b3e; word-wrap: break-word;">
@@ -501,9 +500,10 @@ function openEditModal(index) {
     document.getElementById('edit-rule').value = log.type;
     document.getElementById('edit-details').textContent = log.details;
 
-    document.getElementById('edit-status').value = log.status || 'Open';
-    document.getElementById('edit-verdict').value = log.verdict || 'Unknown';
+    document.getElementById('edit-status').value = log.status || 'Awaiting Action';
+    document.getElementById('edit-verdict').value = log.verdict || 'None';
     document.getElementById('edit-assignee').value = log.assignee || 'None';
+    document.getElementById('edit-comment').value = log.comment || '';
 
     const modal = new bootstrap.Modal(document.getElementById('editIncidentModal'));
     modal.show();
@@ -528,7 +528,8 @@ async function submitIncidentUpdate() {
         type: log.type, 
         status: document.getElementById('edit-status').value,
         verdict: document.getElementById('edit-verdict').value,
-        assignee: document.getElementById('edit-assignee').value
+        assignee: document.getElementById('edit-assignee').value,
+        comment: document.getElementById('edit-comment').value
     };
 
     try {

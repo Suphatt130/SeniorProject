@@ -60,7 +60,7 @@
                     <div class="col-md-4">
                         <div class="card h-100 card-custom text-center">
                             <div class="card-body d-flex flex-column justify-content-center">
-                                <h5 class="card-title text-muted mb-3">Total Alerts Today</h5>
+                                <h5 class="card-title text-muted mb-3">Total Alerts</h5>
                                 <h2 class="display-4 fw-bold text-primary" id="total-alerts">-</h2>
                                 <small class="text-muted">All detection rules</small>
                             </div>
@@ -239,6 +239,11 @@
                         </div>
                     </div>
 
+                    <div class="mb-3 mt-4">
+                        <label for="edit-comment" class="text-light fw-bold small mb-2">Analyst Comment <span class="text-danger">*</span></label>
+                        <textarea class="form-control bg-dark text-light border-secondary" id="edit-comment" rows="4" placeholder="Enter investigation notes..."></textarea>
+                    </div>
+                    
                     <div class="mb-2 mt-4">
                         <label class="text-muted fw-bold small mb-2">Raw Incident Details</label>
                         <div class="p-3 rounded" style="background-color: rgba(0,0,0,0.1); border: 1px solid #373b3e; word-wrap: break-word; max-height: 150px; overflow-y: auto;">
