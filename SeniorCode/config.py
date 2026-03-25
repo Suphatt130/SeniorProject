@@ -15,6 +15,9 @@ SPLUNK_AUTH = None
 VIRUSTOTAL_API_KEY = os.getenv("VIRUSTOTAL_API_KEY")
 VIRUSTOTAL_URL = "https://www.virustotal.com/api/v3/urls"
 
+# FLASK SETTINGS
+FLASK_SECRET_KEY = os.getenv("FLASK_SECRET_KEY", "fallback_dev_key_if_env_is_missing")
+
 # DATABASE
 DB_NAME = "security_events.db"
 

@@ -2,6 +2,7 @@ import sqlite3
 import config
 from datetime import datetime
 import requests
+from werkzeug.security import generate_password_hash, check_password_hash
 
 def get_db_connection():
     conn = sqlite3.connect(config.DB_NAME)
@@ -112,6 +113,16 @@ def init_db():
                 usage_mb INTEGER,
                 severity TEXT,
                 alert_sent BOOLEAN
+            )
+        ''')
+
+        # 6. USERS TABLE (For Login and Assignees)
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT UNIQUE,
+                password_hash TEXT,
+                role TEXT
             )
         ''')
 

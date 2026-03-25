@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     initDateDisplay();
     initCharts();
+    loadAssignees();
     fetchData();
     
     autoRefreshInterval = setInterval(fetchData, 10000); 
@@ -554,5 +555,27 @@ async function submitIncidentUpdate() {
         alert('Network Error submitting update.');
     } finally {
         activeEditIndex = null; 
+    }
+}
+
+async function loadAssignees() {
+    try {
+        const response = await fetch('/api/users');
+        const users = await response.json();
+        
+        const assigneeDropdown = document.getElementById('edit-assignee');
+        if (!assigneeDropdown) return;
+
+        // Keep the default unassigned option
+        let html = '<option value="None">Unassigned</option>';
+
+        // Loop through the database users and add them to the dropdown
+        users.forEach(user => {
+            html += `<option value="${user.username}">${user.username} (${user.role})</option>`;
+        });
+
+        assigneeDropdown.innerHTML = html;
+    } catch (err) {
+        console.error("Failed to load assignees from database:", err);
     }
 }

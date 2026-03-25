@@ -1,4 +1,5 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, session, redirect, url_for, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_socketio import SocketIO
 import sqlite3
 import requests
@@ -14,6 +15,9 @@ sys.path.append(parent_dir)
 import config
 
 app = Flask(__name__)
+app.secret_key = config.FLASK_SECRET_KEY 
+socketio = SocketIO(app, cors_allowed_origins="*")
+
 DB_PATH = os.path.join(parent_dir, config.DB_NAME)
 socketio = SocketIO(app, cors_allowed_origins="*")
 ##--------------- Dont Touch above ---------------##
@@ -103,11 +107,64 @@ def get_splunk_realtime_stats():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    # If not logged in, kick them to the login page
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('index.html', current_user=session['username'])
 
 @app.route('/about')
 def about():
+    if 'username' not in session:
+        return redirect(url_for('login'))
     return render_template('about.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        conn = get_db_connection()
+        user = conn.execute("SELECT * FROM users WHERE username=?", (username,)).fetchone()
+        conn.close()
+        
+        # Verify user exists and password is correct
+        if user and check_password_hash(user['password_hash'], password):
+            session['username'] = user['username']
+            session['role'] = user['role']
+            return redirect(url_for('index'))
+        else:
+            flash("Invalid username or password.", "danger")
+            
+    return render_template('login.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        role = request.form.get('role')
+        
+        conn = get_db_connection()
+        existing = conn.execute("SELECT id FROM users WHERE username=?", (username,)).fetchone()
+        
+        if existing:
+            flash("Username already exists. Please choose another.", "warning")
+        else:
+            pass_hash = generate_password_hash(password)
+            conn.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)", (username, pass_hash, role))
+            conn.commit()
+            flash("Registration successful! You can now log in.", "success")
+            conn.close()
+            return redirect(url_for('login'))
+        conn.close()
+        
+    return render_template('register.html')
+
+@app.route('/logout')
+def logout():
+    session.clear() # Destroy the session cookie
+    return redirect(url_for('login'))
 
 def get_time_query(column_name="timestamp"):
     start = request.args.get('start')
@@ -262,37 +319,60 @@ def trigger_update():
     socketio.emit('refresh_data') 
     return jsonify({"status": "success"}), 200
 
+@app.route('/api/users')
+def api_users():
+    try:
+        conn = get_db_connection()
+        # Fetch all usernames and roles from the database
+        rows = conn.execute("SELECT username, role FROM users ORDER BY username ASC").fetchall()
+        conn.close()
+        
+        # Package them into a list of dictionaries
+        users = [{"username": r["username"], "role": r["role"]} for r in rows]
+        return jsonify(users)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 @app.route('/api/update_incident', methods=['POST'])
 def update_incident():
-    data = requests.get_json()
+    data = request.get_json()
     incident_time = data.get('time')
     attack_type = data.get('type')
     new_status = data.get('status')
     new_verdict = data.get('verdict')
     new_assignee = data.get('assignee')
     new_comment = data.get('comment')
+    incident_host = data.get('host')
     
-    table_map = {
-        'Phishing': 'logs_phishing',
-        'DoS': 'logs_dos',
-        'Cryptojacking': 'logs_crypto',
-        'Brute Force': 'logs_bruteforce'
-    }
-    target_table = table_map.get(attack_type)
-    
-    if not target_table:
+    if attack_type == 'Phishing':
+        target_table = 'logs_phishing'
+        time_col = 'timestamp'
+        host_col = 'computer'
+    elif attack_type == 'DoS':
+        target_table = 'logs_dos'
+        time_col = 'timestamp'
+        host_col = 'host'
+    elif attack_type == 'Cryptojacking':
+        target_table = 'logs_crypto'
+        time_col = 'timestamp'
+        host_col = 'dest'
+    elif attack_type == 'Brute Force':
+        target_table = 'logs_bruteforce'
+        time_col = 'first_time'
+        host_col = 'dest'
+    else:
         return jsonify({"status": "error", "message": "Invalid attack type"}), 400
 
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
-        
+
         query = f"""
             UPDATE {target_table} 
             SET status = ?, verdict = ?, assignee = ?, comment = ?
-            WHERE time = ? AND host = ?
+            WHERE {time_col} = ? AND {host_col} = ?
         """
-        cursor.execute(query, (new_status, new_verdict, new_assignee, new_comment, incident_time, data.get('host')))
+        cursor.execute(query, (new_status, new_verdict, new_assignee, new_comment, incident_time, incident_host))
         
         conn.commit()
         conn.close()
