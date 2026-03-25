@@ -155,7 +155,7 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
                 event.get('Parent_App', 'Unknown'),
                 event.get('Browser_Name', 'Unknown'),
                 event.get('Clicked_Link', 'N/A'),
-                event.get('Technique_ID', 'T1027'),
+                event.get('Technique_ID', 'T1566.001'),
                 severity,
                 alert_sent
             ))

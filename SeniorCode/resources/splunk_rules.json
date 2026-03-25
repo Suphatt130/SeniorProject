@@ -1,22 +1,22 @@
 {
     "phishing": {
         "query": "search index=main source=\"xmlwineventlog:microsoft-windows-sysmon/operational\" EventCode=1 (CommandLine=\"*http://*\" OR CommandLine=\"*https://*\") | eval Browser_Name=lower(mvindex(split(Image, \"\\\\\"), -1)), Parent_App=mvindex(split(ParentImage, \"\\\\\"), -1) | where Browser_Name IN (\"chrome.exe\", \"msedge.exe\", \"firefox.exe\", \"brave.exe\", \"iexplore.exe\", \"opera.exe\") | rex field=CommandLine \"(?<Clicked_Link>https?://[^\\s\\\"'>]+)\" | rex field=RuleName \"technique_id=(?<Technique_ID>T\\d+(?:\\.\\d+)?)\" | table _time, Computer, User, Parent_App, Browser_Name, Clicked_Link, Technique_ID",
-        "severity": "8"
+        "severity": "20"
     },
     "dos": {
         "query": "search index=main sourcetype=\"windows:firewall\" | rex field=_raw \"^(?<date>\\S+)\\s+(?<time>\\S+)\\s+(?<action>\\S+)\\s+(?<protocol>\\S+)\\s+(?<src_ip>\\S+)\\s+(?<dest_ip>\\S+)\\s+\\S+\\s+(?<dest_port>\\S+)\\s+(?<size>\\d+)\\s+(?<tcp_flags>\\S+)\" | search tcp_flags=\"S\" | bucket _time span=5s | stats count by _time, src_ip, host, dest_ip, dest_port, tcp_flags | where count > 50 | table _time, src_ip, dest_ip, host, dest_port, tcp_flags, count",
-        "severity": "8"
+        "severity": "75"
     },
     "crypto": {
         "query": "search `sysmon` EventCode=6 (Signature=\"Noriyuki MIYAZAKI\" OR ImageLoaded=\"*\\\\WinRing0x64.sys\") | rex field=Hashes \"MD5=(?<MD5>[^,]+)\" | rex field=Hashes \"SHA1=(?<SHA1>[^,]+)\" | rex field=Hashes \"SHA256=(?<SHA256>[^,]+)\" | rex field=Hashes \"IMPHASH=(?<IMPHASH>[^,]+)\" | stats min(_time) as firstTime max(_time) as lastTime count by _time ImageLoaded dest MD5, SHA1, SHA256, IMPHASH process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`",
-        "severity": "10"
+        "severity": "50"
     },
     "bruteforce": {
         "query": "search sourcetype=\"mysql:error\" \"Access denied\" | rex field=_raw \"Access denied for user '(?<user>[^']+)'@'(?<src_ip>[^']+)'\" | eval dest=host | stats count, min(_time) as firstTime, max(_time) as lastTime by user, src_ip, dest | where count > 10 | eval firstTime=strftime(firstTime, \"%Y-%m-%d %H:%M:%S\") | eval lastTime=strftime(lastTime, \"%Y-%m-%d %H:%M:%S\") | table firstTime, lastTime, src_ip, user, dest, count",
-        "severity": "5"
+        "severity": "20"
     },
     "license": {
         "query": "search index=_internal source=*license_usage.log type=\"Usage\" earliest=@d | stats sum(b) AS volumeB max(poolsz) AS poolsz | eval limit=coalesce(poolsz, 524288000) | eval pctused=round(volumeB/limit*100, 2) | table pctused",
-        "severity": "2"
+        "severity": "0"
     }
 }

@@ -31,16 +31,16 @@ def get_severity_label(score):
     except:
         return "Unknown"
 
-    if score >= 9:
+    if score > 80:
         return "Critical"
-    elif score >= 7:
+    elif score > 60:
         return "High"
-    elif score >= 4:
+    elif score > 40:
         return "Medium"
-    elif score >= 1:
+    elif score > 20:
         return "Low"
     else:
-        return "Unknown"
+        return "Infomation"
     
 SYSTEM_STATUS = {
     "license_mb": 0,
