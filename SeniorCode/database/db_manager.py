@@ -248,7 +248,7 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
         try:
             requests.post("http://127.0.0.1:5000/internal/trigger_update", timeout=1)
         except Exception:
-            pass # Ignore if the web dashboard is currently closed
+            pass
 
     except Exception as e:
         print(f"[DB] Save Error ({attack_type}): {e}")

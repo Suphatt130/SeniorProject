@@ -475,7 +475,7 @@ function showIncidentDetails(index) {
         <div class="mb-2"><strong>Severity:</strong> <span class="badge ${sevColor}">${log.severity || 'Unknown'}</span></div>
         <div class="mb-2"><strong>Host/Target:</strong> ${log.host}</div>
         <div class="mb-2"><strong>Source App / Attacker IP:</strong> ${log.source || '-'}</div>
-        <div class="mb-2"><strong>MITRE ATT&CK ID:</strong> ${log.extra || '-'}</div>
+        <div class="mb-2"><strong>MITRE ATTACK ID:</strong> ${log.extra || '-'}</div>
         
         <h6 class="text-muted mb-2 mt-4" style="text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;">Raw Details Data</h6>
         <div class="p-3 rounded" style="background-color: rgba(0,0,0,0.1); border: 1px solid #373b3e; word-wrap: break-word;">
