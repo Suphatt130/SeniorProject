@@ -4,7 +4,7 @@ import json
 import os
 import config
 from database.db_manager import save_log
-from alerting.alert_func import send_line_alert
+from alerting.alert_func import send_line_alert, send_email_alert
 import logging
 
 # Configure logging to save errors to a file and show them in the console
@@ -64,6 +64,7 @@ def run_crypto_check(last_alert_time):
                     msg = (f"🚨 **Cryptojacking Alert!**\n💻 Host: {latest.get('dest', 'Unknown')}\n📂 Driver: {latest.get('ImageLoaded', 'Unknown')}\n🔑 MD5: {latest.get('MD5', 'Unknown')}\n📝 Signature: {latest.get('signature', 'Unknown')}")
                     print("   >> Sending Crypto Alert")
                     send_line_alert(msg)
+                    send_email_alert("Crypto Alert!",msg)
                     return current_time
         return last_alert_time
     except Exception as e:

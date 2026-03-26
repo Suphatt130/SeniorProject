@@ -63,6 +63,7 @@ def run_bruteforce_check(last_alert_time):
                     msg = (
                         f"🚨 **Brute Force Alert!**\n💻 Host: {latest.get('dest')}\n👤 Target: {latest.get('user')}\n🌍 Attacker IP: {latest.get('src_ip')}\n🔢 Attempts: {latest.get('count')}")
                     print("   >> Sending Brute Force Alert")
+                    send_line_alert(msg)
                     send_email_alert("Brute Force Alert!", msg)
                     return current_time
         return last_alert_time
