@@ -19,6 +19,8 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_phishing (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                rule_name TEXT,
+                attack_type TEXT,
                 timestamp TEXT,
                 computer TEXT,
                 user TEXT,
@@ -39,19 +41,22 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_dos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp TEXT,
+                rule_name TEXT,
+                attack_type TEXT,
+                first_time TEXT,
+                last_time TEXT,
                 src_ip TEXT,
                 dest_ip TEXT,
-                host TEXT,
-                dest_port TEXT,
-                tcp_flags TEXT,
+                protocol TEXT,
+                size INTEGER,
                 count INTEGER,
+                action TEXT,
                 technique_id TEXT,
                 severity TEXT,
                 alert_sent BOOLEAN,
                 status TEXT DEFAULT 'Awaiting Action',
-                verdict TEXT DEFAULT 'Nome',
-                assignee TEXT DEFAULT 'None',
+                verdict TEXT DEFAULT 'None',
+                assignee TEXT DEFAULT 'Unassigned',
                 comment TEXT DEFAULT ''
             )
         ''')
@@ -60,6 +65,8 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_crypto (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                rule_name TEXT,
+                attack_type TEXT,
                 timestamp TEXT,
                 image_loaded TEXT,
                 dest TEXT,
@@ -88,6 +95,8 @@ def init_db():
         cursor.execute('''
             CREATE TABLE IF NOT EXISTS logs_bruteforce (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                rule_name TEXT,
+                attack_type TEXT,
                 first_time TEXT,
                 last_time TEXT,
                 src_ip TEXT,
@@ -140,15 +149,18 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
         now_str = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         timestamp = event.get('Time') or event.get('_time') or event.get('firstTime') or now_str
         severity = kwargs.get('severity', 'Unknown')
+        risk = kwargs.get('risk_score', 0)
 
         if attack_type == "Phishing":
             cursor.execute('''
                 INSERT INTO logs_phishing (
-                    timestamp, computer, user, parent_app, 
+                    rule_name, attack_type, timestamp, computer, user, parent_app, 
                     browser_name, clicked_link, technique_id, 
                     severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
+                "Windows Phishing Executes URL Link",
+                "Phishing",
                 event.get('_time', timestamp),
                 event.get('Computer', 'Unknown'),
                 event.get('User', 'Unknown'),
@@ -163,19 +175,22 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
         elif attack_type == "DoS":
             cursor.execute('''
                 INSERT INTO logs_dos (
-                    timestamp, src_ip, dest_ip, host, 
-                    dest_port, tcp_flags, count, technique_id,
+                    rule_name, attack_type, first_time, last_time, src_ip, dest_ip, 
+                    protocol, size, count, action, technique_id, risk_score,
                     severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
-                event.get('_time', timestamp),
+                "Detect Large ICMP Traffic",
+                "DoS",
+                event.get('firstTime', timestamp),
+                event.get('lastTime', timestamp),
                 event.get('src_ip', 'Unknown'),
                 event.get('dest_ip', 'Unknown'),
-                event.get('host', 'Unknown'),
-                event.get('dest_port', 'Unknown'),
-                event.get('tcp_flags', 'S'),
+                event.get('protocol', 'ICMP'),
+                event.get('size', 0),
                 event.get('count', 0),
-                "T1498.001",
+                event.get('action', 'Unknown'),
+                "T1095",
                 severity,
                 alert_sent
             ))
@@ -183,13 +198,15 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
         elif attack_type == "Cryptojacking":
             cursor.execute('''
                 INSERT INTO logs_crypto (
-                    timestamp, image_loaded, dest, md5, sha1, 
+                    rule_name, attack_type, timestamp, image_loaded, dest, md5, sha1, 
                     sha256, imphash, process_path, signature, 
                     signature_id, user_id, vendor_product, 
                     first_time, last_time, technique_id,
                     severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
+                "XMRIG Driver Loaded",
+                "Cryptojacking",
                 event.get('_time', timestamp),
                 event.get('ImageLoaded', 'Unknown'),
                 event.get('dest', 'Unknown'),
@@ -212,11 +229,13 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
         elif attack_type == "Brute Force":
             cursor.execute('''
                 INSERT INTO logs_bruteforce (
-                    first_time, last_time, src_ip, user, 
+                    rule_name, attack_type, first_time, last_time, src_ip, user, 
                     dest, count, technique_id,
                     severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
+                "MySQL Brute Force",
+                "Brute Force",
                 event.get('firstTime', timestamp),
                 event.get('lastTime', timestamp),
                 event.get('src_ip', 'Unknown'),

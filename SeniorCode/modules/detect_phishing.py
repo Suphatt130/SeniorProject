@@ -101,6 +101,7 @@ def run_phishing_check(last_alert_time):
                                 f"🚨 **Phishing Alert!** (Confirmed Malicious)\n💻 Host: {latest.get('Computer')}\n👤 User: {latest.get('User')}\n🔗 Link: {link}\n🛠 App: {latest.get('Parent_App')}")
                             print("   >> Sending Phishing Alert")
                             send_email_alert("Phishing Alert!", msg)
+                            send_line_alert(msg)
 
                 if malicious_found and ready_to_alert: return current_time
         return last_alert_time

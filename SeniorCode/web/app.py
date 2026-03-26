@@ -261,10 +261,18 @@ def api_logs():
         rows = conn.execute("SELECT * FROM logs_phishing WHERE timestamp >= ? AND timestamp <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
         for r in rows:
             all_logs.append({
-                "time": r['timestamp'], "type": "Phishing", "host": r['computer'], "source": r['parent_app'], 
-                "severity": r['severity'], "extra": r['technique_id'], 
+                "time": r['timestamp'], 
+                "name": r['rule_name'],
+                "type": r['attack_type'],
+                "host": r['computer'], 
+                "source": r['parent_app'], 
+                "severity": r['severity'], 
+                "extra": r['technique_id'], 
                 "details": f"Link: {r['clicked_link']} | Browser: {r['browser_name']}",
-                "status": r['status'], "verdict": r['verdict'], "assignee": r['assignee'], "comment": r['comment'] # <-- NEW
+                "status": r['status'],
+                "verdict": r['verdict'], 
+                "assignee": r['assignee'], 
+                "comment": r['comment']
             })
     except Exception as e: 
         logging.error(f"Failed to fetch Phishing logs: {e}")
@@ -274,10 +282,18 @@ def api_logs():
         rows = conn.execute("SELECT * FROM logs_dos WHERE timestamp >= ? AND timestamp <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
         for r in rows:
             all_logs.append({
-                "time": r['timestamp'], "type": "DoS", "host": r['host'], "source": r['src_ip'], 
-                "severity": r['severity'], "extra": r['technique_id'], 
-                "details": f"Target: {r['dest_ip']}:{r['dest_port']} | Flags: {r['tcp_flags']} | Pkts: {r['count']}",
-                "status": r['status'], "verdict": r['verdict'], "assignee": r['assignee'], "comment": r['comment'] # <-- NEW
+                "time": r['first_time'], 
+                "name": r['rule_name'],
+                "type": r['attack_type'],
+                "host": r['dest_ip'], 
+                "source": r['src_ip'], 
+                "severity": r['severity'], 
+                "extra": r['technique_id'], 
+                "details": f"Proto: {r['protocol']} | Size: {r['size']} bytes | Action: {r['action']} | Pkts: {r['count']}",
+                "status": r['status'], 
+                "verdict": r['verdict'], 
+                "assignee": r['assignee'], 
+                "comment": r['comment']
             })
     except Exception as e: 
         logging.error(f"Failed to fetch DoS logs: {e}")
@@ -289,9 +305,18 @@ def api_logs():
             det = f"File: {r['image_loaded']}"
             if r['md5']: det += f" | MD5: {r['md5']}"
             all_logs.append({
-                "time": r['timestamp'], "type": "Cryptojacking", "host": r['dest'], "source": r['process_path'] or "Unknown",
-                "severity": r['severity'], "extra": r['technique_id'], "details": det,
-                "status": r['status'], "verdict": r['verdict'], "assignee": r['assignee'], "comment": r['comment'] # <-- NEW
+                "time": r['timestamp'], 
+                "name": r['rule_name'],
+                "type": r['attack_type'], 
+                "host": r['dest'], 
+                "source": r['process_path'] or "Unknown",
+                "severity": r['severity'], 
+                "extra": r['technique_id'], 
+                "details": det,
+                "status": r['status'], 
+                "verdict": r['verdict'], 
+                "assignee": r['assignee'], 
+                "comment": r['comment']
             })
     except Exception as e: 
         logging.error(f"Failed to fetch Cryptojacking logs: {e}")
@@ -301,10 +326,18 @@ def api_logs():
         rows = conn.execute("SELECT * FROM logs_bruteforce WHERE first_time >= ? AND first_time <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
         for r in rows:
             all_logs.append({
-                "time": r['first_time'], "type": "Brute Force", "host": r['dest'], "source": r['src_ip'],
-                "severity": r['severity'], "extra": r['technique_id'],
+                "time": r['first_time'], 
+                "name": r['rule_name'],
+                "type": r['attack_type'],
+                "host": r['dest'], 
+                "source": r['src_ip'],
+                "severity": r['severity'], 
+                "extra": r['technique_id'],
                 "details": f"Target User: {r['user']} | Failures: {r['count']}",
-                "status": r['status'], "verdict": r['verdict'], "assignee": r['assignee'], "comment": r['comment'] # <-- NEW
+                "status": r['status'], 
+                "verdict": r['verdict'], 
+                "assignee": r['assignee'], 
+                "comment": r['comment']
             })
     except Exception as e: 
         logging.error(f"Failed to fetch Brute Force logs: {e}")
@@ -344,24 +377,24 @@ def update_incident():
     new_comment = data.get('comment')
     incident_host = data.get('host')
     
-    if attack_type == 'Phishing':
+    if attack_type == 'Windows Phishing Executes URL Link' or attack_type == 'Phishing':
         target_table = 'logs_phishing'
         time_col = 'timestamp'
         host_col = 'computer'
-    elif attack_type == 'DoS':
+    elif attack_type == 'Detect Large ICMP Traffic' or attack_type == 'DoS':
         target_table = 'logs_dos'
-        time_col = 'timestamp'
-        host_col = 'host'
-    elif attack_type == 'Cryptojacking':
+        time_col = 'first_time'
+        host_col = 'dest_ip'
+    elif attack_type == 'XMRIG Driver Loaded' or attack_type == 'Cryptojacking':
         target_table = 'logs_crypto'
         time_col = 'timestamp'
         host_col = 'dest'
-    elif attack_type == 'Brute Force':
+    elif attack_type == 'MySQL Brute Force' or attack_type == 'Brute Force':
         target_table = 'logs_bruteforce'
         time_col = 'first_time'
         host_col = 'dest'
     else:
-        return jsonify({"status": "error", "message": "Invalid attack type"}), 400
+        return jsonify({"status": "error", "message": f"Invalid attack type: {attack_type}"}), 400
 
     try:
         conn = sqlite3.connect(DB_PATH)

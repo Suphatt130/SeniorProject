@@ -4,8 +4,8 @@
         "severity": "20"
     },
     "dos": {
-        "query": "search index=main sourcetype=\"windows:firewall\" | rex field=_raw \"^(?<date>\\S+)\\s+(?<time>\\S+)\\s+(?<action>\\S+)\\s+(?<protocol>\\S+)\\s+(?<src_ip>\\S+)\\s+(?<dest_ip>\\S+)\\s+\\S+\\s+(?<dest_port>\\S+)\\s+(?<size>\\d+)\\s+(?<tcp_flags>\\S+)\" | search tcp_flags=\"S\" | bucket _time span=5s | stats count by _time, src_ip, host, dest_ip, dest_port, tcp_flags | where count > 50 | table _time, src_ip, dest_ip, host, dest_port, tcp_flags, count",
-        "severity": "75"
+        "query": "search index=main sourcetype=\"windows:firewall\" ICMP | rex field=_raw \"\\s+(?<action>DROP|ALLOW)\\s+(?<protocol>ICMP)\\s+(?<src_ip>\\S+)\\s+(?<dest_ip>\\S+)\\s+-\\s+-\\s+(?<size>\\d+)\" | search size > 1000 AND action != \"blocked\" | stats count earliest(_time) as firstTime latest(_time) as lastTime values(action) as action by src_ip, dest_ip, protocol, size",
+        "severity": "50"
     },
     "crypto": {
         "query": "search `sysmon` EventCode=6 (Signature=\"Noriyuki MIYAZAKI\" OR ImageLoaded=\"*\\\\WinRing0x64.sys\") | rex field=Hashes \"MD5=(?<MD5>[^,]+)\" | rex field=Hashes \"SHA1=(?<SHA1>[^,]+)\" | rex field=Hashes \"SHA256=(?<SHA256>[^,]+)\" | rex field=Hashes \"IMPHASH=(?<IMPHASH>[^,]+)\" | stats min(_time) as firstTime max(_time) as lastTime count by _time ImageLoaded dest MD5, SHA1, SHA256, IMPHASH process_path signature signature_id user_id vendor_product | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`",

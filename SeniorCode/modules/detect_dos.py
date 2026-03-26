@@ -4,7 +4,7 @@ import json
 import os
 import config
 from database.db_manager import save_log
-from alerting.alert_func import send_line_alert
+from alerting.alert_func import send_line_alert, send_email_alert
 import logging
 
 # Configure logging to save errors to a file and show them in the console
@@ -48,27 +48,27 @@ def run_dos_check(last_alert_time):
                     except: continue
 
             if events:
-                print(f"[DoS] Detected {len(events)} high-volume SYN streams.")
+                print(f"[DoS] Detected {len(events)} Large ICMP traffic streams.")
                 current_time = time.time()
                 ready_to_alert = (current_time - last_alert_time) >= config.ALERT_COOLDOWN
                 
                 severity_label = config.get_severity_label(SEVERITY_SCORE)
 
                 for event in events:
-
                     save_log(
                         attack_type="DoS", 
                         event=event, 
                         alert_sent=ready_to_alert, 
-                        severity=severity_label
+                        severity=severity_label,
                     )
 
                 if ready_to_alert:
                     latest = events[0]
                     msg = (
-                        f"🚨 **DoS Alert!**\nTarget: {latest.get('dest_ip')}\nAttacker: {latest.get('src_ip')}\nPort: {latest.get('dest_port')}\nPackets: {latest.get('count')}/10s")
+                        f"🚨 **DoS Alert! (ICMP Flood)**\nTarget: {latest.get('dest_ip')}\nAttacker: {latest.get('src_ip')}\nSize: {latest.get('size')} bytes\nPackets: {latest.get('count')}/10s")
                     print("   >> Sending DoS Alert")
                     send_line_alert(msg)
+                    send_email_alert("DoS Alert!", msg)
                     return current_time
                     
         return last_alert_time
