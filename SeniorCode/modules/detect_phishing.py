@@ -7,6 +7,13 @@ import config
 from database.db_manager import save_log
 from alerting.alert_func import send_line_alert, send_email_alert
 import logging
+import builtins
+import datetime
+
+_original_print = builtins.print
+def print(*args, **kwargs):
+    ts = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+    _original_print(f"[{ts}]", *args, **kwargs)
 
 # Configure logging to save errors to a file and show them in the console
 logging.basicConfig(
