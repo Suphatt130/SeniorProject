@@ -1219,3 +1219,28 @@
 2026-03-26 16:48:29,835 - INFO -  * Restarting with stat
 2026-03-26 16:48:30,512 - WARNING -  * Debugger is active!
 2026-03-26 16:48:30,523 - INFO -  * Debugger PIN: 102-474-242
+2026-04-01 09:09:47,763 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.170.150:5000
+2026-04-01 09:09:47,765 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-01 09:09:47,767 - INFO -  * Restarting with stat
+2026-04-01 09:09:48,857 - WARNING -  * Debugger is active!
+2026-04-01 09:09:48,867 - INFO -  * Debugger PIN: 102-474-242
+2026-04-01 09:09:51,696 - INFO - 127.0.0.1 - - [01/Apr/2026 09:09:51] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-01 09:09:51,872 - INFO - 127.0.0.1 - - [01/Apr/2026 09:09:51] "GET /login HTTP/1.1" 200 -
+2026-04-01 09:09:52,732 - INFO - 127.0.0.1 - - [01/Apr/2026 09:09:52] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-01 09:09:52,760 - INFO - 127.0.0.1 - - [01/Apr/2026 09:09:52] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-01 09:09:53,328 - INFO - 127.0.0.1 - - [01/Apr/2026 09:09:53] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-01 09:11:00,745 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:00] "GET /register HTTP/1.1" 200 -
+2026-04-01 09:11:00,797 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:00] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-01 09:11:00,800 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:00] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-01 09:11:12,593 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:12] "GET /login HTTP/1.1" 200 -
+2026-04-01 09:11:12,655 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:12] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-01 09:11:12,660 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:12] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-01 09:11:16,982 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:16] "GET /register HTTP/1.1" 200 -
+2026-04-01 09:11:17,010 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:17] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-01 09:11:17,014 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:17] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-01 09:11:18,508 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:18] "GET /login HTTP/1.1" 200 -
+2026-04-01 09:11:18,544 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:18] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-01 09:11:18,547 - INFO - 127.0.0.1 - - [01/Apr/2026 09:11:18] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
