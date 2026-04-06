@@ -3,6 +3,8 @@ import config
 from datetime import datetime
 import requests
 from werkzeug.security import generate_password_hash, check_password_hash
+import secrets
+import string
 
 def get_db_connection():
     conn = sqlite3.connect(config.DB_NAME)
@@ -10,6 +12,15 @@ def get_db_connection():
     conn.execute("PRAGMA journal_mode=WAL;") # WAL (Write-Ahead Log) is a feature to make sure that all logs are write and read simutaniously with out dropping anything
     return conn
 
+def generate_secure_password():
+    alphabet = string.ascii_letters + string.digits + "!@#$%^&*"
+    while True:
+        pwd = ''.join(secrets.choice(alphabet) for i in range(15))
+        if (any(c.islower() for c in pwd) and any(c.isupper() for c in pwd)
+            and any(c.isdigit() for c in pwd) 
+            and any(c in "!@#$%^&*" for c in pwd)):
+            return pwd
+        
 def init_db():
     try:
         conn = sqlite3.connect(config.DB_NAME)
@@ -134,6 +145,19 @@ def init_db():
                 role TEXT
             )
         ''')
+
+        admin_check = conn.execute("SELECT id FROM users WHERE username='admin'").fetchone()
+        if not admin_check:
+            admin_pwd = generate_secure_password()
+            admin_hash = generate_password_hash(admin_pwd)
+            conn.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)", 
+                        ("admin", admin_hash, "SOC Admin"))
+            print("\n" + "="*50)
+            print("🚨 INITIAL ADMIN ACCOUNT CREATED 🚨")
+            print("Username: admin")
+            print(f"Password: {admin_pwd}")
+            print("SAVE THIS PASSWORD! IT WILL ONLY BE SHOWN ONCE!")
+            print("="*50 + "\n")
 
         conn.commit()
         conn.close()

@@ -11,3 +11,70 @@
 2026-02-27 15:59:16,354 - INFO - 127.0.0.1 - - [27/Feb/2026 15:59:16] "GET /socket.io/?EIO=4&transport=polling&t=PoUKjlp&sid=sD-urj8giDro6baMAAAA HTTP/1.1" 200 -
 2026-02-27 15:59:16,368 - INFO - 127.0.0.1 - - [27/Feb/2026 15:59:16] "GET /socket.io/?EIO=4&transport=polling&t=PoUKjmB&sid=sD-urj8giDro6baMAAAA HTTP/1.1" 200 -
 2026-02-27 15:59:38,949 - INFO - 127.0.0.1 - - [27/Feb/2026 15:59:38] "GET /api/logs?start=2026-02-26T14:35&end=2026-02-27T14:35 HTTP/1.1" 200 -
+2026-04-06 14:43:59,388 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.129:5000
+2026-04-06 14:43:59,390 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-06 14:43:59,391 - INFO -  * Restarting with stat
+2026-04-06 14:44:00,045 - WARNING -  * Debugger is active!
+2026-04-06 14:44:00,060 - INFO -  * Debugger PIN: 426-652-246
+2026-04-06 14:44:00,080 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:00] "GET /socket.io/?EIO=4&transport=polling&t=PrXlvNQ HTTP/1.1" 200 -
+2026-04-06 14:44:00,087 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:00] "POST /socket.io/?EIO=4&transport=polling&t=PrXlvfK&sid=zcxHAKx19nZSJYw2AAAA HTTP/1.1" 200 -
+2026-04-06 14:44:00,105 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:00] "GET /socket.io/?EIO=4&transport=polling&t=PrXlvfR&sid=zcxHAKx19nZSJYw2AAAA HTTP/1.1" 200 -
+2026-04-06 14:44:00,112 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:00] "GET /socket.io/?EIO=4&transport=polling&t=PrXlvfj&sid=zcxHAKx19nZSJYw2AAAA HTTP/1.1" 200 -
+2026-04-06 14:44:04,558 - ERROR - Failed to fetch Brute Force logs: no such column: timestamp
+2026-04-06 14:44:04,559 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:04] "GET /api/logs HTTP/1.1" 200 -
+2026-04-06 14:44:06,667 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:06] "GET /api/stats HTTP/1.1" 200 -
+2026-04-06 14:44:10,526 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:10] "[32mGET /logout HTTP/1.1[0m" 302 -
+2026-04-06 14:44:10,548 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:10] "GET /login HTTP/1.1" 200 -
+2026-04-06 14:44:10,621 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:10] "GET /socket.io/?EIO=4&transport=websocket&sid=zcxHAKx19nZSJYw2AAAA HTTP/1.1" 200 -
+2026-04-06 14:44:10,746 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:10] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-06 14:44:10,748 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:10] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-06 14:44:15,022 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "[32mPOST /login HTTP/1.1[0m" 302 -
+2026-04-06 14:44:15,036 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "GET / HTTP/1.1" 200 -
+2026-04-06 14:44:15,073 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-06 14:44:15,076 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-06 14:44:15,077 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-04-06 14:44:15,092 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-04-06 14:44:15,093 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-04-06 14:44:15,163 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "GET /socket.io/?EIO=4&transport=polling&t=PrXlzK8 HTTP/1.1" 200 -
+2026-04-06 14:44:15,396 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "GET /api/users HTTP/1.1" 200 -
+2026-04-06 14:44:15,397 - ERROR - Failed to fetch Brute Force logs: no such column: timestamp
+2026-04-06 14:44:15,399 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "GET /api/logs HTTP/1.1" 200 -
+2026-04-06 14:44:15,473 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "POST /socket.io/?EIO=4&transport=polling&t=PrXlzPN&sid=mRxLgpxXmAv5XdYrAAAC HTTP/1.1" 200 -
+2026-04-06 14:44:15,479 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:15] "GET /socket.io/?EIO=4&transport=polling&t=PrXlzPO&sid=mRxLgpxXmAv5XdYrAAAC HTTP/1.1" 200 -
+2026-04-06 14:44:17,477 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:17] "GET /api/stats HTTP/1.1" 200 -
+2026-04-06 14:44:18,971 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:18] "GET /about HTTP/1.1" 200 -
+2026-04-06 14:44:19,001 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:19] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-06 14:44:19,008 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:19] "[36mGET /static/Fig3.1%20System%20Architecture%20Diagram.png HTTP/1.1[0m" 304 -
+2026-04-06 14:44:19,009 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:19] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-04-06 14:44:19,036 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:19] "[36mGET /static/Member/Pon.jpg HTTP/1.1[0m" 304 -
+2026-04-06 14:44:19,038 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:19] "[36mGET /static/Member/Bow.jpg HTTP/1.1[0m" 304 -
+2026-04-06 14:44:19,039 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:19] "[36mGET /static/Member/Ice.jpg HTTP/1.1[0m" 304 -
+2026-04-06 14:44:19,050 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:19] "GET /socket.io/?EIO=4&transport=websocket&sid=mRxLgpxXmAv5XdYrAAAC HTTP/1.1" 200 -
+2026-04-06 14:44:22,333 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "GET / HTTP/1.1" 200 -
+2026-04-06 14:44:22,360 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-06 14:44:22,364 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-06 14:44:22,369 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "[36mGET /static/muict_logo.png HTTP/1.1[0m" 304 -
+2026-04-06 14:44:22,375 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "[36mGET /static/Splunk-Logo.png HTTP/1.1[0m" 304 -
+2026-04-06 14:44:22,376 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-04-06 14:44:22,387 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "GET /socket.io/?EIO=4&transport=polling&t=PrXl_5k HTTP/1.1" 200 -
+2026-04-06 14:44:22,438 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "GET /api/users HTTP/1.1" 200 -
+2026-04-06 14:44:22,440 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "POST /socket.io/?EIO=4&transport=polling&t=PrXl_6V&sid=x65qtOgS4Fjg0jRkAAAE HTTP/1.1" 200 -
+2026-04-06 14:44:22,456 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "GET /socket.io/?EIO=4&transport=polling&t=PrXl_6W&sid=x65qtOgS4Fjg0jRkAAAE HTTP/1.1" 200 -
+2026-04-06 14:44:22,458 - ERROR - Failed to fetch Brute Force logs: no such column: timestamp
+2026-04-06 14:44:22,459 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "GET /api/logs HTTP/1.1" 200 -
+2026-04-06 14:44:22,667 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:22] "GET /socket.io/?EIO=4&transport=polling&t=PrXl_A8&sid=x65qtOgS4Fjg0jRkAAAE HTTP/1.1" 200 -
+2026-04-06 14:44:24,115 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:24] "GET /api/stats HTTP/1.1" 200 -
+2026-04-06 14:44:32,444 - ERROR - Failed to fetch Brute Force logs: no such column: timestamp
+2026-04-06 14:44:32,445 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:32] "GET /api/logs HTTP/1.1" 200 -
+2026-04-06 14:44:33,858 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:33] "[33mGET /register.html HTTP/1.1[0m" 404 -
+2026-04-06 14:44:33,890 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:33] "GET /socket.io/?EIO=4&transport=websocket&sid=x65qtOgS4Fjg0jRkAAAE HTTP/1.1" 200 -
+2026-04-06 14:44:33,905 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:33] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2026-04-06 14:44:34,359 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:34] "GET /api/stats HTTP/1.1" 200 -
+2026-04-06 14:44:58,278 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:58] "GET /socket.io/?EIO=4&transport=polling&t=PrXm7sX HTTP/1.1" 200 -
+2026-04-06 14:44:58,360 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:58] "POST /socket.io/?EIO=4&transport=polling&t=PrXm7tN&sid=jL_s1_SWTzrWUpU8AAAG HTTP/1.1" 200 -
+2026-04-06 14:44:58,371 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:58] "GET /socket.io/?EIO=4&transport=polling&t=PrXm7tO&sid=jL_s1_SWTzrWUpU8AAAG HTTP/1.1" 200 -
+2026-04-06 14:44:58,866 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:58] "GET /socket.io/?EIO=4&transport=polling&t=PrXm7_k&sid=jL_s1_SWTzrWUpU8AAAG HTTP/1.1" 200 -
+2026-04-06 14:45:00,623 - INFO - 127.0.0.1 - - [06/Apr/2026 14:45:00] "GET /api/stats HTTP/1.1" 200 -

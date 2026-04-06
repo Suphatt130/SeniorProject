@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPADE - My Cases</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='Icon_SPADE.png') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    </script>
+</head>
+<body class="bg-darker" style="overflow-x: hidden;">
+    <header class="container-fluid py-3 mb-4 border-bottom custom-header">
+        <div class="row align-items-center">
+            <div class="col-12 text-center">
+                <h1 class="display-6 fw-bold mb-0 text-primary">My Assigned Cases</h1>
+                <p class="text-muted mb-0">Currently viewing queue for: <strong class="text-light">{{ current_user }}</strong></p>
+            </div>
+        </div>
+    </header>
+
+    <div class="container-fluid px-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-custom">
+                    <div class="card-header bg-transparent border-0 pt-3">
+                        <h5 class="card-title mb-0">Investigation Queue</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-hover table-striped mb-0 align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th onclick="sortTable('time')">Time</th>
+                                        <th onclick="sortTable('severity')">Severity</th>
+                                        <th onclick="sortTable('type')">Name</th>
+                                        <th onclick="sortTable('host')">Host</th>
+                                        <th>Details</th>
+                                        <th>Status</th>
+                                        <th>Verdict</th>
+                                        <th>Assignee</th>
+                                        <th class="text-center">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="log-table-body" class="table-group-divider"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editIncidentModal" tabindex="-1" aria-hidden="true">
+        </div>
+
+    <script>
+        const PAGE_MODE = "my_cases";
+        const CURRENT_USER = "{{ current_user }}";
+        const USER_ROLE = "{{ session.get('role', '') }}";
+    </script>
+
+    <nav class="cred-navbar">
+        <ul class="cred-nav-list">
+            <li class="cred-nav-item"><a href="/" class="cred-nav-link"><i class="ri-dashboard-line"></i><span>Monitor</span></a></li>
+            <li class="cred-nav-item"><a href="/my_cases" class="cred-nav-link active"><i class="ri-briefcase-4-line"></i><span>My Cases</span></a></li>
+            {% if session.get('role') == 'SOC Admin' %}
+            <li class="cred-nav-item"><a href="/register" class="cred-nav-link text-info"><i class="ri-user-add-line"></i><span>Add User</span></a></li>
+            {% endif %}
+            <li class="cred-nav-item"><a href="/profile" class="cred-nav-link"><i class="ri-user-settings-line"></i><span>Setting</span></a></li>
+            <li class="cred-nav-item"><a href="/about" class="cred-nav-link"><i class="ri-team-line"></i><span>About Us</span></a></li>
+            <li class="cred-nav-item" style="cursor: pointer;" onclick="toggleTheme()"><a class="cred-nav-link"><i id="theme-icon" class="ri-sun-line"></i><span>Theme</span></a></li>
+            <li class="cred-nav-item"><a href="/logout" class="cred-nav-link text-danger"><i class="ri-logout-box-r-line"></i><span>Logout</span></a></li>
+        </ul>
+    </nav>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

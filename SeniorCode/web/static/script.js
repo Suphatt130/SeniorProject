@@ -8,25 +8,30 @@ let sortState = { column: 'time', asc: false };
 let isLiveView = true;
 let autoRefreshInterval;
 
-const socket = io();
+let socket;
+if (typeof io !== 'undefined') {
+    socket = io();
+    socket.on('refresh_data', function() {
+        console.log("⚡ Real-time update triggered by backend!");
+        if (isLiveView) {
+            fetchData();
+        }
+    });
+}
+
 // --- 1. INITIALIZE FUNCTIONS ON PAGE LOAD ---
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('theme') || 'dark';
     document.documentElement.setAttribute('data-bs-theme', savedTheme);
     updateThemeIcon(savedTheme);
 
-    initDateDisplay();
-    initCharts();
-    loadAssignees();
-    fetchData();
+    if (document.getElementById('current-date')) initDateDisplay();
+    if (document.getElementById('lineChart30s')) initCharts();
+    if (document.getElementById('edit-assignee')) loadAssignees();
     
-    autoRefreshInterval = setInterval(fetchData, 10000); 
-});
-
-socket.on('refresh_data', function() {
-    console.log("⚡ Real-time update triggered by backend!");
-    if (isLiveView) {
+    if (typeof PAGE_MODE !== 'undefined' && (PAGE_MODE === "dashboard" || PAGE_MODE === "my_cases")) {
         fetchData();
+        autoRefreshInterval = setInterval(fetchData, 10000); 
     }
 });
 
@@ -136,10 +141,17 @@ async function fetchData() {
         badge.className = 'badge bg-secondary ms-2';
     }
 
+    let apiLogsUrl = `/api/logs${queryParams}`; 
+    
+    if (typeof PAGE_MODE !== 'undefined' && PAGE_MODE === "my_cases") {
+        const separator = queryParams ? '&' : '?';
+        apiLogsUrl += `${separator}assignee=${CURRENT_USER}`;
+    }
+
     try {
         const [statsRes, logsRes] = await Promise.all([
             fetch(`/api/stats${queryParams}`),
-            fetch(`/api/logs${queryParams}`)
+            fetch(apiLogsUrl)
         ]);
 
         const statsData = await statsRes.json();
@@ -505,6 +517,21 @@ function openEditModal(index) {
     document.getElementById('edit-verdict').value = log.verdict || 'None';
     document.getElementById('edit-assignee').value = log.assignee || 'None';
     document.getElementById('edit-comment').value = log.comment || '';
+
+    const statusDropdown = document.getElementById('edit-status');
+
+    Array.from(statusDropdown.options).forEach(opt => {
+        opt.disabled = false;
+        if(opt.value === 'Closed') opt.text = 'Closed';
+    });
+
+    if (typeof USER_ROLE !== 'undefined' && USER_ROLE === 'L1 Analyst') {
+        const closedOption = Array.from(statusDropdown.options).find(opt => opt.value === 'Closed');
+        if (closedOption) {
+            closedOption.disabled = true;
+            closedOption.text = 'Closed (Requires L2/Admin)';
+        }
+    }
 
     const modal = new bootstrap.Modal(document.getElementById('editIncidentModal'));
     modal.show();

@@ -7,6 +7,7 @@ import os
 import sys
 import json
 from datetime import datetime
+import string, secrets, re
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
@@ -138,27 +139,36 @@ def login():
             
     return render_template('login.html')
 
+def generate_secure_password():
+    alphabet = string.ascii_letters + string.digits + "!@#$%^&*"
+    while True:
+        pwd = ''.join(secrets.choice(alphabet) for i in range(15))
+        if (any(c.islower() for c in pwd) and any(c.isupper() for c in pwd) and any(c.isdigit() for c in pwd) and any(c in "!@#$%^&*" for c in pwd)):
+            return pwd
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    if session.get('role') != 'SOC Admin':
+        flash("Unauthorized. Only Admins can create new users.", "danger")
+        return redirect(url_for('index'))
+
     if request.method == 'POST':
         username = request.form.get('username')
-        password = request.form.get('password')
         role = request.form.get('role')
-        
+
         conn = get_db_connection()
         existing = conn.execute("SELECT id FROM users WHERE username=?", (username,)).fetchone()
-        
+
         if existing:
-            flash("Username already exists. Please choose another.", "warning")
+            flash("Username already exists.", "warning")
         else:
-            pass_hash = generate_password_hash(password)
+            new_pwd = generate_secure_password() # Auto-generate password
+            pass_hash = generate_password_hash(new_pwd)
             conn.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)", (username, pass_hash, role))
             conn.commit()
-            flash("Registration successful! You can now log in.", "success")
-            conn.close()
-            return redirect(url_for('login'))
+            flash(f"User created! Give them this password: {new_pwd}", "success")
         conn.close()
-        
+
     return render_template('register.html')
 
 @app.route('/logout')
@@ -177,6 +187,31 @@ def get_time_query(column_name="timestamp"):
     
     today = datetime.now().strftime('%Y-%m-%d') + "%"
     return f" {column_name} LIKE ?", (today,)
+
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+        
+    if request.method == 'POST':
+        new_password = request.form.get('new_password')
+        confirm_password = request.form.get('confirm_password')
+        
+        if new_password != confirm_password:
+            flash("Passwords do not match. Please try again.", "danger")
+        else:
+            pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$"
+            if not re.match(pattern, new_password):
+                flash("Password must be 15+ characters with uppercase, lowercase, number, and special character (!@#$%^&*).", "danger")
+            else:
+                conn = get_db_connection()
+                conn.execute("UPDATE users SET password_hash=? WHERE username=?", 
+                             (generate_password_hash(new_password), session['username']))
+                conn.commit()
+                conn.close()
+                flash("Password successfully updated!", "success")
+                
+    return render_template('profile.html', current_user=session['username'], role=session['role'])
 
 @app.route('/api/stats')
 def api_stats():
@@ -251,14 +286,25 @@ def api_logs():
     if start_dt and end_dt:
         start_str = start_dt.replace('T', ' ') + ':00'
         end_str = end_dt.replace('T', ' ') + ':59'
+        assignee_filter = request.args.get('assignee')
     else:
         today_str = datetime.now().strftime('%Y-%m-%d')
         start_str = f"{today_str} 00:00:00"
         end_str = f"{today_str} 23:59:59"
+        assignee_filter = request.args.get('assignee')
 
     # --- 1. PHISHING ---
     try:
-        rows = conn.execute("SELECT * FROM logs_phishing WHERE timestamp >= ? AND timestamp <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
+        query = "SELECT * FROM logs_phishing WHERE timestamp >= ? AND timestamp <= ?"
+        params = [start_str, end_str]
+
+        if assignee_filter:
+            query += " AND assignee = ?"
+            params.append(assignee_filter)
+
+        query += " ORDER BY id DESC"
+        rows = conn.execute(query, params).fetchall()
+
         for r in rows:
             all_logs.append({
                 "time": r['timestamp'], 
@@ -279,7 +325,16 @@ def api_logs():
 
     # --- 2. DOS ---
     try:
-        rows = conn.execute("SELECT * FROM logs_dos WHERE timestamp >= ? AND timestamp <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
+        query = "SELECT * FROM logs_dos WHERE timestamp >= ? AND timestamp <= ?"
+        params = [start_str, end_str]
+
+        if assignee_filter:
+            query += " AND assignee = ?"
+            params.append(assignee_filter)
+
+        query += " ORDER BY id DESC"
+        rows = conn.execute(query, params).fetchall()
+
         for r in rows:
             all_logs.append({
                 "time": r['first_time'], 
@@ -300,7 +355,16 @@ def api_logs():
 
     # --- 3. CRYPTOJACKING ---
     try:
-        rows = conn.execute("SELECT * FROM logs_crypto WHERE timestamp >= ? AND timestamp <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
+        query = "SELECT * FROM logs_crypto WHERE timestamp >= ? AND timestamp <= ?"
+        params = [start_str, end_str]
+
+        if assignee_filter:
+            query += " AND assignee = ?"
+            params.append(assignee_filter)
+
+        query += " ORDER BY id DESC"
+        rows = conn.execute(query, params).fetchall()
+
         for r in rows:
             det = f"File: {r['image_loaded']}"
             if r['md5']: det += f" | MD5: {r['md5']}"
@@ -323,7 +387,16 @@ def api_logs():
 
     # --- 4. BRUTE FORCE ---
     try:
-        rows = conn.execute("SELECT * FROM logs_bruteforce WHERE first_time >= ? AND first_time <= ? ORDER BY id DESC", (start_str, end_str)).fetchall()
+        query = "SELECT * FROM logs_bruteforce WHERE timestamp >= ? AND timestamp <= ?"
+        params = [start_str, end_str]
+
+        if assignee_filter:
+            query += " AND assignee = ?"
+            params.append(assignee_filter)
+
+        query += " ORDER BY id DESC"
+        rows = conn.execute(query, params).fetchall()
+        
         for r in rows:
             all_logs.append({
                 "time": r['first_time'], 
@@ -396,6 +469,11 @@ def update_incident():
     else:
         return jsonify({"status": "error", "message": f"Invalid attack type: {attack_type}"}), 400
 
+    user_role = session.get('role', 'L1 Analyst')
+
+    if new_status == 'Closed' and user_role == 'L1 Analyst':
+        return jsonify({"status": "error", "message": "Access Denied: L1 Analysts cannot close incidents. Please change status to 'Escalated' and assign to an L2 Analyst."}), 403
+    
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
@@ -412,6 +490,12 @@ def update_incident():
         return jsonify({"status": "success"}), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 500
-    
+
+@app.route('/my_cases')
+def my_cases():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+    return render_template('my_cases.html', current_user=session['username'])
+
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5000, debug=True, allow_unsafe_werkzeug=True)

@@ -144,7 +144,7 @@ th.sorted-desc .sort-icon::after {
     list-style: none;
     margin: 0;
     padding: 0;
-    gap: 40px; /* Space between icons */
+    gap: 15px;
 }
 
 .cred-nav-link {
@@ -155,6 +155,8 @@ th.sorted-desc .sort-icon::after {
     color: #6c757d; /* Gray when inactive */
     transition: all 0.3s ease;
     position: relative;
+    width: 75px;
+    text-align: center;
 }
 
 .cred-nav-link i {
@@ -243,6 +245,25 @@ th.sorted-desc .sort-icon::after {
     background-color: #ffffff;
     border-color: #e0e0e0;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+[data-bs-theme="light"] .text-light {
+    color: #212529 !important;
+}
+
+[data-bs-theme="light"] .bg-dark {
+    background-color: #ffffff !important;
+}
+
+[data-bs-theme="light"] .form-control,
+[data-bs-theme="light"] .form-select {
+    background-color: #ffffff !important;
+    color: #212529 !important;
+    border-color: #dee2e6 !important;
+}
+
+[data-bs-theme="light"] .form-control::placeholder {
+    color: #6c757d !important;
 }
 
 [data-bs-theme="light"] .table-dark th {
