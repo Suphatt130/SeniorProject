@@ -61,10 +61,21 @@ def send_email_alert(subject, body):
     now_ms = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
 
     """Sends an email alert"""
+    if not RECEIVER_EMAIL:
+        print(f"[{now_ms}] >> [Email] Aborted: Receiver email is missing or None.")
+        return
+
+    if isinstance(RECEIVER_EMAIL, list):
+        to_header = ", ".join(RECEIVER_EMAIL)
+        to_addrs = RECEIVER_EMAIL
+    else:
+        to_header = RECEIVER_EMAIL
+        to_addrs = [RECEIVER_EMAIL]
+
     try:
         msg = MIMEMultipart()
         msg['From'] = SENDER_EMAIL
-        msg['To'] = RECEIVER_EMAIL
+        msg['To'] = to_header
         msg['Subject'] = subject
         msg.attach(MIMEText(body, 'plain'))
 
@@ -73,7 +84,7 @@ def send_email_alert(subject, body):
         server.starttls()
         server.ehlo()
         server.login(SENDER_EMAIL, SENDER_PASSWORD)
-        server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, msg.as_string())
+        server.sendmail(SENDER_EMAIL, to_addrs, msg.as_string())
         server.quit()
         print(f"[{now_ms}] >> Email Alert Sent Successfully.")
     except Exception as e:
