@@ -227,7 +227,7 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
                     signature_id, user_id, vendor_product, 
                     first_time, last_time, technique_id,
                     severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 "XMRIG Driver Loaded",
                 "Cryptojacking",
@@ -256,7 +256,7 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
                     rule_name, attack_type, first_time, last_time, src_ip, user, 
                     dest, count, technique_id,
                     severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 "MySQL Brute Force",
                 "Brute Force",
