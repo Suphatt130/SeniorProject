@@ -35,7 +35,7 @@ def worker_bruteforce():
     last_alert = 0
     while True:
         last_alert = run_bruteforce_check(last_alert)
-        time.sleep(config.CHECK_INTERVAL)
+        time.sleep(config.BF_CHECK_INTERVAL)
 
 if __name__ == "__main__":
     print("=== SECURITY MONITOR STARTED ===")

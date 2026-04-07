@@ -24,6 +24,7 @@ DB_NAME = "security_events.db"
 # THRESHOLDS & TIMERS
 CHECK_INTERVAL = 5
 DOS_CHECK_INTERVAL = 30
+BF_CHECK_INTERVAL = 60
 ALERT_COOLDOWN = 0
 
 def get_severity_label(score):
