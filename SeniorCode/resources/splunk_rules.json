@@ -4,7 +4,7 @@
         "severity": "20"
     },
     "dos": {
-        "query": "search index=main sourcetype=\"windows:firewall\" ICMP | rex field=_raw \"\\s+(?<action>DROP|ALLOW)\\s+(?<protocol>ICMP)\\s+(?<src_ip>\\S+)\\s+(?<dest_ip>\\S+)\\s+-\\s+-\\s+(?<size>\\d+)\" | search size > 1000 AND action != \"blocked\" | stats count earliest(_time) as firstTime latest(_time) as lastTime values(action) as action by src_ip, dest_ip, protocol, size",
+        "query": "search index=main sourcetype=\"windows:firewall\" ICMP | rex field=_raw \"\\s+(?<action>DROP|ALLOW)\\s+(?<protocol>ICMP)\\s+(?<src_ip>\\S+)\\s+(?<dest_ip>\\S+)\\s+-\\s+-\\s+(?<size>\\d+)\" | search size > 1000 AND action != \"blocked\" | stats count earliest(_time) as firstTime latest(_time) as lastTime values(action) as action by src_ip, dest_ip, protocol, size | `security_content_ctime(firstTime)` | `security_content_ctime(lastTime)`",
         "severity": "50"
     },
     "crypto": {
