@@ -181,7 +181,7 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
                     rule_name, attack_type, timestamp, computer, user, parent_app, 
                     browser_name, clicked_link, technique_id, 
                     severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 "Windows Phishing Executes URL Link",
                 "Phishing",
