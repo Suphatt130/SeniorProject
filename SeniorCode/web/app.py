@@ -133,7 +133,11 @@ def login():
         if user and check_password_hash(user['password_hash'], password):
             session['username'] = user['username']
             session['role'] = user['role']
-            return redirect(url_for('index'))
+
+            if user['role'] == 'SOC Admin':
+                return redirect(url_for('register'))
+            else:
+                return redirect(url_for('index'))
         else:
             flash("Invalid username or password.", "danger")
             
