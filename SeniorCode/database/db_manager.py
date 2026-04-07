@@ -202,7 +202,7 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
                     rule_name, attack_type, first_time, last_time, src_ip, dest_ip, 
                     protocol, size, count, action, technique_id, risk_score,
                     severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 "Detect Large ICMP Traffic",
                 "DoS",
