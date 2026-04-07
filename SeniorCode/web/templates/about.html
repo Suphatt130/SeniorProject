@@ -127,8 +127,12 @@
 
     <nav class="cred-navbar">
         <ul class="cred-nav-list">
+            {% if session.get('role') != 'SOC Admin' %}
             <li class="cred-nav-item"><a href="/" class="cred-nav-link"><i class="ri-dashboard-line"></i><span>Monitor</span></a></li>
+            {% endif %}
+            {% if session.get('role') == 'L1 Analyst' %}
             <li class="cred-nav-item"><a href="/my_cases" class="cred-nav-link"><i class="ri-briefcase-4-line"></i><span>My Cases</span></a></li>
+            {% endif %}
             {% if session.get('role') == 'SOC Admin' %}
             <li class="cred-nav-item"><a href="/register" class="cred-nav-link text-info"><i class="ri-user-add-line"></i><span>Add User</span></a></li>
             {% endif %}
