@@ -108,9 +108,12 @@ def get_splunk_realtime_stats():
 
 @app.route('/')
 def index():
-    # If not logged in, kick them to the login page
     if 'username' not in session:
         return redirect(url_for('login'))
+
+    if session.get('role') == 'SOC Admin':
+        return redirect(url_for('register'))
+        
     return render_template('index.html', current_user=session['username'])
 
 @app.route('/about')
