@@ -200,9 +200,9 @@ def save_log(attack_type, event, alert_sent, details_str=None, **kwargs):
             cursor.execute('''
                 INSERT INTO logs_dos (
                     rule_name, attack_type, first_time, last_time, src_ip, dest_ip, 
-                    protocol, size, count, action, technique_id, risk_score,
+                    protocol, size, count, action, technique_id,
                     severity, alert_sent
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ''', (
                 "Detect Large ICMP Traffic",
                 "DoS",
