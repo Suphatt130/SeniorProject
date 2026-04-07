@@ -130,7 +130,7 @@
             {% if session.get('role') != 'SOC Admin' %}
             <li class="cred-nav-item"><a href="/" class="cred-nav-link"><i class="ri-dashboard-line"></i><span>Monitor</span></a></li>
             {% endif %}
-            {% if session.get('role') == 'L1 Analyst' %}
+            {% if session.get('role') == 'L2 Analyst' %}
             <li class="cred-nav-item"><a href="/my_cases" class="cred-nav-link"><i class="ri-briefcase-4-line"></i><span>My Cases</span></a></li>
             {% endif %}
             {% if session.get('role') == 'SOC Admin' %}
