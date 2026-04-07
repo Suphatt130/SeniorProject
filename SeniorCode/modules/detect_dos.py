@@ -37,7 +37,7 @@ def run_dos_check(last_alert_time):
         "search": QUERY_DOS,
         "exec_mode": "oneshot",
         "output_mode": "json",
-        "earliest_time": "-5s",
+        "earliest_time": "-30s",
         "latest_time": "now"
     }
     

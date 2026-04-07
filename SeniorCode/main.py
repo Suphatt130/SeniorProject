@@ -18,7 +18,7 @@ def worker_dos():
     last_alert = 0
     while True:
         last_alert = run_dos_check(last_alert)
-        time.sleep(config.CHECK_INTERVAL)
+        time.sleep(config.DOS_CHECK_INTERVAL)
 
 def worker_crypto():
     last_alert = 0
