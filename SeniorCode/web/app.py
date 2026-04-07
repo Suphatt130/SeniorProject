@@ -239,13 +239,13 @@ def api_stats():
             
         stats = {}
         
-        try: p = conn.execute("SELECT COUNT(*) FROM logs_phishing WHERE timestamp >= ? AND timestamp <= ?", (start_str, end_str)).fetchone()[0]
+        try: p = conn.execute("SELECT COUNT(*) FROM logs_phishing WHERE REPLACE(timestamp, 'T', ' ') >= ? AND REPLACE(timestamp, 'T', ' ') <= ?", (start_str, end_str)).fetchone()[0]
         except: p = 0
-        try: d = conn.execute("SELECT COUNT(*) FROM logs_dos WHERE first_time >= ? AND first_time <= ?", (start_str, end_str)).fetchone()[0]
+        try: d = conn.execute("SELECT COUNT(*) FROM logs_dos WHERE REPLACE(first_time, 'T', ' ') >= ? AND REPLACE(first_time, 'T', ' ') <= ?", (start_str, end_str)).fetchone()[0]
         except: d = 0
-        try: c = conn.execute("SELECT COUNT(*) FROM logs_crypto WHERE timestamp >= ? AND timestamp <= ?", (start_str, end_str)).fetchone()[0]
+        try: c = conn.execute("SELECT COUNT(*) FROM logs_crypto WHERE REPLACE(timestamp, 'T', ' ') >= ? AND REPLACE(timestamp, 'T', ' ') <= ?", (start_str, end_str)).fetchone()[0]
         except: c = 0
-        try: b = conn.execute("SELECT COUNT(*) FROM logs_bruteforce WHERE first_time >= ? AND first_time <= ?", (start_str, end_str)).fetchone()[0]
+        try: b = conn.execute("SELECT COUNT(*) FROM logs_bruteforce WHERE REPLACE(first_time, 'T', ' ') >= ? AND REPLACE(first_time, 'T', ' ') <= ?", (start_str, end_str)).fetchone()[0]
         except: b = 0
         
         license_mb_raw = 0 
@@ -302,7 +302,7 @@ def api_logs():
 
     # --- 1. PHISHING ---
     try:
-        query = "SELECT * FROM logs_phishing WHERE timestamp >= ? AND timestamp <= ?"
+        query = "SELECT * FROM logs_phishing WHERE REPLACE(timestamp, 'T', ' ') >= ? AND REPLACE(timestamp, 'T', ' ') <= ?"
         params = [start_str, end_str]
 
         if assignee_filter:
@@ -332,7 +332,7 @@ def api_logs():
 
     # --- 2. DOS ---
     try:
-        query = "SELECT * FROM logs_dos WHERE first_time >= ? AND first_time <= ?"
+        query = "SELECT * FROM logs_dos WHERE REPLACE(first_time, 'T', ' ') >= ? AND REPLACE(first_time, 'T', ' ') <= ?"
         params = [start_str, end_str]
 
         if assignee_filter:
@@ -362,7 +362,7 @@ def api_logs():
 
     # --- 3. CRYPTOJACKING ---
     try:
-        query = "SELECT * FROM logs_crypto WHERE timestamp >= ? AND timestamp <= ?"
+        query = "SELECT * FROM logs_crypto WHERE REPLACE(timestamp, 'T', ' ') >= ? AND REPLACE(timestamp, 'T', ' ') <= ?"
         params = [start_str, end_str]
 
         if assignee_filter:
@@ -394,7 +394,7 @@ def api_logs():
 
     # --- 4. BRUTE FORCE ---
     try:
-        query = "SELECT * FROM logs_bruteforce WHERE first_time >= ? AND first_time <= ?"
+        query = "SELECT * FROM logs_bruteforce WHERE REPLACE(first_time, 'T', ' ') >= ? AND REPLACE(first_time, 'T', ' ') <= ?"
         params = [start_str, end_str]
 
         if assignee_filter:
