@@ -525,14 +525,6 @@ function openEditModal(index) {
         if(opt.value === 'Closed') opt.text = 'Closed';
     });
 
-    if (typeof USER_ROLE !== 'undefined' && USER_ROLE === 'L1 Analyst') {
-        const closedOption = Array.from(statusDropdown.options).find(opt => opt.value === 'Closed');
-        if (closedOption) {
-            closedOption.disabled = true;
-            closedOption.text = 'Closed (Requires L2/Admin)';
-        }
-    }
-
     const modal = new bootstrap.Modal(document.getElementById('editIncidentModal'));
     modal.show();
 }

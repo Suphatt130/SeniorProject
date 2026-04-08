@@ -24,6 +24,20 @@ socketio = SocketIO(app, cors_allowed_origins="*")
 ##--------------- Dont Touch above ---------------##
 
 import logging
+import time
+
+logging.basicConfig(
+    level=logging.ERROR,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[logging.FileHandler("spade_errors.log"), logging.StreamHandler()]
+)
+
+api_logger = logging.getLogger('api_traffic')
+api_logger.setLevel(logging.INFO)
+api_handler = logging.FileHandler("spade_api_traffic.log")
+api_handler.setFormatter(logging.Formatter('%(asctime)s - %(message)s'))
+api_logger.addHandler(api_handler)
+api_logger.propagate = False
 
 # Configure logging to save errors to a file and show them in the console
 logging.basicConfig(
@@ -106,6 +120,40 @@ def get_splunk_realtime_stats():
         print(f"[Splunk API Error] {e}")
         return 0, 0, 0
 
+@app.before_request
+def log_request_info():
+    if request.path.startswith('/api/'):
+        request.start_time = time.time()
+        
+        payload = ""
+        if request.is_json:
+            try:
+                payload = f" | Payload: {request.get_json()}"
+            except: pass
+                
+        api_logger.info(f"--> REQ: {request.method} {request.full_path}{payload}")
+
+@app.after_request
+def log_response_info(response):
+    if request.path.startswith('/api/'):
+        duration = 0
+        if hasattr(request, 'start_time'):
+            duration = round((time.time() - request.start_time) * 1000, 2)
+        
+        resp_data = ""
+        if response.is_json:
+            try:
+                raw_data = response.get_data(as_text=True)
+                if len(raw_data) > 150:
+                    resp_data = f" | Resp: {raw_data[:150]}... [TRUNCATED]"
+                else:
+                    resp_data = f" | Resp: {raw_data}"
+            except: pass
+        
+        api_logger.info(f"<-- RES: {request.method} {request.path} | Status: {response.status_code} | Time: {duration}ms{resp_data}")
+        
+    return response
+
 @app.route('/')
 def index():
     if 'username' not in session:
@@ -162,6 +210,7 @@ def register():
     if request.method == 'POST':
         username = request.form.get('username')
         role = request.form.get('role')
+        email = request.form.get('email')
 
         conn = get_db_connection()
         existing = conn.execute("SELECT id FROM users WHERE username=?", (username,)).fetchone()
@@ -169,11 +218,17 @@ def register():
         if existing:
             flash("Username already exists.", "warning")
         else:
-            new_pwd = generate_secure_password() # Auto-generate password
+            new_pwd = generate_secure_password()
             pass_hash = generate_password_hash(new_pwd)
-            conn.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)", (username, pass_hash, role))
+
+            conn.execute("INSERT INTO users (username, password_hash, role, email) VALUES (?, ?, ?, ?)", 
+                         (username, pass_hash, role, email))
             conn.commit()
-            flash(f"User created! Give them this password: {new_pwd}", "success")
+
+            from alerting.alert_func import send_welcome_email
+            send_welcome_email(email, username, new_pwd)
+
+            flash(f"User created! Welcome email containing temporary password sent to {email}.", "success")
         conn.close()
 
     return render_template('register.html')
@@ -476,11 +531,6 @@ def update_incident():
     else:
         return jsonify({"status": "error", "message": f"Invalid attack type: {attack_type}"}), 400
 
-    user_role = session.get('role', 'L1 Analyst')
-
-    if new_status == 'Closed' and user_role == 'L1 Analyst':
-        return jsonify({"status": "error", "message": "Access Denied: L1 Analysts cannot close incidents. Please change status to 'Escalated' and assign to an L2 Analyst."}), 403
-    
     try:
         conn = sqlite3.connect(DB_PATH)
         cursor = conn.cursor()
@@ -503,6 +553,42 @@ def my_cases():
     if 'username' not in session:
         return redirect(url_for('login'))
     return render_template('my_cases.html', current_user=session['username'])
+
+@app.route('/manage_users', methods=['GET', 'POST'])
+def manage_users():
+    if session.get('role') != 'SOC Admin':
+        return redirect(url_for('index'))
+
+    if request.args.get('lock') == '1':
+        session.pop('admin_unlocked', None)
+        return redirect(url_for('manage_users'))
+
+    conn = get_db_connection()
+
+    if request.method == 'POST' and 'auth_password' in request.form:
+        admin = conn.execute("SELECT password_hash FROM users WHERE username=?", (session['username'],)).fetchone()
+        if admin and check_password_hash(admin['password_hash'], request.form.get('auth_password')):
+            session['admin_unlocked'] = True
+            flash("Authentication verified. Data unlocked.", "success")
+        else:
+            flash("Incorrect admin password.", "danger")
+        return redirect(url_for('manage_users'))
+
+    if request.method == 'POST' and 'reset_user' in request.form and session.get('admin_unlocked'):
+        target = request.form.get('reset_user')
+        new_pwd = request.form.get('new_password')
+
+        pattern = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{15,}$"
+        if not re.match(pattern, new_pwd):
+            flash("Password must be 15+ characters with uppercase, lowercase, number, and special character.", "danger")
+        else:
+            conn.execute("UPDATE users SET password_hash=? WHERE username=?", (generate_password_hash(new_pwd), target))
+            conn.commit()
+            flash(f"Password forcefully updated for {target}.", "success")
+
+    users = conn.execute("SELECT id, username, role, email FROM users").fetchall()
+    conn.close()
+    return render_template('manage_users.html', users=users, unlocked=session.get('admin_unlocked'))
 
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5000, debug=True, allow_unsafe_werkzeug=True)

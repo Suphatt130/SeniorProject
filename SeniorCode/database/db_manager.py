@@ -142,7 +142,8 @@ def init_db():
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT UNIQUE,
                 password_hash TEXT,
-                role TEXT
+                role TEXT,
+                email TEXT
             )
         ''')
 
@@ -150,8 +151,8 @@ def init_db():
         if not admin_check:
             admin_pwd = generate_secure_password()
             admin_hash = generate_password_hash(admin_pwd)
-            conn.execute("INSERT INTO users (username, password_hash, role) VALUES (?, ?, ?)", 
-                        ("admin", admin_hash, "SOC Admin"))
+            conn.execute("INSERT INTO users (username, password_hash, role, email) VALUES (?, ?, ?, ?)", 
+                        ("admin", admin_hash, "SOC Admin", "admin@spade.com"))
             print("\n" + "="*50)
             print("🚨 INITIAL ADMIN ACCOUNT CREATED 🚨")
             print("Username: admin")

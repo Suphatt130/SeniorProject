@@ -35,17 +35,21 @@
                 <div class="card card-custom p-4">
                     <form method="POST" action="/register">
                         <div class="mb-3">
+                            <label class="form-label text-muted small fw-bold">Email Address</label>
+                            <input type="email" name="email" class="form-control bg-dark text-light border-secondary" placeholder="user@spade.com" required>
+                        </div>
+                        <div class="mb-3">
                             <label class="form-label text-muted small fw-bold">Username</label>
-                            <input type="text" name="username" class="form-control bg-dark text-light border-secondary" required autofocus>
+                            <input type="text" name="username" class="form-control bg-dark text-light border-secondary" required>
                         </div>
                         <div class="mb-4">
                             <label class="form-label text-muted small fw-bold">Role</label>
                             <select name="role" class="form-select bg-dark text-light border-secondary">
-                                <option value="L1 Analyst">L1 Analyst</option>
-                                <option value="L2 Analyst">L2 Analyst</option>
+                                <option value="SOC Tier 1">SOC Tier 1</option>
+                                <option value="SOC Tier 2">SOC Tier 2</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn btn-info w-100 fw-bold">Register</button>
+                        <button type="submit" class="btn btn-info w-100 fw-bold">Register User</button>
                     </form>
                 </div>
             </div>
@@ -55,16 +59,17 @@
     <nav class="cred-navbar">
         <ul class="cred-nav-list">
             {% if session.get('role') != 'SOC Admin' %}
-            <li class="cred-nav-item"><a href="/" class="cred-nav-link"><i class="ri-dashboard-line"></i><span>Monitor</span></a></li>
+            <li class="cred-nav-item"><a href="/" class="cred-nav-link {% if request.path == '/' %}active{% endif %}"><i class="ri-dashboard-line"></i><span>Monitor</span></a></li>
             {% endif %}
-            {% if session.get('role') == 'L2 Analyst' %}
-            <li class="cred-nav-item"><a href="/my_cases" class="cred-nav-link"><i class="ri-briefcase-4-line"></i><span>My Cases</span></a></li>
+            {% if session.get('role') == 'SOC Tier 2' %}
+            <li class="cred-nav-item"><a href="/my_cases" class="cred-nav-link {% if request.path == '/my_cases' %}active{% endif %}"><i class="ri-briefcase-4-line"></i><span>My Cases</span></a></li>
             {% endif %}
             {% if session.get('role') == 'SOC Admin' %}
-            <li class="cred-nav-item"><a href="/register" class="cred-nav-link text-info active"><i class="ri-user-add-line"></i><span>Add User</span></a></li>
+            <li class="cred-nav-item"><a href="/manage_users" class="cred-nav-link text-warning {% if request.path == '/manage_users' %}active{% endif %}"><i class="ri-admin-line"></i><span>Manage</span></a></li>
+            <li class="cred-nav-item"><a href="/register" class="cred-nav-link text-info {% if request.path == '/register' %}active{% endif %}"><i class="ri-user-add-line"></i><span>Add User</span></a></li>
             {% endif %}
-            <li class="cred-nav-item"><a href="/profile" class="cred-nav-link"><i class="ri-user-settings-line"></i><span>Setting</span></a></li>
-            <li class="cred-nav-item"><a href="/about" class="cred-nav-link"><i class="ri-team-line"></i><span>About Us</span></a></li>
+            <li class="cred-nav-item"><a href="/profile" class="cred-nav-link {% if request.path == '/profile' %}active{% endif %}"><i class="ri-user-settings-line"></i><span>Setting</span></a></li>
+            <li class="cred-nav-item"><a href="/about" class="cred-nav-link {% if request.path == '/about' %}active{% endif %}"><i class="ri-team-line"></i><span>About Us</span></a></li>
             <li class="cred-nav-item" style="cursor: pointer;" onclick="toggleTheme()"><a class="cred-nav-link"><i id="theme-icon" class="ri-sun-line"></i><span>Theme</span></a></li>
             <li class="cred-nav-item"><a href="/logout" class="cred-nav-link text-danger"><i class="ri-logout-box-r-line"></i><span>Logout</span></a></li>
         </ul>

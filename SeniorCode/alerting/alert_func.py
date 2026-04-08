@@ -5,6 +5,7 @@ from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
+from email.mime.image import MIMEImage
 
 # Load the .env file
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -89,3 +90,51 @@ def send_email_alert(subject, body):
         print(f"[{now_ms}] >> Email Alert Sent Successfully.")
     except Exception as e:
         print(f"[{now_ms}] >> Error sending Email: {e}")
+
+def send_welcome_email(to_email, username, password):
+    now_ms = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+    try:
+        msg = MIMEMultipart('related')
+        msg['From'] = SENDER_EMAIL
+        msg['To'] = to_email
+        msg['Subject'] = "Welcome to SPADE Security Monitor"
+
+        html_body = f"""
+        <html>
+        <body style="font-family: Arial, sans-serif; color: #333;">
+            <h2>Welcome to SPADE, {username}!</h2>
+            <p>Your SOC Analyst account has been successfully provisioned.</p>
+            <div style="background-color: #f4f4f4; padding: 15px; border-radius: 5px;">
+                <p><b>Username:</b> {username}</p>
+                <p><b>Temporary Password:</b> {password}</p>
+            </div>
+            <p>Please log in and navigate to the <b>Settings</b> page to change your password immediately.</p>
+            <hr>
+            <h3>Stay Alerted!</h3>
+            <p>Scan the QR code below to add our LINE Official Account and receive real-time threat alerts.</p>
+            <img src="cid:line_qr" alt="LINE QR Code" style="max-width: 200px; border: 1px solid #ccc;">
+        </body>
+        </html>
+        """
+        msg.attach(MIMEText(html_body, 'html'))
+
+        # Embed the QR Code Image
+        qr_path = os.path.join(parent_dir, 'web', 'static', 'line_qr.png') 
+        if os.path.exists(qr_path):
+            with open(qr_path, 'rb') as f:
+                img = MIMEImage(f.read())
+                img.add_header('Content-ID', '<line_qr>')
+                msg.attach(img)
+        else:
+            print(f"[{now_ms}] >> Warning: QR image not found at {qr_path}")
+
+        server = smtplib.SMTP(SMTP_SERVER, SMTP_PORT)
+        server.ehlo()
+        server.starttls()
+        server.ehlo()
+        server.login(SENDER_EMAIL, SENDER_PASSWORD)
+        server.sendmail(SENDER_EMAIL, [to_email], msg.as_string())
+        server.quit()
+        print(f"[{now_ms}] >> Welcome Email Sent to {to_email}.")
+    except Exception as e:
+        print(f"[{now_ms}] >> Error sending Welcome Email: {e}")

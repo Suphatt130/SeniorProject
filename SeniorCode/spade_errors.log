@@ -78,3 +78,86 @@
 2026-04-06 14:44:58,371 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:58] "GET /socket.io/?EIO=4&transport=polling&t=PrXm7tO&sid=jL_s1_SWTzrWUpU8AAAG HTTP/1.1" 200 -
 2026-04-06 14:44:58,866 - INFO - 127.0.0.1 - - [06/Apr/2026 14:44:58] "GET /socket.io/?EIO=4&transport=polling&t=PrXm7_k&sid=jL_s1_SWTzrWUpU8AAAG HTTP/1.1" 200 -
 2026-04-06 14:45:00,623 - INFO - 127.0.0.1 - - [06/Apr/2026 14:45:00] "GET /api/stats HTTP/1.1" 200 -
+2026-04-08 13:27:55,571 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.161.134:5000
+2026-04-08 13:27:55,573 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-08 13:27:55,574 - INFO -  * Restarting with stat
+2026-04-08 13:27:56,133 - WARNING -  * Debugger is active!
+2026-04-08 13:27:56,138 - INFO -  * Debugger PIN: 426-652-246
+2026-04-08 13:28:18,029 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:18] "POST /login HTTP/1.1" 200 -
+2026-04-08 13:28:18,227 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:18] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-08 13:28:18,233 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:18] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-08 13:28:21,984 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:21] "[32mPOST /login HTTP/1.1[0m" 302 -
+2026-04-08 13:28:22,000 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:22] "GET /register HTTP/1.1" 200 -
+2026-04-08 13:28:22,052 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:22] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-08 13:28:22,054 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:22] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-08 13:28:22,142 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:22] "GET /static/script.js HTTP/1.1" 200 -
+2026-04-08 13:28:24,469 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:24] "[35m[1mGET /manage_users HTTP/1.1[0m" 500 -
+2026-04-08 13:28:24,520 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:24] "GET /manage_users?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2026-04-08 13:28:24,549 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:24] "GET /manage_users?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2026-04-08 13:28:24,814 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:24] "GET /manage_users?__debugger__=yes&cmd=resource&f=console.png&s=lYxSgTOiWHDFJqDyl9Dp HTTP/1.1" 200 -
+2026-04-08 13:28:24,828 - INFO - 127.0.0.1 - - [08/Apr/2026 13:28:24] "GET /manage_users?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2026-04-08 13:29:00,439 - INFO - 127.0.0.1 - - [08/Apr/2026 13:29:00] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2026-04-08 13:29:00,467 - INFO - 127.0.0.1 - - [08/Apr/2026 13:29:00] "GET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+2026-04-08 13:29:00,483 - INFO - 127.0.0.1 - - [08/Apr/2026 13:29:00] "GET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+2026-04-08 13:29:00,492 - INFO - 127.0.0.1 - - [08/Apr/2026 13:29:00] "GET /register?__debugger__=yes&cmd=resource&f=console.png&s=lYxSgTOiWHDFJqDyl9Dp HTTP/1.1" 200 -
+2026-04-08 13:29:00,502 - INFO - 127.0.0.1 - - [08/Apr/2026 13:29:00] "GET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+2026-04-08 13:32:42,025 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.161.134:5000
+2026-04-08 13:32:42,025 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-08 13:32:42,026 - INFO -  * Restarting with stat
+2026-04-08 13:32:42,728 - WARNING -  * Debugger is active!
+2026-04-08 13:32:42,734 - INFO -  * Debugger PIN: 426-652-246
+2026-04-08 13:32:42,767 - INFO - 127.0.0.1 - - [08/Apr/2026 13:32:42] "GET /register HTTP/1.1" 200 -
+2026-04-08 13:32:42,997 - INFO - 127.0.0.1 - - [08/Apr/2026 13:32:42] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-08 13:32:43,014 - INFO - 127.0.0.1 - - [08/Apr/2026 13:32:43] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-08 13:32:43,036 - INFO - 127.0.0.1 - - [08/Apr/2026 13:32:43] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-04-08 13:32:43,436 - INFO - 127.0.0.1 - - [08/Apr/2026 13:32:43] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-08 13:32:48,556 - INFO - 127.0.0.1 - - [08/Apr/2026 13:32:48] "GET /register HTTP/1.1" 200 -
+2026-04-08 13:32:48,591 - INFO - 127.0.0.1 - - [08/Apr/2026 13:32:48] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-08 13:32:48,594 - INFO - 127.0.0.1 - - [08/Apr/2026 13:32:48] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-08 13:32:48,596 - INFO - 127.0.0.1 - - [08/Apr/2026 13:32:48] "[36mGET /static/script.js HTTP/1.1[0m" 304 -
+2026-04-08 13:32:48,617 - INFO - 127.0.0.1 - - [08/Apr/2026 13:32:48] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-08 13:33:01,281 - INFO - 127.0.0.1 - - [08/Apr/2026 13:33:01] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2026-04-08 13:33:01,319 - INFO - 127.0.0.1 - - [08/Apr/2026 13:33:01] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2026-04-08 13:33:01,329 - INFO - 127.0.0.1 - - [08/Apr/2026 13:33:01] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2026-04-08 13:33:01,347 - INFO - 127.0.0.1 - - [08/Apr/2026 13:33:01] "GET /register?__debugger__=yes&cmd=resource&f=console.png&s=umYD18KKMh90nAG3i8lY HTTP/1.1" 200 -
+2026-04-08 13:33:01,641 - INFO - 127.0.0.1 - - [08/Apr/2026 13:33:01] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2026-04-08 13:34:53,926 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.161.134:5000
+2026-04-08 13:34:53,926 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-08 13:34:53,927 - INFO -  * Restarting with stat
+2026-04-08 13:34:54,682 - WARNING -  * Debugger is active!
+2026-04-08 13:34:54,688 - INFO -  * Debugger PIN: 426-652-246
+2026-04-08 13:34:56,369 - INFO - 127.0.0.1 - - [08/Apr/2026 13:34:56] "[35m[1mPOST /register HTTP/1.1[0m" 500 -
+2026-04-08 13:34:56,541 - INFO - 127.0.0.1 - - [08/Apr/2026 13:34:56] "[36mGET /register?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2026-04-08 13:34:56,550 - INFO - 127.0.0.1 - - [08/Apr/2026 13:34:56] "[36mGET /register?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2026-04-08 13:34:56,901 - INFO - 127.0.0.1 - - [08/Apr/2026 13:34:56] "GET /register?__debugger__=yes&cmd=resource&f=console.png&s=tLMCp2jhdthFzBdWm2ve HTTP/1.1" 200 -
+2026-04-08 13:34:56,912 - INFO - 127.0.0.1 - - [08/Apr/2026 13:34:56] "[36mGET /register?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2026-04-08 13:34:59,878 - INFO - 127.0.0.1 - - [08/Apr/2026 13:34:59] "[32mGET /logout HTTP/1.1[0m" 302 -
+2026-04-08 13:34:59,898 - INFO - 127.0.0.1 - - [08/Apr/2026 13:34:59] "GET /login HTTP/1.1" 200 -
+2026-04-08 13:34:59,930 - INFO - 127.0.0.1 - - [08/Apr/2026 13:34:59] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-08 13:34:59,933 - INFO - 127.0.0.1 - - [08/Apr/2026 13:34:59] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-08 13:35:09,045 - INFO - 127.0.0.1 - - [08/Apr/2026 13:35:09] "POST /login HTTP/1.1" 200 -
+2026-04-08 13:35:09,077 - INFO - 127.0.0.1 - - [08/Apr/2026 13:35:09] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-08 13:35:09,081 - INFO - 127.0.0.1 - - [08/Apr/2026 13:35:09] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-08 13:35:12,679 - INFO - 127.0.0.1 - - [08/Apr/2026 13:35:12] "POST /login HTTP/1.1" 200 -
+2026-04-08 13:35:12,706 - INFO - 127.0.0.1 - - [08/Apr/2026 13:35:12] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-08 13:35:12,712 - INFO - 127.0.0.1 - - [08/Apr/2026 13:35:12] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-08 13:35:29,494 - INFO - 127.0.0.1 - - [08/Apr/2026 13:35:29] "POST /login HTTP/1.1" 200 -
+2026-04-08 13:35:29,530 - INFO - 127.0.0.1 - - [08/Apr/2026 13:35:29] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-08 13:35:29,539 - INFO - 127.0.0.1 - - [08/Apr/2026 13:35:29] "[36mGET /static/Icon_SPADE.png HTTP/1.1[0m" 304 -
+2026-04-08 13:58:15,073 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://10.226.161.134:5000
+2026-04-08 13:58:15,074 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-08 13:58:15,075 - INFO -  * Restarting with stat
+2026-04-08 13:58:15,689 - WARNING -  * Debugger is active!
+2026-04-08 13:58:15,695 - INFO -  * Debugger PIN: 426-652-246
